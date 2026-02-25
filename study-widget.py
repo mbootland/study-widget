@@ -8,12 +8,12 @@ import sys
 
 # --- CONFIGURATION ---
 BG_COLOR = "#000000"       # Solid Black
-Q_COLOR  = "#ffffff"       # White
-OPT_COLOR = "#cccccc"      # Light Grey
-CORRECT_COLOR = "#00ff00"  # Bright Green
-WRONG_COLOR = "#555555"    # Dim Grey
-TIMER_COLOR = "#ff9900"    # Orange
-EXPLAIN_COLOR = "#ffff00"  # Bright Yellow
+Q_COLOR  = "#FFB74D"       # Warm Orange (Question)
+OPT_COLOR = "#FFF3E0"      # Soft Cream/Beige (Options - No White)
+CORRECT_COLOR = "#81C784"  # Soft Code Editor Green
+WRONG_COLOR = "#546E7A"    # Blue-Grey (Dimmed/Wrong)
+TIMER_COLOR = "#FF8A65"    # Deep Orange/Salmon
+EXPLAIN_COLOR = "#64B5F6"  # Soft Blue (Explanation - distinctive from Q)
 
 # --- FONTS (Larger & Bold) ---
 FONT_Q = ("Consolas", 16, "bold")
