@@ -16,10 +16,10 @@ TIMER_COLOR = "#cc241d"    # Gruvbox Red (Muted)
 EXPLAIN_COLOR = "#458588"  # Gruvbox Blue (Muted)
 
 # --- FONTS (Larger & Bold) ---
-FONT_Q = ("Consolas", 20, "bold")
-FONT_A = ("Consolas", 16, "bold")
-FONT_TIMER = ("Consolas", 14, "bold")
-FONT_EXPL = ("Consolas", 14, "bold italic")
+FONT_Q = ("Consolas", 24, "bold")
+FONT_A = ("Consolas", 20, "bold")
+FONT_TIMER = ("Consolas", 16, "bold")
+FONT_EXPL = ("Consolas", 16, "bold italic")
 
 # --- TIMING ---
 READ_TIME_SEC = 30    # 30s to read question
@@ -33,8 +33,8 @@ class StudyWidget:
 
         # Window Setup (Wide & Tall for readability)
         screen_width = self.root.winfo_screenwidth()
-        self.width = 800
-        self.height = 600 
+        self.width = 900
+        self.height = 700 
         x_pos = screen_width - self.width - 40
         y_pos = 40
         self.root.geometry(f"{self.width}x{self.height}+{x_pos}+{y_pos}")
