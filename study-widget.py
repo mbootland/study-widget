@@ -6,14 +6,14 @@ import json
 import os
 import sys
 
-# --- CONFIGURATION (Gruvbox Dark Muted) ---
+# --- CONFIGURATION (OpenClaw Terminal Style) ---
 BG_COLOR = "#000000"       # Solid Black
-Q_COLOR  = "#d79921"       # Gruvbox Yellow/Gold (Question)
-OPT_COLOR = "#D65D0E"      # Gruvbox Deep Orange (Options - Warm & Bold)
-CORRECT_COLOR = "#98971a"  # Gruvbox Green (Earthy)
-WRONG_COLOR = "#3c3836"    # Gruvbox Dark Grey (Dimmed)
-TIMER_COLOR = "#cc241d"    # Gruvbox Red (Muted)
-EXPLAIN_COLOR = "#458588"  # Gruvbox Blue (Muted)
+Q_COLOR  = "#FFD700"       # Bright Gold/Yellow (Question)
+OPT_COLOR = "#4FC3F7"      # Vibrant Light Blue (Options - Readable on Black)
+CORRECT_COLOR = "#00E676"  # Terminal Green (Success)
+WRONG_COLOR = "#424242"    # Dark Grey (Dimmed)
+TIMER_COLOR = "#FF5252"    # Red/Orange (Timer)
+EXPLAIN_COLOR = "#FFD700"  # Yellow (Explanation - Matches Q)
 
 # --- FONTS (Larger & Bold) ---
 FONT_Q = ("Consolas", 24, "bold")
