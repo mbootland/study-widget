@@ -1198,5 +1198,41 @@
     ],
     "correct_idx": 1,
     "explanation": "Labels (Key:Value pairs) are the primary mechanism for cost allocation/grouping in Billing Reports."
+  },
+  {
+    "id": 101,
+    "question": "Your company runs a platform that rents out specialized drones to agricultural businesses for monitoring crop health and irrigation needs. Each drone is equipped with multiple sensors that transmit event data every few seconds. The data includes information such as flight status, distance covered, battery level, and camera feeds. Customers are charged based on the metrics collected by these sensors. You anticipate high throughput, with thousands of events being generated every hour by each drone. You need to retrieve consistent data based on the event's timestamp, and each signal update should be atomic. How should you handle this?",
+    "options": [
+      "Create a file in Cloud Storage for each drone and append new data to the file.",
+      "Create a file in Cloud Filestore for each drone and append new data to the file.",
+      "Ingest the data into Datastore and store it in an entity group organized by the drone.",
+      "Ingest the data into Cloud Bigtable and create a row key based on the event's timestamp."
+    ],
+    "correct_idx": 3,
+    "explanation": "Cloud Bigtable excels at high-throughput time-series data. Use row key 'drone_id#timestamp' for efficient scans by time/device. Single-row atomicity ensures consistent updates. Storage/Filestore not atomic at scale. Datastore limited throughput/entity groups."
+  },
+  {
+    "id": 102,
+    "question": "A startup called SparkThreads runs a complex data processing task on an on-premises server that takes about 40 hours to complete. This task is performed monthly, can run without user interaction, and must restart if interrupted. SparkThreads wants to move this workload to the cloud while keeping costs as low as possible. What approach should they take?",
+    "options": [
+      "Migrate the workload to a Compute Engine Preemptible VM.",
+      "Migrate the workload to a Google Kubernetes Engine cluster with Preemptible nodes.",
+      "Migrate the workload to a Compute Engine VM. Start and stop the instance as needed.",
+      "Create an Instance Template with Preemptible VMs ON. Create a Managed Instance Group from the template and adjust Target CPU Utilization. Migrate the workload."
+    ],
+    "correct_idx": 2,
+    "explanation": "Preemptible/Spot VMs max 24h, GCP interrupts anytime (no restart guarantee). 40h job fails. Standard VM + manual start/stop = pay only active time (cheap for monthly burst)."
+  },
+  {
+    "id": 103,
+    "question": "You've been hired by a new tech startup, SpaceyMedia, to manage their cloud infrastructure on Google Cloud. One of your tasks is to produce a list of all the enabled Google Cloud Platform APIs for their GCP project. The project name is spacey-media-app. You need to use the gcloud command line within Cloud Shell to get this information. How do you proceed?",
+    "options": [
+      "Run “gcloud projects list” to get the project ID, and then run “gcloud services list --project <project ID>”",
+      "Run “gcloud init” to set the current project to spacey-media-app, and then run “gcloud services list --available”",
+      "Run “gcloud info” to view the account value, and then run “gcloud services list --account <Account>”",
+      "Run “gcloud projects describe <project ID>” to verify the project value, and then run “gcloud services list --available”"
+    ],
+    "correct_idx": 0,
+    "explanation": "`gcloud services list --project <ID>` lists ENABLED APIs only. --available = all possible (not enabled). gcloud init sets context but list needs --project flag anyway. Account irrelevant."
   }
 ]
