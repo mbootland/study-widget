@@ -477,7 +477,7 @@
       "Use E2 machine types."
     ],
     "correct_idx": 0,
-    "explanation": "Preemptible/Spot VMs are up to 80% cheaper but can be stopped at any time—perfect for fault-tolerant batch jobs."
+    "explanation": "Preemptible/Spot VMs are up to 80% cheaper but can be stopped at any time\u2014perfect for fault-tolerant batch jobs."
   },
   {
     "id": 41,
@@ -598,5 +598,605 @@
     ],
     "correct_idx": 1,
     "explanation": "Filtering by Service Account is generally preferred over Tags for firewall rules as it's more secure (identity-based)."
+  },
+  {
+    "id": 51,
+    "question": "You have developed an application that reads objects from a Cloud Storage bucket. You created a service account with the 'Storage Object Viewer' role. However, when the application uses this service account, it fails to read objects. What should you do to fix this with minimal effort?",
+    "options": [
+      "Grant the service account the Project Editor role.",
+      "Ensure the service account is assigned to the instance and verify the 'https://www.googleapis.com/auth/devstorage.read_only' scope is enabled.",
+      "Download a JSON key for the service account and hardcode it into the application.",
+      "Wait 24 hours for the IAM permissions to propagate."
+    ],
+    "correct_idx": 1,
+    "explanation": "Compute Engine instances use access scopes (legacy) alongside IAM. If the scope is strictly limited (e.g., default scope only allows read for image repos), it blocks API access even if IAM allows it."
+  },
+  {
+    "id": 52,
+    "question": "A GKE container is emitting a high volume of logs, causing unexpected costs. You want to disable the logs quickly using the minimum number of steps. What should you do?",
+    "options": [
+      "Delete the GKE cluster and recreate it without logging.",
+      "Go to the Logs Ingestion window in Cloud Logging and disable the log source for the GKE container resource.",
+      "SSH into each GKE node and disable the fluent-bit service.",
+      "Update the application code to stop logging and redeploy the container."
+    ],
+    "correct_idx": 1,
+    "explanation": "Cloud Logging allows you to exclude (disable ingestion of) specific logs at the sink level without modifying the application or infrastructure."
+  },
+  {
+    "id": 53,
+    "question": "You want to deploy a containerized application that scales to zero when there is no traffic to minimize costs. Which service should you choose?",
+    "options": [
+      "Compute Engine with Autoscaling",
+      "GKE with Cluster Autoscaler",
+      "Cloud Run",
+      "App Engine Flexible"
+    ],
+    "correct_idx": 2,
+    "explanation": "Cloud Run is a fully managed serverless platform that scales to zero (0 instances = $0 cost) automatically when idle."
+  },
+  {
+    "id": 54,
+    "question": "You need to export all daily billing data to BigQuery for long-term analysis. What is the first step you must take in the Billing Console?",
+    "options": [
+      "Enable the BigQuery Data Transfer Service.",
+      "Set up Billing Export to BigQuery in the Billing settings of the Cloud Console.",
+      "Create a Cloud Function to push logs to BigQuery.",
+      "Grant the BigQuery Data Editor role to the Billing account."
+    ],
+    "correct_idx": 1,
+    "explanation": "Billing Export is a native feature configured in the Billing Account settings. It streams data directly to a BQ dataset."
+  },
+  {
+    "id": 55,
+    "question": "You are performing a security check and need to see who has access to view data stored in your project. What is the recommended action?",
+    "options": [
+      "Enable Audit Logs for all APIs and review the logs.",
+      "Review the IAM permissions for any role that allows for data access.",
+      "Run a Data Loss Prevention (DLP) job.",
+      "Use Cloud IAP to restrict all data access."
+    ],
+    "correct_idx": 1,
+    "explanation": "Auditing IAM permissions (Policy Analyzer) is the proactive way to see 'who HAS access'. Audit logs only show 'who ACCESSED data'."
+  },
+  {
+    "id": 56,
+    "question": "You need to increase the number of replicas for a GKE deployment from 2 to 5 while adhering to infrastructure-as-code principles. What should you do?",
+    "options": [
+      "Run 'kubectl scale deployment [NAME] --replicas=5'.",
+      "Update the replicas value in the YAML manifest and run 'kubectl apply -f [FILE]'.",
+      "Modify the Node Pool size in the GKE Console.",
+      "Delete the pod and let the ReplicaSet recreate them."
+    ],
+    "correct_idx": 1,
+    "explanation": "Imperative commands ('kubectl scale') change the live state but leave the config file outdated. Updating the YAML guarantees the source of truth is correct."
+  },
+  {
+    "id": 57,
+    "question": "Which command-line flag is used with 'gcloud compute instances list' to return only the IP addresses of running instances in JSON format?",
+    "options": [
+      "--format='value(networkInterfaces[0].accessConfigs[0].natIP)'",
+      "--get-ip",
+      "--output=ip-only",
+      "--filter='status=RUNNING'"
+    ],
+    "correct_idx": 0,
+    "explanation": "The '--format' flag allows you to extract specific fields (like natIP) and format the output. The other flags are fictional or for filtering rows, not columns."
+  },
+  {
+    "id": 58,
+    "question": "You want to evaluate an updated version of your Cloud Run application with a specific percentage of production users (Canary Deployment). What should you do?",
+    "options": [
+      "Create a new service and use an HTTP Load Balancer to split traffic.",
+      "Create a new revision and use the 'Traffic' tab to split percentages between revisions.",
+      "Deploy the new version to a separate project.",
+      "Use a Cloud Function as a proxy to route traffic."
+    ],
+    "correct_idx": 1,
+    "explanation": "Cloud Run has native Traffic Splitting features. You can assign 10% to Revision B and 90% to Revision A without a load balancer."
+  },
+  {
+    "id": 59,
+    "question": "What is the most cost-effective storage class for data that will not be accessed for at least one year and is being kept for regulatory compliance?",
+    "options": [
+      "Standard",
+      "Nearline",
+      "Coldline",
+      "Archive"
+    ],
+    "correct_idx": 3,
+    "explanation": "Archive storage is the cheapest for data stored for >365 days. Coldline is for >90 days."
+  },
+  {
+    "id": 60,
+    "question": "You need to connect an on-premises data center to a GCP VPC using a high-bandwidth, direct physical connection. Which service should you use?",
+    "options": [
+      "Cloud VPN",
+      "Partner Interconnect",
+      "Dedicated Interconnect",
+      "Carrier Peering"
+    ],
+    "correct_idx": 2,
+    "explanation": "Dedicated Interconnect provides a direct physical link (10Gbps/100Gbps) to Google. VPN is over public internet."
+  },
+  {
+    "id": 61,
+    "question": "You are managing a Bigtable cluster and notice performance issues. Which tool provides a heatmap to identify 'hot' rows or keys?",
+    "options": [
+      "Cloud Monitoring",
+      "Key Visualizer",
+      "Cloud Trace",
+      "Error Reporting"
+    ],
+    "correct_idx": 1,
+    "explanation": "Key Visualizer is the specific tool for Bigtable that shows read/write distribution (heatmaps) to spot hotspots (monotonically increasing keys)."
+  },
+  {
+    "id": 62,
+    "question": "A team needs to perform SQL queries on a multi-petabyte dataset. They need a serverless, highly scalable data warehouse. Which service do you recommend?",
+    "options": [
+      "Cloud SQL",
+      "Cloud Spanner",
+      "BigQuery",
+      "Firestore"
+    ],
+    "correct_idx": 2,
+    "explanation": "BigQuery is Google's serverless, petabyte-scale data warehouse. Spanner is transactional, not analytical (OLAP)."
+  },
+  {
+    "id": 63,
+    "question": "How do you provide a user access to a specific Cloud Storage bucket without giving them access to all buckets in the project?",
+    "options": [
+      "Grant the 'Storage Admin' role at the project level.",
+      "Assign IAM permissions at the bucket level.",
+      "Enable OS Login for the user.",
+      "Move the bucket to a separate project."
+    ],
+    "correct_idx": 1,
+    "explanation": "IAM roles can be bound to specific resources (like a bucket). Project-level roles would apply to ALL buckets."
+  },
+  {
+    "id": 64,
+    "question": "What is the 'gcloud' command to authenticate a service account using a private JSON key file?",
+    "options": [
+      "gcloud auth login --key-file=[KEY_FILE]",
+      "gcloud auth activate-service-account --key-file=[KEY_FILE]",
+      "gcloud config set account [SERVICE_ACCOUNT]",
+      "gcloud iam service-accounts activate [KEY_FILE]"
+    ],
+    "correct_idx": 1,
+    "explanation": "'activate-service-account' is the specific command to switch the active identity to a service account using a key file."
+  },
+  {
+    "id": 65,
+    "question": "You need to automate the creation of a GCP environment (VPC, VMs, Buckets) using a declarative template. Which GCP-native service should you use?",
+    "options": [
+      "Cloud Build",
+      "Deployment Manager",
+      "Cloud Composer",
+      "Terraform"
+    ],
+    "correct_idx": 1,
+    "explanation": "Deployment Manager is the native GCP tool for Infrastructure as Code (YAML/Jinja). Terraform is popular but third-party (HashiCorp)."
+  },
+  {
+    "id": 66,
+    "question": "You want to set a budget alert that notifies you when spending reaches 90% of your monthly budget. Where do you configure this?",
+    "options": [
+      "Cloud Monitoring",
+      "Billing Console > Budgets & alerts",
+      "Payment Center",
+      "IAM Console"
+    ],
+    "correct_idx": 1,
+    "explanation": "Budgets are strictly a Billing feature, not Monitoring or IAM."
+  },
+  {
+    "id": 67,
+    "question": "Which VPC load balancer is required for global distribution of HTTPS traffic?",
+    "options": [
+      "Network Load Balancer",
+      "External HTTP(S) Load Balancer",
+      "Internal TCP/UDP Load Balancer",
+      "SSL Proxy Load Balancer"
+    ],
+    "correct_idx": 1,
+    "explanation": "Only the External HTTP(S) LB (Layer 7) uses Anycast IP to be truly global. Network LBs are regional."
+  },
+  {
+    "id": 68,
+    "question": "You have a Dockerfile and want to deploy it to GKE. What is the recommended workflow?",
+    "options": [
+      "Use 'gcloud app deploy'.",
+      "Build the image, push to Artifact Registry, and create a Deployment manifest using that image.",
+      "Upload the Dockerfile to a Cloud Storage bucket and point GKE to the bucket.",
+      "Use 'kubectl app deploy'."
+    ],
+    "correct_idx": 1,
+    "explanation": "GKE runs images, not Dockerfiles. You must build (Cloud Build), push (Artifact Registry), and then reference the image in Kubernetes manifests."
+  },
+  {
+    "id": 69,
+    "question": "You need to migrate a VM from the us-east1-a zone to the us-east1-b zone. What is the most reliable manual method?",
+    "options": [
+      "Snapshot the disk, create a new disk in us-east1-b from the snapshot, and create a new VM.",
+      "Use the 'gcloud compute instances move' command.",
+      "Change the zone in the instance settings and click 'Save'.",
+      "Detach the disk and reattach it to a new VM in the other zone."
+    ],
+    "correct_idx": 0,
+    "explanation": "VMs are zonal. You cannot 'move' them or reattach a zonal disk to another zone. Snapshots are global/regional, so they bridge the gap."
+  },
+  {
+    "id": 70,
+    "question": "What is the maximum duration for a Spot (preemptible) VM instance?",
+    "options": [
+      "12 hours",
+      "24 hours",
+      "48 hours",
+      "7 days"
+    ],
+    "correct_idx": 1,
+    "explanation": "Preemptible/Spot VMs are forcibly terminated after exactly 24 hours (if not preempted sooner)."
+  },
+  {
+    "id": 71,
+    "question": "You need a relational database that supports horizontal scaling and global consistency. Which service should you choose?",
+    "options": [
+      "Cloud SQL",
+      "Cloud Spanner",
+      "Cloud Bigtable",
+      "Firestore"
+    ],
+    "correct_idx": 1,
+    "explanation": "Cloud SQL scales vertically. Spanner scales horizontally and offers global consistency (SQL)."
+  },
+  {
+    "id": 72,
+    "question": "Which IAM role is required for a user to create new projects within an organization?",
+    "options": [
+      "Project Owner",
+      "Project Creator",
+      "Organization Admin",
+      "Billing Account User"
+    ],
+    "correct_idx": 1,
+    "explanation": "The 'Project Creator' role is specific to the ability to spawn new projects attached to the billing account."
+  },
+  {
+    "id": 73,
+    "question": "A user needs to view the logs for a specific GKE Pod. Which command should they use?",
+    "options": [
+      "kubectl get logs [POD_NAME]",
+      "kubectl logs [POD_NAME]",
+      "gcloud logging pods read [POD_NAME]",
+      "kubectl describe pod [POD_NAME]"
+    ],
+    "correct_idx": 1,
+    "explanation": "'kubectl logs' is the standard command. 'describe' shows events and config, but not application stdout/stderr."
+  },
+  {
+    "id": 74,
+    "question": "You want to restrict which IP addresses can access your Compute Engine instances via SSH. What should you configure?",
+    "options": [
+      "IAM Policies",
+      "VPC Firewall Rules",
+      "Cloud Armor",
+      "Identity-Aware Proxy (IAP)"
+    ],
+    "correct_idx": 1,
+    "explanation": "VPC Firewalls control ingress traffic (IP/Port). IAP is better (identity-based), but Firewall is the 'IP restriction' tool."
+  },
+  {
+    "id": 75,
+    "question": "You are using the 'bq' command-line tool. How do you estimate the cost of a query without actually running it?",
+    "options": [
+      "bq query --estimate [SQL]",
+      "bq query --dry_run [SQL]",
+      "bq cost estimate [SQL]",
+      "bq query --calculate_bytes [SQL]"
+    ],
+    "correct_idx": 1,
+    "explanation": "--dry_run returns the bytes processed (and thus cost) without executing the job."
+  },
+  {
+    "id": 76,
+    "question": "Which Cloud Storage feature allows you to automatically move objects to a cheaper storage class after 30 days?",
+    "options": [
+      "Object Versioning",
+      "Lifecycle Management",
+      "Bucket Lock",
+      "Signed URLs"
+    ],
+    "correct_idx": 1,
+    "explanation": "Lifecycle Management policies define rules (e.g., Age > 30 days) to Delete or SetStorageClass."
+  },
+  {
+    "id": 77,
+    "question": "You need to store small amounts of data (under 10GB) in a relational database with standard SQL support for a low-traffic application. Which is the most cost-effective?",
+    "options": [
+      "Cloud Spanner",
+      "Cloud SQL",
+      "BigQuery",
+      "Cloud Bigtable"
+    ],
+    "correct_idx": 1,
+    "explanation": "Cloud SQL (especially db-f1-micro) is the standard entry-level SQL DB. Spanner is expensive enterprise scale."
+  },
+  {
+    "id": 78,
+    "question": "A developer needs to execute code only when a new message is published to a Pub/Sub topic. Which serverless option is best?",
+    "options": [
+      "App Engine Standard",
+      "Cloud Functions",
+      "Compute Engine",
+      "Cloud Build"
+    ],
+    "correct_idx": 1,
+    "explanation": "Cloud Functions are event-driven. They have native triggers for Pub/Sub (push)."
+  },
+  {
+    "id": 79,
+    "question": "What happens to the data on a Local SSD if the Compute Engine instance is stopped?",
+    "options": [
+      "The data is preserved.",
+      "The data is lost.",
+      "The data is automatically backed up to Cloud Storage.",
+      "The data is encrypted and locked."
+    ],
+    "correct_idx": 1,
+    "explanation": "Local SSD is physically attached to the host. If you STOP (deallocate) the VM, you lose the host, and thus the SSD data. Reboots preserve it."
+  },
+  {
+    "id": 80,
+    "question": "You want to provide temporary access (1 hour) to a private file in Cloud Storage to an external partner. What is the best practice?",
+    "options": [
+      "Give the partner's email the Storage Object Viewer role.",
+      "Generate a Signed URL with a 1-hour expiration.",
+      "Make the bucket public for 1 hour.",
+      "Create a service account and share the JSON key."
+    ],
+    "correct_idx": 1,
+    "explanation": "Signed URLs are the precise tool for time-bound, unauthenticated (or external) access to specific objects."
+  },
+  {
+    "id": 81,
+    "question": "Which GKE feature automatically adjusts the number of nodes in a cluster based on the workload demands?",
+    "options": [
+      "Horizontal Pod Autoscaler",
+      "Cluster Autoscaler",
+      "Vertical Pod Autoscaler",
+      "Node Auto-Provisioning"
+    ],
+    "correct_idx": 1,
+    "explanation": "Cluster Autoscaler adds/removes NODES (VMs). Horizontal Pod Autoscaler adds/removes PODS."
+  },
+  {
+    "id": 82,
+    "question": "You need to ensure that no two projects in your organization use the same VPC network names. Is this possible?",
+    "options": [
+      "Yes, VPC names must be unique across the organization.",
+      "No, VPC names only need to be unique within a project.",
+      "Yes, if you use Shared VPC.",
+      "No, VPC names can be identical even within the same project."
+    ],
+    "correct_idx": 1,
+    "explanation": "VPC names (like 'default' or 'prod-vpc') are scoped to the Project. You can have 'prod-vpc' in Project A and Project B."
+  },
+  {
+    "id": 83,
+    "question": "What is the primary difference between a Predefined Role and a Primitive Role in IAM?",
+    "options": [
+      "Primitive roles are more secure.",
+      "Predefined roles provide granular, service-specific permissions.",
+      "Primitive roles are created by the user.",
+      "Predefined roles can only be applied at the Organization level."
+    ],
+    "correct_idx": 1,
+    "explanation": "Primitive (Basic) roles are broad (Owner/Editor/Viewer). Predefined roles are granular (Storage Object Viewer, Compute Admin)."
+  },
+  {
+    "id": 84,
+    "question": "You are deploying a new version of an App Engine app. You want to send 10% of traffic to the new version. Which command do you use?",
+    "options": [
+      "gcloud app versions migrate",
+      "gcloud app services set-traffic --splits",
+      "gcloud app deploy --no-promote",
+      "gcloud app versions start"
+    ],
+    "correct_idx": 1,
+    "explanation": "'set-traffic' allows you to define split percentages (e.g., v1=.9, v2=.1). 'migrate' moves 100% instantly."
+  },
+  {
+    "id": 85,
+    "question": "Which command lists all configurations in the Google Cloud SDK?",
+    "options": [
+      "gcloud config list",
+      "gcloud config configurations list",
+      "gcloud auth list",
+      "gcloud components list"
+    ],
+    "correct_idx": 1,
+    "explanation": "'config list' shows properties of the CURRENT config. 'configurations list' shows all available profiles."
+  },
+  {
+    "id": 86,
+    "question": "You need to run a high-performance computing (HPC) workload on Compute Engine. Which network feature should you enable to reduce latency?",
+    "options": [
+      "Cloud CDN",
+      "Tier 1 Networking (High Bandwidth)",
+      "Cloud Armor",
+      "VPC Peering"
+    ],
+    "correct_idx": 1,
+    "explanation": "Tier 1 (Google Virtual NIC / gVNIC) enables higher bandwidth and lower latency for HPC."
+  },
+  {
+    "id": 87,
+    "question": "What is the benefit of using 'OS Login' over managing metadata-based SSH keys?",
+    "options": [
+      "It is cheaper.",
+      "It links SSH access to the user's IAM identity and lifecycle.",
+      "It allows for faster VM boot times.",
+      "It automatically installs the Web Terminal."
+    ],
+    "correct_idx": 1,
+    "explanation": "OS Login ties the Linux user account directly to the Google Identity. If you delete the Google User/IAM, their SSH access is revoked instantly."
+  },
+  {
+    "id": 88,
+    "question": "You have a project that is consistently hitting API rate limits. What should you do?",
+    "options": [
+      "Create a new project.",
+      "Request a quota increase in the Google Cloud Console.",
+      "Switch to a different region.",
+      "Assign the 'Owner' role to your service account."
+    ],
+    "correct_idx": 1,
+    "explanation": "Quotas (Rate Limits) are soft limits. You can request increases via the IAM & Admin > Quotas page."
+  },
+  {
+    "id": 89,
+    "question": "Which service is designed for real-time messaging and streaming data between independent applications?",
+    "options": [
+      "Cloud Tasks",
+      "Pub/Sub",
+      "Cloud Dataflow",
+      "Cloud Storage"
+    ],
+    "correct_idx": 1,
+    "explanation": "Pub/Sub is the asynchronous messaging service (Many-to-Many). Cloud Tasks is for execution queues (One-to-One)."
+  },
+  {
+    "id": 90,
+    "question": "You need to store sensitive data and ensure it is encrypted with a key that you manage yourself. Which service do you use?",
+    "options": [
+      "Secret Manager",
+      "Cloud Key Management Service (KMS)",
+      "Identity Platform",
+      "Cloud HSM"
+    ],
+    "correct_idx": 1,
+    "explanation": "Cloud KMS allows you to generate, rotate, and manage encryption keys (CMEK) that integrate with other GCP services."
+  },
+  {
+    "id": 91,
+    "question": "What is the purpose of a 'Health Check' in a Managed Instance Group (MIG)?",
+    "options": [
+      "To check if the instance is reaching its CPU limit.",
+      "To verify the application is responding and recreate the instance if it fails.",
+      "To monitor the physical hardware in the Google Data Center.",
+      "To update the OS automatically."
+    ],
+    "correct_idx": 1,
+    "explanation": "Autohealing relies on Health Checks. If the app stops responding (e.g., HTTP 200 OK), the MIG kills and recreates the VM."
+  },
+  {
+    "id": 92,
+    "question": "You want to run a script every night at 2 AM to generate a report. Which GCP service is best for scheduling this?",
+    "options": [
+      "Cloud Build",
+      "Cloud Scheduler",
+      "Cloud Functions",
+      "Cloud Run"
+    ],
+    "correct_idx": 1,
+    "explanation": "Cloud Scheduler is the managed 'cron as a service' for GCP."
+  },
+  {
+    "id": 93,
+    "question": "In GKE, which resource type is used to expose your application to external traffic via a Load Balancer?",
+    "options": [
+      "Pod",
+      "Service (type: LoadBalancer)",
+      "Deployment",
+      "ConfigMap"
+    ],
+    "correct_idx": 1,
+    "explanation": "Services define networking. Type 'LoadBalancer' provisions an external IP and Cloud LB."
+  },
+  {
+    "id": 94,
+    "question": "What is the command to create a new GKE cluster named 'my-cluster' with 3 nodes?",
+    "options": [
+      "gcloud container clusters create my-cluster --num-nodes=3",
+      "kubectl create cluster my-cluster --nodes=3",
+      "gcloud compute clusters create my-cluster",
+      "gcloud container clusters start my-cluster --size=3"
+    ],
+    "correct_idx": 0,
+    "explanation": "The command group is 'gcloud container clusters'. The flag for size is '--num-nodes'."
+  },
+  {
+    "id": 95,
+    "question": "A team member needs to be able to view billing accounts but not modify them. Which role is most appropriate?",
+    "options": [
+      "Billing Account User",
+      "Billing Account Viewer",
+      "Billing Account Administrator",
+      "Project Viewer"
+    ],
+    "correct_idx": 1,
+    "explanation": "Billing Account Viewer is the read-only role for billing data."
+  },
+  {
+    "id": 96,
+    "question": "You need to store data in a NoSQL document database that offers mobile synchronization. Which service do you choose?",
+    "options": [
+      "Cloud Bigtable",
+      "Firestore",
+      "Memorystore",
+      "Cloud SQL"
+    ],
+    "correct_idx": 1,
+    "explanation": "Firestore (Native Mode) has client SDKs for mobile/web that handle offline sync and real-time updates."
+  },
+  {
+    "id": 97,
+    "question": "Which GCP tool allows you to debug production code without stopping the application or slowing it down?",
+    "options": [
+      "Cloud Debugger (now integrated into Cloud Logging/Profiler)",
+      "Cloud Trace",
+      "Error Reporting",
+      "Cloud Monitoring"
+    ],
+    "correct_idx": 0,
+    "explanation": "Snapshot Debugger captures state (variables) without pausing execution, unlike traditional debuggers."
+  },
+  {
+    "id": 98,
+    "question": "You want to restrict all resources in your organization to be located only in the 'us-central1' region. What should you use?",
+    "options": [
+      "IAM Conditions",
+      "Organization Policy Service",
+      "VPC Firewall Rules",
+      "Resource Manager Folders"
+    ],
+    "correct_idx": 1,
+    "explanation": "Org Policy 'Resource Location Restriction' is the governance tool to limit valid regions."
+  },
+  {
+    "id": 99,
+    "question": "What is the 'gsutil' command to synchronize a local directory with a Cloud Storage bucket?",
+    "options": [
+      "gsutil cp -r [LOCAL_DIR] gs://[BUCKET]",
+      "gsutil rsync -r [LOCAL_DIR] gs://[BUCKET]",
+      "gsutil sync [LOCAL_DIR] gs://[BUCKET]",
+      "gsutil mv [LOCAL_DIR] gs://[BUCKET]"
+    ],
+    "correct_idx": 1,
+    "explanation": "rsync (Remote Sync) only copies changed files, making it efficient for synchronization compared to cp."
+  },
+  {
+    "id": 100,
+    "question": "You need to see the cost of your resources grouped by a specific tag (e.g., 'department'). What should you do?",
+    "options": [
+      "Use 'gcloud billing projects list'.",
+      "Apply Labels to the resources and use the Billing Reports filter by label.",
+      "Create a separate project for each tag.",
+      "Review the Audit Logs for each resource."
+    ],
+    "correct_idx": 1,
+    "explanation": "Labels (Key:Value pairs) are the primary mechanism for cost allocation/grouping in Billing Reports."
   }
 ]
