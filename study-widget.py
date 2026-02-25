@@ -8,8 +8,8 @@ import sys
 
 # --- CONFIGURATION (Gruvbox Dark Muted) ---
 BG_COLOR = "#000000"       # Solid Black
-Q_COLOR  = "#d79921"       # Gruvbox Yellow/Orange (Deep Gold)
-OPT_COLOR = "#a89984"      # Gruvbox Grey (Muted Khaki - No White)
+Q_COLOR  = "#d79921"       # Gruvbox Yellow/Gold (Question)
+OPT_COLOR = "#D65D0E"      # Gruvbox Deep Orange (Options - Warm & Bold)
 CORRECT_COLOR = "#98971a"  # Gruvbox Green (Earthy)
 WRONG_COLOR = "#3c3836"    # Gruvbox Dark Grey (Dimmed)
 TIMER_COLOR = "#cc241d"    # Gruvbox Red (Muted)
