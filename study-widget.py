@@ -23,7 +23,7 @@ FONT_EXPL = ("Consolas", 16, "bold italic")
 
 # --- TIMING ---
 READ_TIME_SEC = 30    # 30s to read question
-REVEAL_TIME_MS = 30000 # 30s to read answer/explanation
+REVEAL_TIME_SEC = 10  # 10s to read answer/explanation
 
 class StudyWidget:
     def __init__(self, root):
@@ -96,6 +96,10 @@ class StudyWidget:
             }]
 
     def show_next_question(self):
+        # Cancel any running timers
+        if self.timer_job:
+            self.root.after_cancel(self.timer_job)
+            
         self.current_q = next(self.quiz_cycle)
         
         # Reset UI
@@ -123,7 +127,6 @@ class StudyWidget:
             self.remaining_sec -= 1
             self.timer_job = self.root.after(1000, self.update_timer)
         else:
-            self.timer_label.config(text="REVEALED - Next in 30s")
             self.reveal_answer()
 
     def reveal_answer(self):
@@ -140,8 +143,18 @@ class StudyWidget:
         # Show Explanation
         self.expl_label.config(text=f"WHY: {explanation}")
         
-        # Schedule Next Question
-        self.root.after(REVEAL_TIME_MS, self.show_next_question)
+        # Start Countdown to Next Question
+        self.reveal_remaining_sec = REVEAL_TIME_SEC
+        self.update_reveal_timer()
+
+    def update_reveal_timer(self):
+        if self.reveal_remaining_sec > 0:
+            bars = "▓" * int(self.reveal_remaining_sec * (10/REVEAL_TIME_SEC))
+            self.timer_label.config(text=f"Next in {self.reveal_remaining_sec}s  {bars}")
+            self.reveal_remaining_sec -= 1
+            self.timer_job = self.root.after(1000, self.update_reveal_timer)
+        else:
+            self.show_next_question()
 
     def start_move(self, event):
         self._drag_start_x = event.x
