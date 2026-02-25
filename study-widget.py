@@ -1,6 +1,7 @@
 import tkinter as tk
 import random
 import time
+import itertools
 
 # --- GCP ACE EXAM DATA (Randomized & Numbered) ---
 # Format: (ID, Question, [Option A, Option B, Option C, Option D], Correct Index 0-3, Explanation)
