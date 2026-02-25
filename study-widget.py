@@ -31,10 +31,10 @@ class StudyWidget:
         self.root.title("GCP Quiz Overlay")
         self.root.configure(bg=BG_COLOR)
 
-        # Window Setup (Wide & Tall for readability)
+        # Window Setup (Wide & Compact Height)
         screen_width = self.root.winfo_screenwidth()
         self.width = 900
-        self.height = 700 
+        self.height = 500 
         x_pos = screen_width - self.width - 40
         y_pos = 40
         self.root.geometry(f"{self.width}x{self.height}+{x_pos}+{y_pos}")
@@ -49,17 +49,17 @@ class StudyWidget:
 
         # --- Layout ---
         self.q_label = tk.Label(root, text="", font=FONT_Q, bg=BG_COLOR, fg=Q_COLOR, wraplength=self.width-20, justify="left")
-        self.q_label.pack(pady=(20, 15), padx=15, anchor="w")
+        self.q_label.pack(pady=(15, 10), padx=15, anchor="w")
 
         self.opt_labels = []
         for i in range(4):
             lbl = tk.Label(root, text="", font=FONT_A, bg=BG_COLOR, fg=OPT_COLOR, anchor="w", wraplength=self.width-30, justify="left")
-            lbl.pack(fill="x", padx=25, pady=4)
+            lbl.pack(fill="x", padx=25, pady=2)
             self.opt_labels.append(lbl)
 
         # Explanation Label (Hidden initially)
         self.expl_label = tk.Label(root, text="", font=FONT_EXPL, bg=BG_COLOR, fg=EXPLAIN_COLOR, wraplength=self.width-20, justify="left")
-        self.expl_label.pack(pady=(20, 5), padx=15, anchor="w")
+        self.expl_label.pack(pady=(10, 5), padx=15, anchor="w")
 
         # Countdown Timer Bar
         self.timer_label = tk.Label(root, text="", font=FONT_TIMER, bg=BG_COLOR, fg=TIMER_COLOR, anchor="e")
