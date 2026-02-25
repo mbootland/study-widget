@@ -477,7 +477,7 @@
       "Use E2 machine types."
     ],
     "correct_idx": 0,
-    "explanation": "Preemptible/Spot VMs are up to 80% cheaper but can be stopped at any time\u2014perfect for fault-tolerant batch jobs."
+    "explanation": "Preemptible/Spot VMs are up to 80% cheaper but can be stopped at any time—perfect for fault-tolerant batch jobs."
   },
   {
     "id": 41,
@@ -1234,5 +1234,17 @@
     ],
     "correct_idx": 0,
     "explanation": "`gcloud services list --project <ID>` lists ENABLED APIs only. --available = all possible (not enabled). gcloud init sets context but list needs --project flag anyway. Account irrelevant."
+  },
+  {
+    "id": 104,
+    "question": "You work for a growing e-commerce platform, \"ShopZen,\" which uses BigQuery to analyze customer behavior and sales trends. You are about to run an important query to understand customer purchase patterns, but you expect the query to return a large number of records. Since ShopZen is using on-demand pricing, you want to figure out how much running the query will cost. What should you do?",
+    "options": [
+      "A. - Arrange to switch to Flat-Rate pricing for this query. - Then move back to on-demand.",
+      "B. - Use the command line to run a dry run query to estimate the number of bytes read. - Then convert that bytes estimate to dollars using the Pricing Calculator.",
+      "C. - Use the command line to run a dry run query to estimate the number of bytes returned. - Then convert that bytes estimate to dollars using the Pricing Calculator.",
+      "D. - Run a \"select count (* )\" to get an idea of how many records your query will look through. - Then convert that number of rows to dollars using the Pricing Calculator."
+    ],
+    "correct_idx": 1,
+    "explanation": "D is incorrect because using a \"select count (* )\" approach does not give an accurate cost estimation. Although \"select count (* )\" will tell you the number of rows the query processes, it does not directly translate to bytes scanned or cost. The cost in BigQuery is based on the amount of data read in bytes, which depends on the data’s structure and schema, rather than the number of rows processed. Thus, estimating cost based on row count will not yield a precise or reliable result, making this option unsuitable. The correct approach (B) uses --dry_run to estimate bytes *read* (scanned), which determines cost."
   }
 ]
