@@ -1,69 +1,69 @@
 import tkinter as tk
-import itertools
+import random
 import time
 
-# --- GCP ACE/PRO QUIZ DATA (With Explanations) ---
-# Format: (Question, [Option A, Option B, Option C, Option D], Correct Index 0-3, Explanation)
+# --- GCP ACE EXAM DATA (Randomized & Numbered) ---
+# Format: (ID, Question, [Option A, Option B, Option C, Option D], Correct Index 0-3, Explanation)
 QUIZ_DATA = [
-    (
-        "You need to grant an external auditor read access to a specific Cloud Storage bucket, but they don't have a Google account.",
-        ["Create a Service Account and share the key.", "Use a Signed URL with a limited expiration.", "Add their email to Cloud Identity.", "Make the bucket public for 1 hour."],
-        1, 
-        "Signed URLs allow time-bound access to specific resources for anyone, even without a Google Account. Service Account keys are risky to share. Public access is insecure."
+    (1,
+     "Your App Engine application needs to connect to a Cloud SQL instance in the same project. You want to ensure the traffic stays within Google's network and does not use public IPs.",
+     ["Configure the Cloud SQL instance to use Private Service Access.", "Use the Cloud SQL Proxy with the instance's public IP.", "Allow the App Engine region in the Cloud SQL authorized networks.", "Create a VPC Peering connection between App Engine and Cloud SQL."],
+     0,
+     "App Engine Standard connects to Cloud SQL via the Auth Proxy automatically, but to enforce private IPs (RFC 1918), you must configure Private Service Access (allocated IP range + VPC peering) for the Cloud SQL instance."
     ),
-    (
-        "Which load balancer type preserves the client IP address by default for TCP traffic?",
-        ["External HTTP(S) Load Balancer", "Internal HTTP(S) Load Balancer", "External TCP/UDP Network Load Balancer", "SSL Proxy Load Balancer"],
-        2,
-        "Network Load Balancers are pass-through (L4), so they preserve the client IP. Proxy LBs (HTTP/SSL) terminate the connection and replace the IP with their own (requiring X-Forwarded-For)."
+    (2,
+     "You need to create a custom IAM role for a specific project. This role should allow users to view the configuration of Compute Engine instances but not list them.",
+     ["compute.instances.get", "compute.instances.list", "compute.instances.osLogin", "compute.instances.setMetadata"],
+     0,
+     "'get' permissions typically allow viewing a single resource's details (configuration). 'list' allows seeing all resources in a collection. The requirement specifically excludes listing."
     ),
-    (
-        "You ran 'gcloud config set project my-proj'. You now want to run a command against 'other-proj' without changing the config.",
-        ["You must run 'gcloud config set project other-proj' first.", "Use the --project flag with the command.", "Use 'gcloud use other-proj'.", "Set the CLOUD_PROJECT env var."],
-        1,
-        "The --project flag globally overrides the active configuration for any single command. It is the standard way to context-switch temporarily."
+    (3,
+     "You have a GKE cluster. You need to ensure that a specific deployment of pods is ALWAYS scheduled on nodes with the label 'disktype: ssd'.",
+     ["Use Node Affinity with 'requiredDuringSchedulingIgnoredDuringExecution'.", "Use Node Affinity with 'preferredDuringSchedulingIgnoredDuringExecution'.", "Use Taints on the SSD nodes and Tolerations on the pods.", "Use a PodDisruptionBudget."],
+     0,
+     "'required...' ensures a hard constraint: the pod will NOT be scheduled unless the node matches. 'preferred' is a soft constraint. Taints repel pods, they don't attract them (unless combined with affinity, but affinity is the primary mechanism for selection)."
     ),
-    (
-        "App Engine Standard is scaling too slowly. Which setting in app.yaml should you adjust?",
-        ["max_instances", "min_idle_instances", "target_cpu_utilization", "max_concurrent_requests"],
-        1,
-        "min_idle_instances keeps instances warm and ready to serve traffic immediately, reducing cold start latency. max_instances limits cost but doesn't help speed."
+    (4,
+     "You are storing data in Cloud Storage that must be kept for exactly 5 years for compliance, after which it must be deleted. No one, not even admins, should be able to delete it before then.",
+     ["Use a Retention Policy with a 'Locked' Bucket Lock.", "Use Object Versioning with a Lifecycle Rule.", "Use Signed URLs with a 5-year duration.", "Grant 'Storage Object Admin' only to a service account."],
+     0,
+     "A Locked Retention Policy enforces WORM (Write Once, Read Many) compliance. Once locked, it cannot be reduced or removed until the retention period expires."
     ),
-    (
-        "You need to transfer 50TB of on-prem data to Cloud Storage. Bandwidth is 100Mbps. Fastest method?",
-        ["gsutil -m cp", "Storage Transfer Service", "Transfer Appliance", "Cloud VPN"],
-        2,
-        "At 100Mbps, 50TB would take ~46 days. Transfer Appliance is a physical server shipped to you, which is much faster for this volume/bandwidth ratio."
+    (5,
+     "You have a critical production application in a single region. You want to ensure high availability if a single zone fails.",
+     ["Deploy a Global HTTP(S) Load Balancer.", "Create a Managed Instance Group (MIG) distributing instances across multiple zones.", "Use a Regional Persistent Disk.", "Enable Autohealing for the instance."],
+     1,
+     "A Regional MIG distributes VM instances across multiple zones (e.g., us-central1-a, b, c). If one zone goes down, the application survives in the others. A Regional PD provides storage HA, but the MIG provides compute HA."
     ),
-    (
-        "Which command creates a custom role using a YAML definition file?",
-        ["gcloud iam roles create --file=role.yaml", "gcloud projects add-iam-policy-binding", "gcloud iam service-accounts create", "gcloud iam roles update --file=role.yaml"],
-        0,
-        "'gcloud iam roles create' takes a --file argument to define permissions from YAML. 'update' modifies existing roles."
+    (6,
+     "You want to view the costs of your project broken down by label (e.g., 'env: production'). You have already applied the labels to your resources.",
+     ["Enable Billing Export to BigQuery and query the table.", "Go to the Billing Reports page in the Console and group by 'Label'.", "Use the Pricing Calculator.", "Create a Budget and set an alert."],
+     1,
+     "The Billing Reports page in the Cloud Console allows you to visualize and group costs by Label immediately. BigQuery is valid for complex analysis, but Console is the standard answer for 'viewing' breakdowns."
     ),
-    (
-        "GKE: You need to ensure a specific pod runs on a node with SSDs. What do you use?",
-        ["Taints and Tolerations", "Node Selector / Affinity", "Pod Disruption Budget", "Horizontal Pod Autoscaler"],
-        1,
-        "Node Affinity/Selectors attract pods to nodes with specific labels (like disktype=ssd). Taints *repel* pods."
+    (7,
+     "You need to provide temporary access to a BigQuery dataset for a user who does not have a Google Account.",
+     ["Create a Service Account and share the JSON key.", "Add the user to a Google Group and grant access to the group.", "This is not possible; BigQuery requires Google authentication.", "Create a Signed URL for the dataset."],
+     2,
+     "Unlike Cloud Storage, BigQuery does not support Signed URLs for direct access. Access to BigQuery resources requires an authenticated identity (Google Account, Service Account, or Cloud Identity)."
     ),
-    (
-        "Cloud Run service fails to connect to Cloud SQL with 'Connection refused'. The VPC Connector is set up.",
-        ["Enable the Cloud SQL Admin API.", "Ensure the Service Account has Cloud SQL Client role.", "Configure Private Service Access for the VPC.", "Allow port 3306 in Firewall."],
-        2,
-        "Connecting to Cloud SQL via Private IP requires 'Private Service Access' (VPC peering) to be configured between your VPC and Google's services network."
+    (8,
+     "You are deploying a Cloud Run service. You need to store sensitive API keys securely and expose them as environment variables.",
+     ["Store keys in Cloud Storage and download them at startup.", "Use Cloud Key Management Service (KMS) to encrypt the keys.", "Use Secret Manager and map the secret to an environment variable.", "Embed the keys in the container image."],
+     2,
+     "Secret Manager is the managed service for storing sensitive data. Cloud Run has native integration to mount secrets as environment variables or volumes."
     ),
-    (
-        "You need to prevent developers from creating External IP addresses for VM instances in a specific folder.",
-        ["VPC Service Controls", "Organization Policy (constraints/compute.vmExternalIpAccess)", "IAM Deny Policy", "Firewall Rules"],
-        1,
-        "Organization Policies (constraints) are used to enforce compliance rules across a resource hierarchy. VPC Service Controls are for data exfiltration boundaries."
+    (9,
+     "Your organization requires that all new Cloud Storage buckets must not have public access prevention disabled.",
+     ["Use an Organization Policy with the constraint 'storage.publicAccessPrevention'.", "Use VPC Service Controls to block public traffic.", "Use IAM to revoke 'Storage Object Viewer' from 'allUsers'.", "Set a default ACL on all buckets."],
+     0,
+     "Organization Policies are the tool for preventative compliance (guardrails) across the hierarchy. Enforcing 'public access prevention' at the Org/Folder level stops users from making buckets public."
     ),
-    (
-        "BigQuery: You want to reduce costs for queries that are run frequently with the exact same parameters.",
-        ["Use Flex Slots.", "Enable Cached Query Results.", "Use Clustered Tables.", "Materialized Views."],
-        1,
-        "Cached Query Results are enabled by default and free. If the underlying data hasn't changed, BQ returns the cached result for $0."
+    (10,
+     "You need to connect your on-premises network to your VPC with the highest possible reliability (SLA) and consistent performance.",
+     ["Cloud VPN with HA (High Availability).", "Dedicated Interconnect.", "Partner Interconnect.", "Carrier Peering."],
+     1,
+     "Dedicated Interconnect offers the highest SLA (99.99% with proper configuration) and dedicated bandwidth (consistent performance) compared to VPN (public internet) or Carrier Peering."
     ),
 ]
 
@@ -84,7 +84,7 @@ FONT_EXPL = ("Consolas", 11, "italic")
 
 # --- TIMING ---
 READ_TIME_SEC = 30    # 30s to read question
-REVEAL_TIME_MS = 30000 # 30s to read answer/explanation
+REVEAL_TIME_MS = 30000 # 30s to read answer/explanation (Total cycle ~60s)
 
 class StudyWidget:
     def __init__(self, root):
@@ -94,8 +94,8 @@ class StudyWidget:
 
         # Window Setup (Taller for explanation)
         screen_width = self.root.winfo_screenwidth()
-        self.width = 600
-        self.height = 400 # Increased height
+        self.width = 650
+        self.height = 420 
         x_pos = screen_width - self.width - 40
         y_pos = 40
         self.root.geometry(f"{self.width}x{self.height}+{x_pos}+{y_pos}")
@@ -124,7 +124,10 @@ class StudyWidget:
         self.timer_label.pack(side="bottom", fill="x", padx=10, pady=5)
 
         # Start Quiz Loop
-        self.quiz_cycle = itertools.cycle(QUIZ_DATA)
+        self.quiz_data = list(QUIZ_DATA) # Copy data
+        random.shuffle(self.quiz_data)   # Randomize order
+        self.quiz_cycle = itertools.cycle(self.quiz_data)
+        
         self.current_q = None
         self.timer_job = None
         self.show_next_question()
@@ -134,15 +137,15 @@ class StudyWidget:
 
     def show_next_question(self):
         self.current_q = next(self.quiz_cycle)
-        question, options, _, _ = self.current_q
+        q_id, question, options, _, _ = self.current_q
         
         # Reset UI
         self.expl_label.config(text="") # Hide explanation
         for lbl in self.opt_labels:
             lbl.config(fg=OPT_COLOR)
 
-        # Update Text
-        self.q_label.config(text=f"Q: {question}")
+        # Update Text with ID
+        self.q_label.config(text=f"Q{q_id}: {question}")
         letters = ['A', 'B', 'C', 'D']
         for i, opt in enumerate(options):
             self.opt_labels[i].config(text=f"{letters[i]}. {opt}")
@@ -154,7 +157,7 @@ class StudyWidget:
     def update_timer(self):
         if self.remaining_sec > 0:
             # Update bar visualization
-            bars = "▓" * int(self.remaining_sec * (10/READ_TIME_SEC)) # Scale bar to ~10 chars
+            bars = "▓" * int(self.remaining_sec * (10/READ_TIME_SEC)) 
             self.timer_label.config(text=f"Reveal in {self.remaining_sec}s  {bars}")
             
             self.remaining_sec -= 1
@@ -164,7 +167,7 @@ class StudyWidget:
             self.reveal_answer()
 
     def reveal_answer(self):
-        _, _, correct_idx, explanation = self.current_q
+        _, _, _, correct_idx, explanation = self.current_q
         
         # Dim incorrect answers
         for i, lbl in enumerate(self.opt_labels):
