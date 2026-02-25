@@ -6,14 +6,14 @@ import json
 import os
 import sys
 
-# --- CONFIGURATION ---
+# --- CONFIGURATION (Gruvbox Dark Muted) ---
 BG_COLOR = "#000000"       # Solid Black
-Q_COLOR  = "#FFB74D"       # Warm Orange (Question)
-OPT_COLOR = "#FFF3E0"      # Soft Cream/Beige (Options - No White)
-CORRECT_COLOR = "#81C784"  # Soft Code Editor Green
-WRONG_COLOR = "#546E7A"    # Blue-Grey (Dimmed/Wrong)
-TIMER_COLOR = "#FF8A65"    # Deep Orange/Salmon
-EXPLAIN_COLOR = "#64B5F6"  # Soft Blue (Explanation - distinctive from Q)
+Q_COLOR  = "#d79921"       # Gruvbox Yellow/Orange (Deep Gold)
+OPT_COLOR = "#a89984"      # Gruvbox Grey (Muted Khaki - No White)
+CORRECT_COLOR = "#98971a"  # Gruvbox Green (Earthy)
+WRONG_COLOR = "#3c3836"    # Gruvbox Dark Grey (Dimmed)
+TIMER_COLOR = "#cc241d"    # Gruvbox Red (Muted)
+EXPLAIN_COLOR = "#458588"  # Gruvbox Blue (Muted)
 
 # --- FONTS (Larger & Bold) ---
 FONT_Q = ("Consolas", 16, "bold")
