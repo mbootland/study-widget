@@ -27,10 +27,10 @@
     "id": 53,
     "question": "To deploy a containerized application that scales to zero when there is no traffic to minimize costs. Which service should you choose?",
     "options": [
-      "Ompute Engine with Autoscaling",
+      "Compute Engine with Autoscaling",
       "GKE with Cluster Autoscaler",
-      "Loud Run",
-      "Pp Engine Flexible"
+      "Cloud Run",
+      "App Engine Flexible"
     ],
     "correct_idx": 2,
     "explanation": "Cloud Run is a fully managed serverless platform that scales to zero (0 instances = $0 cost) automatically when idle."
@@ -111,7 +111,7 @@
     "id": 60,
     "question": "To connect an on-premises data center to a GCP VPC using a high-bandwidth, direct physical connection. Which service should you use?",
     "options": [
-      "Loud VPN",
+      "Cloud VPN",
       "Partner Interconnect",
       "Edicated Interconnect",
       "Arrier Peering"
@@ -123,9 +123,9 @@
     "id": 61,
     "question": "Which tool provides a heatmap to identify 'hot' rows or keys?",
     "options": [
-      "Loud Monitoring",
+      "Cloud Monitoring",
       "Key Visualizer",
-      "Loud Trace",
+      "Cloud Trace",
       "Error Reporting"
     ],
     "correct_idx": 1,
@@ -135,9 +135,9 @@
     "id": 62,
     "question": "Need serverless, highly scalable SQL data warehouse for multi-petabyte dataset. Service?",
     "options": [
-      "Loud SQL",
-      "Loud Spanner",
-      "IgQuery",
+      "Cloud SQL",
+      "Cloud Spanner",
+      "BigQuery",
       "Firestore"
     ],
     "correct_idx": 2,
@@ -171,9 +171,9 @@
     "id": 65,
     "question": "To automate the creation of a GCP environment (VPC, VMs, Buckets) using a declarative template. Which GCP-native service should you use?",
     "options": [
-      "Loud Build",
+      "Cloud Build",
       "Eployment Manager",
-      "Loud Composer",
+      "Cloud Composer",
       "Terraform"
     ],
     "correct_idx": 1,
@@ -183,7 +183,7 @@
     "id": 66,
     "question": "To set a budget alert that notifies you when spending reaches 90% of your monthly budget. Where do you configure this?",
     "options": [
-      "Loud Monitoring",
+      "Cloud Monitoring",
       "Billing Console > Budgets & alerts",
       "Payment Center",
       "IAM Console"
@@ -243,9 +243,9 @@
     "id": 71,
     "question": "You need a relational database that supports horizontal scaling and global consistency. Which service should you choose?",
     "options": [
-      "Loud SQL",
-      "Loud Spanner",
-      "Loud Bigtable",
+      "Cloud SQL",
+      "Cloud Spanner",
+      "Cloud Bigtable",
       "Firestore"
     ],
     "correct_idx": 1,
@@ -281,7 +281,7 @@
     "options": [
       "IAM Policies",
       "VPC Firewall Rules",
-      "Loud Armor",
+      "Cloud Armor",
       "Identity-Aware Proxy (IAP)"
     ],
     "correct_idx": 1,
@@ -315,10 +315,10 @@
     "id": 77,
     "question": "Relational SQL DB for small data (<10GB), low traffic. Most cost-effective option?",
     "options": [
-      "Loud Spanner",
-      "Loud SQL",
-      "IgQuery",
-      "Loud Bigtable"
+      "Cloud Spanner",
+      "Cloud SQL",
+      "BigQuery",
+      "Cloud Bigtable"
     ],
     "correct_idx": 1,
     "explanation": "Cloud SQL (especially db-f1-micro) is the standard entry-level SQL DB. Spanner is expensive enterprise scale."
@@ -327,10 +327,10 @@
     "id": 78,
     "question": "A developer needs to execute code only when a new message is published to a Pub/Sub topic. Which serverless option is best?",
     "options": [
-      "Pp Engine Standard",
-      "Loud Functions",
-      "Ompute Engine",
-      "Loud Build"
+      "App Engine Standard",
+      "Cloud Functions",
+      "Compute Engine",
+      "Cloud Build"
     ],
     "correct_idx": 1,
     "explanation": "Cloud Functions are event-driven. They have native triggers for Pub/Sub (push)."
@@ -423,9 +423,9 @@
     "id": 86,
     "question": "To run a high-performance computing (HPC) workload on Compute Engine. Which network feature should you enable to reduce latency?",
     "options": [
-      "Loud CDN",
+      "Cloud CDN",
       "Tier 1 Networking (High Bandwidth)",
-      "Loud Armor",
+      "Cloud Armor",
       "VPC Peering"
     ],
     "correct_idx": 1,
@@ -459,10 +459,10 @@
     "id": 89,
     "question": "Which service is designed for real-time messaging and streaming data between independent applications?",
     "options": [
-      "Loud Tasks",
+      "Cloud Tasks",
       "Pub/Sub",
-      "Loud Dataflow",
-      "Loud Storage"
+      "Cloud Dataflow",
+      "Cloud Storage"
     ],
     "correct_idx": 1,
     "explanation": "Pub/Sub is the asynchronous messaging service (Many-to-Many). Cloud Tasks is for execution queues (One-to-One)."
@@ -472,9 +472,9 @@
     "question": "To store sensitive data and ensure it is encrypted with a key that you manage yourself. Which service do you use?",
     "options": [
       "Secret Manager",
-      "Loud Key Management Service (KMS)",
+      "Cloud Key Management Service (KMS)",
       "Identity Platform",
-      "Loud HSM"
+      "Cloud HSM"
     ],
     "correct_idx": 1,
     "explanation": "Cloud KMS allows you to generate, rotate, and manage encryption keys (CMEK) that integrate with other GCP services."
@@ -495,10 +495,10 @@
     "id": 92,
     "question": "To run a script every night at 2 AM to generate a report. Which GCP service is best for scheduling this?",
     "options": [
-      "Loud Build",
-      "Loud Scheduler",
-      "Loud Functions",
-      "Loud Run"
+      "Cloud Build",
+      "Cloud Scheduler",
+      "Cloud Functions",
+      "Cloud Run"
     ],
     "correct_idx": 1,
     "explanation": "Cloud Scheduler is the managed 'cron as a service' for GCP."
@@ -543,10 +543,10 @@
     "id": 96,
     "question": "To store data in a NoSQL document database that offers mobile synchronization. Which service do you choose?",
     "options": [
-      "Loud Bigtable",
+      "Cloud Bigtable",
       "Firestore",
       "Memorystore",
-      "Loud SQL"
+      "Cloud SQL"
     ],
     "correct_idx": 1,
     "explanation": "Firestore (Native Mode) has client SDKs for mobile/web that handle offline sync and real-time updates."
@@ -555,10 +555,10 @@
     "id": 97,
     "question": "Which GCP tool allows you to debug production code without stopping the application or slowing it down?",
     "options": [
-      "Loud Debugger (now integrated into Cloud Logging/Profiler)",
-      "Loud Trace",
+      "Cloud Debugger (now integrated into Cloud Logging/Profiler)",
+      "Cloud Trace",
       "Error Reporting",
-      "Loud Monitoring"
+      "Cloud Monitoring"
     ],
     "correct_idx": 0,
     "explanation": "Snapshot Debugger captures state (variables) without pausing execution, unlike traditional debuggers."
