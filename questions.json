@@ -711,10 +711,10 @@
     "id": 60,
     "question": "Setup secure VPN between VPC and external DC. Requirements: Dynamic routing, specific IP range 10.108.0.1/22, high availability, no extra tunnels during failover. Action?",
     "options": [
-      "Use custom mode VPC network - Configure static routes - Use active/passive routing.",
-      "Use automatic mode VPC network - Configure static routes - Use active/active routing.",
-      "Use custom mode VPC network - Use Cloud Router (BGP) - Use active/passive routing.",
-      "Use automatic mode VPC network - Use Cloud Router (BGP) - Configure policy-based routing."
+      "Use custom mode VPC network\n- Configure static routes\n- Use active/passive routing.",
+      "Use automatic mode VPC network\n- Configure static routes\n- Use active/active routing.",
+      "Use custom mode VPC network\n- Use Cloud Router (BGP)\n- Use active/passive routing.",
+      "Use automatic mode VPC network\n- Use Cloud Router (BGP)\n- Configure policy-based routing."
     ],
     "correct_idx": 2,
     "explanation": "Custom mode VPC required for specific IP ranges (10.108.x). Dynamic routing requires Cloud Router + BGP. Active/Passive routing (using route priorities/MED) ensures traffic flows over primary link and fails over only when needed, avoiding extra active tunnels."
