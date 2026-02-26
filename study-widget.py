@@ -11,7 +11,7 @@ CORRECT_COLOR = "#00E676"
 WRONG_COLOR = "#424242"
 TIMER_COLOR = "#FF5252"
 EXPLAIN_COLOR = "#FFD700"
-PAUSE_COLOR = "#B0BEC5"  # Grey for paused state
+PAUSE_COLOR = "#B0BEC5"
 
 FONT_Q = ("Consolas", 24, "bold")
 FONT_A = ("Consolas", 20, "bold")
@@ -27,13 +27,11 @@ class StudyWidget:
         self.root.title("GCP Quiz Overlay")
         self.root.configure(bg=BG_COLOR)
 
-        # Default compact size
         self.base_width = 1000
         self.base_height = 500
         self.width = self.base_width
         self.height = self.base_height
         
-        # Position initially (top rightish)
         screen_width = self.root.winfo_screenwidth()
         x_pos = screen_width - self.width - 40
         y_pos = 40
@@ -43,14 +41,18 @@ class StudyWidget:
         self.remaining_sec = 0
         self.reveal_remaining_sec = 0
         
-        # Pause state
         self.is_paused = False
         self.has_moved = False
 
         self.root.bind("<Button-1>", self.start_move)
         self.root.bind("<B1-Motion>", self.do_move)
         self.root.bind("<ButtonRelease-1>", self.check_click_pause)
-        self.root.bind("<Button-3>", lambda e: root.quit())
+        
+        # Right Click -> Skip
+        self.root.bind("<Button-3>", self.skip_step)
+        
+        # Middle Click -> Quit (Moved from Right Click)
+        self.root.bind("<Button-2>", lambda e: root.quit())
 
         self.load_questions()
 
@@ -178,6 +180,7 @@ class StudyWidget:
         self.expl_label.config(text=f"WHY: {explanation}")
         
         self.resize_window()
+        self.remaining_sec = 0 # Ensure this is reset so skip works correctly
         self.reveal_remaining_sec = REVEAL_TIME_SEC
         self.is_paused = False
         self.update_reveal_timer()
@@ -210,12 +213,23 @@ class StudyWidget:
     def check_click_pause(self, event):
         if not self.has_moved:
             self.is_paused = not self.is_paused
-            if self.remaining_sec > 0 and self.timer_job:
+            if self.timer_job:
                 self.root.after_cancel(self.timer_job)
-                self.update_timer()
-            elif self.reveal_remaining_sec > 0 and self.timer_job:
-                self.root.after_cancel(self.timer_job)
-                self.update_reveal_timer()
+                if self.remaining_sec > 0:
+                    self.update_timer()
+                elif self.reveal_remaining_sec > 0:
+                    self.update_reveal_timer()
+
+    def skip_step(self, event):
+        if self.timer_job:
+            self.root.after_cancel(self.timer_job)
+        
+        if self.remaining_sec > 0:
+            self.remaining_sec = 0
+            self.reveal_answer()
+        else:
+            self.reveal_remaining_sec = 0
+            self.show_next_question()
 
     def apply_overlay_settings(self):
         self.root.overrideredirect(True)
