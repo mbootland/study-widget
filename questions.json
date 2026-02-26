@@ -670,5 +670,17 @@
     ],
     "correct_idx": 3,
     "explanation": "Environment variables (CLOUDSDK_PROXY_*) are read by the SDK process at runtime but are NOT stored in the persistent config file (where they could be logged/read). Config commands write to files."
+  },
+  {
+    "id": 57,
+    "question": "GKE cluster configuration for cost-efficiency. Some microservices tolerate downtime (fault-tolerant), others must remain available (critical). Action?",
+    "options": [
+      "Single node pool (Standard VMs). Label fault-tolerant Deployments as spot_true.",
+      "Single node pool (Spot VMs). Label critical Deployments as spot_false.",
+      "Two node pools (Spot + Standard). Deploy critical on Spot, fault-tolerant on Standard.",
+      "Two node pools (Spot + Standard). Deploy critical on Standard, fault-tolerant on Spot."
+    ],
+    "correct_idx": 3,
+    "explanation": "Use Standard VMs for critical workloads (SLA/uptime required). Use Spot VMs (cheaper, preemptible) for fault-tolerant/batch workloads. Separate Node Pools allows targeting specific workloads to specific VM types via node affinity/taints."
   }
 ]
