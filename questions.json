@@ -706,5 +706,17 @@
     ],
     "correct_idx": 1,
     "explanation": "Use distinct Node Pools with different machine types to match workload needs. Compute-Optimized (c2) for CPU-heavy tasks; General-Purpose (e2/n1/n2) for routine services. Taints/tolerations or node affinity would ensure correct scheduling."
+  },
+  {
+    "id": 60,
+    "question": "Setup secure VPN between VPC and external DC. Requirements: Dynamic routing, specific IP range 10.108.0.1/22, high availability, no extra tunnels during failover. Action?",
+    "options": [
+      "Use custom mode VPC network - Configure static routes - Use active/passive routing.",
+      "Use automatic mode VPC network - Configure static routes - Use active/active routing.",
+      "Use custom mode VPC network - Use Cloud Router (BGP) - Use active/passive routing.",
+      "Use automatic mode VPC network - Use Cloud Router (BGP) - Configure policy-based routing."
+    ],
+    "correct_idx": 2,
+    "explanation": "Custom mode VPC required for specific IP ranges (10.108.x). Dynamic routing requires Cloud Router + BGP. Active/Passive routing (using route priorities/MED) ensures traffic flows over primary link and fails over only when needed, avoiding extra active tunnels."
   }
 ]
