@@ -1,7 +1,7 @@
 [
   {
     "id": 51,
-    "question": "You created a service account with the 'Storage Object Viewer' role. However, when the application uses this service account, it fails to read objects. What should you do to fix this with minimal effort?",
+    "question": "Service account has \"Storage Object Viewer\" but app fails to read objects. Fix (minimal effort)?",
     "options": [
       "Grant the service account the Project Editor role.",
       "Ensure the service account is assigned to the instance and verify the 'https://www.googleapis.com/auth/devstorage.read_only' scope is enabled.",
@@ -133,7 +133,7 @@
   },
   {
     "id": 62,
-    "question": "A team needs to perform SQL queries on a multi-petabyte dataset. They need a serverless, highly scalable data warehouse. Which service do you recommend?",
+    "question": "Need serverless, highly scalable SQL data warehouse for multi-petabyte dataset. Service?",
     "options": [
       "Loud SQL",
       "Loud Spanner",
@@ -313,7 +313,7 @@
   },
   {
     "id": 77,
-    "question": "To store small amounts of data (under 10GB) in a relational database with standard SQL support for a low-traffic application. Which is the most cost-effective?",
+    "question": "Relational SQL DB for small data (<10GB), low traffic. Most cost-effective option?",
     "options": [
       "Loud Spanner",
       "Loud SQL",
@@ -601,7 +601,7 @@
   },
   {
     "id": 101,
-    "question": "runs a platform that rents out specialized drones to agricultural businesses for monitoring crop health and irrigation needs. Each drone is equipped with multiple sensors that transmit event data every few seconds. The data includes information such as flight status, distance covered, battery level, and camera feeds. Customers are charged based on the metrics collected by these sensors. You anticipate high throughput, with thousands of events being generated every hour by each drone. To retrieve consistent data based on the event's timestamp, and each signal update should be atomic. How should you handle this?",
+    "question": "High-throughput drone sensor data (thousands/hr). Need consistent retrieval by timestamp + atomic updates. Database choice?",
     "options": [
       "Create a file in Cloud Storage for each drone and append new data to the file.",
       "Create a file in Cloud Filestore for each drone and append new data to the file.",
