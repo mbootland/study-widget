@@ -658,5 +658,17 @@
     ],
     "correct_idx": 3,
     "explanation": "Deploying to GKE requires storing the image in a registry (Container Registry/Artifact Registry), not GCS buckets. A Deployment resource manages the pods/replicas (workload). Services are for networking/load balancing, not deploying the workload itself."
+  },
+  {
+    "id": 56,
+    "question": "Setting up resource hierarchy. Need to ensure resources with similar access/permission settings (IAM) are managed together. Approach?",
+    "options": [
+      "Use labels to group resources that share common IAM policies.",
+      "Use folders to group resources that share common IAM policies.",
+      "Set up a proper billing account structure to group IAM policies.",
+      "Set up a proper project naming structure to group IAM policies."
+    ],
+    "correct_idx": 1,
+    "explanation": "Folders allow grouping projects under an organization to apply common IAM policies. Labels are for cost tracking/filtering, not permission inheritance. Billing accounts manage payment, not IAM."
   }
 ]
