@@ -658,5 +658,17 @@
     ],
     "correct_idx": 1,
     "explanation": "BigQuery jobs (queries/loads) log errors directly in the BQ interface (Job History). If the dashboard is broken because data isn't updating, the nightly overwrite job likely failed. Error Reporting is for app crashes; Debugger is for code snapshots; Logging is broader but BQ UI is the direct source."
+  },
+  {
+    "id": 56,
+    "question": "Configured Cloud SDK (gcloud) with proxy. Concerned proxy credentials might be logged. How to prevent logging of sensitive proxy auth?",
+    "options": [
+      "Configure username/password via \"gcloud config set proxy/username\" and \"password\".",
+      "Encode credentials (SHA256), save to text file, set as \"core/custom_ca_certs_file\".",
+      "Provide values for CLOUDSDK_PROXY_USERNAME/PASSWORD directly in gcloud CLI config file.",
+      "Set CLOUDSDK_PROXY_USERNAME and CLOUDSDK_PROXY_PASSWORD as system environment variables."
+    ],
+    "correct_idx": 3,
+    "explanation": "Environment variables (CLOUDSDK_PROXY_*) are read by the SDK process at runtime but are NOT stored in the persistent config file (where they could be logged/read). Config commands write to files."
   }
 ]
