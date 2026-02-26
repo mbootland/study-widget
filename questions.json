@@ -709,7 +709,7 @@
   },
   {
     "id": 60,
-    "question": "Setup secure VPN between VPC and external DC. Requirements: Dynamic routing, specific IP range 10.108.0.1/22, high availability, no extra tunnels during failover. Action?",
+    "question": "Setup secure VPN between VPC and on-premises data center. Requirements: Dynamic routing, specific IP range 10.108.0.1/22, high availability, no extra tunnels during failover. Action?",
     "options": [
       "Use custom mode VPC network\n- Configure static routes\n- Use active/passive routing.",
       "Use automatic mode VPC network\n- Configure static routes\n- Use active/active routing.",
