@@ -694,5 +694,17 @@
     ],
     "correct_idx": 3,
     "explanation": "Google Cloud Monitoring now uses \"Metrics Scopes\" (formerly Workspaces) to view metrics from multiple projects in a single dashboard."
+  },
+  {
+    "id": 59,
+    "question": "Managing GKE cluster. Service A processes high-res images (high CPU, low RAM). Other services (B) are routine/general purpose. Need cost/performance efficiency. Action?",
+    "options": [
+      "Assign Service A pods higher priority than Service B.",
+      "Create Node Pool (Compute-Optimized) for Service A. Use General-Purpose Node Pool for Service B.",
+      "Use General-Purpose Node Pool for Service A. Create Node Pool (Compute-Optimized) for Service B.",
+      "Configure resource requests (CPU/RAM) for Service A. Keep Service B default."
+    ],
+    "correct_idx": 1,
+    "explanation": "Use distinct Node Pools with different machine types to match workload needs. Compute-Optimized (c2) for CPU-heavy tasks; General-Purpose (e2/n1/n2) for routine services. Taints/tolerations or node affinity would ensure correct scheduling."
   }
 ]
