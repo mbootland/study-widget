@@ -682,5 +682,17 @@
     ],
     "correct_idx": 1,
     "explanation": "IAP for TCP forwarding allows SSH access to instances without external IPs (via tunnel). HTTPS IAP is for web apps. Storing keys doesn't solve the network connectivity issue (private IP only)."
+  },
+  {
+    "id": 58,
+    "question": "Three projects. Need unified view of application performance metrics (CPU, memory, disk) across all three. Action?",
+    "options": [
+      "Enable API and share individual charts from each project.",
+      "Enable API and grant metrics.reader role to each project.",
+      "Enable API and use default dashboards to monitor each project in sequence.",
+      "Enable API, create a workspace under one project, and add the others to it."
+    ],
+    "correct_idx": 3,
+    "explanation": "Cloud Monitoring Workspaces (classic) or Metrics Scopes (modern) allow viewing metrics from multiple projects in a single dashboard/pane of glass."
   }
 ]
