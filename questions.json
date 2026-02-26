@@ -646,5 +646,17 @@
     ],
     "correct_idx": 1,
     "explanation": "D is incorrect because using a \"select count (* )\" approach does not give an accurate cost estimation. Although \"select count (* )\" will tell you the number of rows the query processes, it does not directly translate to bytes scanned or cost. The cost in BigQuery is based on the amount of data read in bytes, which depends on the data\u2019s structure and schema, rather than the number of rows processed. Thus, estimating cost based on row count will not yield a precise or reliable result, making this option unsuitable. The correct approach (B) uses --dry_run to estimate bytes *read* (scanned), which determines cost."
+  },
+  {
+    "id": 55,
+    "question": "To deploy a food delivery app packaged as a Docker image to GKE as a workload. Steps?",
+    "options": [
+      "Upload image to Cloud Storage -> Create Kubernetes Service referencing image",
+      "Upload image to Cloud Storage -> Create Kubernetes Deployment referencing image",
+      "Upload image to Container Registry -> Create Kubernetes Service referencing image",
+      "Upload image to Container Registry -> Create Kubernetes Deployment referencing image"
+    ],
+    "correct_idx": 3,
+    "explanation": "Deploying to GKE requires storing the image in a registry (Container Registry/Artifact Registry), not GCS buckets. A Deployment resource manages the pods/replicas (workload). Services are for networking/load balancing, not deploying the workload itself."
   }
 ]
