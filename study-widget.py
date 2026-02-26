@@ -26,11 +26,15 @@ class StudyWidget:
         self.root.title("GCP Quiz Overlay")
         self.root.configure(bg=BG_COLOR)
 
+        # Default compact size
+        self.base_width = 1000
+        self.base_height = 500
+        self.width = self.base_width
+        self.height = self.base_height
+        
+        # Position initially (top rightish)
         screen_width = self.root.winfo_screenwidth()
-        screen_height = self.root.winfo_screenheight()
-        self.width = int(screen_width * 0.95)
-        self.height = int(screen_height * 0.6)
-        x_pos = (screen_width - self.width) // 2
+        x_pos = screen_width - self.width - 40
         y_pos = 40
         self.root.geometry(f"{self.width}x{self.height}+{x_pos}+{y_pos}")
 
@@ -76,16 +80,67 @@ class StudyWidget:
             self.questions = [{"id": 0, "question": str(e), "options": ["Fix"], "correct_idx": 0, "explanation": "JSON?"}]
 
     def resize_window(self):
-        wrap_w = self.width - 60
+        # Measure content
+        self.root.update_idletasks()
+        
+        screen_width = self.root.winfo_screenwidth()
+        screen_height = self.root.winfo_screenheight()
+        
+        # Reset to base wrap first to measure natural height
+        current_w = self.width
+        wrap_w = current_w - 60
+        
         self.q_label.config(wraplength=wrap_w)
         for lbl in self.opt_labels:
             lbl.config(wraplength=wrap_w - 20)
         self.expl_label.config(wraplength=wrap_w)
+        
         self.root.update_idletasks()
-        screen_height = self.root.winfo_screenheight()
-        content_h = self.q_label.winfo_reqheight() + sum(l.winfo_reqheight() for l in self.opt_labels) + self.expl_label.winfo_reqheight() + self.timer_label.winfo_reqheight() * 2 + 120
-        new_h = max(500, min(int(screen_height * 0.85), content_h))
-        self.root.geometry(f"{self.width}x{new_h}+{self.root.winfo_x()}+{self.root.winfo_y()}")
+        
+        # Calculate total content height
+        content_h = (self.q_label.winfo_reqheight() + 
+                     sum(l.winfo_reqheight() for l in self.opt_labels) + 
+                     self.expl_label.winfo_reqheight() + 
+                     self.timer_label.winfo_reqheight() * 2 + 
+                     100) # padding
+
+        # Smart resize logic
+        if content_h > self.base_height:
+            # Try growing height first
+            new_h = min(content_h, int(screen_height * 0.85))
+            
+            # If still truncated, grow width
+            if content_h > new_h:
+                new_w = min(int(screen_width * 0.9), 1600)
+                # Re-wrap with new width
+                wrap_w = new_w - 60
+                self.q_label.config(wraplength=wrap_w)
+                for lbl in self.opt_labels:
+                    lbl.config(wraplength=wrap_w - 20)
+                self.expl_label.config(wraplength=wrap_w)
+                self.root.update_idletasks()
+                # Recalc height with wider text
+                content_h = (self.q_label.winfo_reqheight() + 
+                             sum(l.winfo_reqheight() for l in self.opt_labels) + 
+                             self.expl_label.winfo_reqheight() + 
+                             self.timer_label.winfo_reqheight() * 2 + 
+                             100)
+                new_h = min(content_h, int(screen_height * 0.85))
+                self.width = new_w
+                self.height = new_h
+            else:
+                # Just height needed
+                self.width = self.base_width
+                self.height = new_h
+        else:
+            # Fits in base
+            self.width = self.base_width
+            self.height = self.base_height
+
+        # Update geometry
+        x = self.root.winfo_x()
+        y = self.root.winfo_y()
+        self.root.geometry(f"{self.width}x{self.height}+{x}+{y}")
 
     def show_next_question(self):
         if self.timer_job:
@@ -94,12 +149,16 @@ class StudyWidget:
         self.expl_label.config(text="")
         for lbl in self.opt_labels:
             lbl.config(fg=OPT_COLOR)
-        self.resize_window()
+        
+        # Set text first
         self.q_label.config(text=f"Q{self.current_q['id']}: {self.current_q['question']}")
         letters = 'ABCD'
         for i, opt in enumerate(self.current_q['options'][:4]):
             self.opt_labels[i].config(text=f"{letters[i]}) {opt}")
+            
+        # Then resize to fit content
         self.resize_window()
+        
         self.remaining_sec = READ_TIME_SEC
         self.update_timer()
 
@@ -121,7 +180,10 @@ class StudyWidget:
             else:
                 lbl.config(fg=CORRECT_COLOR, text=lbl.cget("text") + "  ✔")
         self.expl_label.config(text=f"WHY: {explanation}")
+        
+        # Resize again for explanation text
         self.resize_window()
+        
         self.reveal_remaining_sec = REVEAL_TIME_SEC
         self.update_reveal_timer()
 
