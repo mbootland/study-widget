@@ -1,29 +1,24 @@
 import tkinter as tk
-import random
-import time
 import itertools
 import json
 import os
-import sys
 
-# --- CONFIGURATION (OpenClaw Terminal Style) ---
-BG_COLOR = "#000000"       # Solid Black
-Q_COLOR  = "#FFD700"       # Bright Gold/Yellow (Question)
-OPT_COLOR = "#4FC3F7"      # Vibrant Light Blue (Options - Readable on Black)
-CORRECT_COLOR = "#00E676"  # Terminal Green (Success)
-WRONG_COLOR = "#424242"    # Dark Grey (Dimmed)
-TIMER_COLOR = "#FF5252"    # Red/Orange (Timer)
-EXPLAIN_COLOR = "#FFD700"  # Yellow (Explanation - Matches Q)
+# CONFIG
+BG_COLOR = "#000000"
+Q_COLOR = "#FFD700"
+OPT_COLOR = "#4FC3F7"
+CORRECT_COLOR = "#00E676"
+WRONG_COLOR = "#424242"
+TIMER_COLOR = "#FF5252"
+EXPLAIN_COLOR = "#FFD700"
 
-# --- FONTS (Larger & Bold) ---
 FONT_Q = ("Consolas", 24, "bold")
 FONT_A = ("Consolas", 20, "bold")
 FONT_TIMER = ("Consolas", 16, "bold")
 FONT_EXPL = ("Consolas", 16, "bold italic")
 
-# --- TIMING ---
-READ_TIME_SEC = 30    # 30s to read question
-REVEAL_TIME_SEC = 10  # 10s to read answer/explanation
+READ_TIME_SEC = 30
+REVEAL_TIME_SEC = 10
 
 class StudyWidget:
     def __init__(self, root):
@@ -31,99 +26,83 @@ class StudyWidget:
         self.root.title("GCP Quiz Overlay")
         self.root.configure(bg=BG_COLOR)
 
-        # Window Setup (Wide & Compact Height)
         screen_width = self.root.winfo_screenwidth()
-        self.width = 900
-        self.height = 500 
-        x_pos = screen_width - self.width - 40
+        screen_height = self.root.winfo_screenheight()
+        self.width = int(screen_width * 0.95)
+        self.height = int(screen_height * 0.6)
+        x_pos = (screen_width - self.width) // 2
         y_pos = 40
         self.root.geometry(f"{self.width}x{self.height}+{x_pos}+{y_pos}")
 
-        # Drag Logic
         self.root.bind("<Button-1>", self.start_move)
         self.root.bind("<B1-Motion>", self.do_move)
         self.root.bind("<Button-3>", lambda e: root.quit())
 
-        # Load Questions
         self.load_questions()
 
-        # --- Layout ---
-        self.q_label = tk.Label(root, text="", font=FONT_Q, bg=BG_COLOR, fg=Q_COLOR, wraplength=self.width-20, justify="left")
+        self.q_label = tk.Label(root, text="", font=FONT_Q, bg=BG_COLOR, fg=Q_COLOR, justify="left")
         self.q_label.pack(pady=(15, 10), padx=15, anchor="w")
 
         self.opt_labels = []
         for i in range(4):
-            lbl = tk.Label(root, text="", font=FONT_A, bg=BG_COLOR, fg=OPT_COLOR, anchor="w", wraplength=self.width-30, justify="left")
+            lbl = tk.Label(root, text="", font=FONT_A, bg=BG_COLOR, fg=OPT_COLOR, anchor="w", justify="left")
             lbl.pack(fill="x", padx=25, pady=2)
             self.opt_labels.append(lbl)
 
-        # Explanation Label (Hidden initially)
-        self.expl_label = tk.Label(root, text="", font=FONT_EXPL, bg=BG_COLOR, fg=EXPLAIN_COLOR, wraplength=self.width-20, justify="left")
+        self.expl_label = tk.Label(root, text="", font=FONT_EXPL, bg=BG_COLOR, fg=EXPLAIN_COLOR, justify="left")
         self.expl_label.pack(pady=(10, 5), padx=15, anchor="w")
 
-        # Countdown Timer Bar
         self.timer_label = tk.Label(root, text="", font=FONT_TIMER, bg=BG_COLOR, fg=TIMER_COLOR, anchor="e")
         self.timer_label.pack(side="bottom", fill="x", padx=10, pady=5)
 
-        # Start Quiz Loop
         self.quiz_cycle = itertools.cycle(self.questions)
-        self.current_q = None
-        self.timer_job = None
         self.show_next_question()
-
-        # Always on Top Loop
         self.apply_overlay_settings()
 
     def load_questions(self):
-        # Look for questions.json in the same directory as the script
         script_dir = os.path.dirname(os.path.abspath(__file__))
         json_path = os.path.join(script_dir, "questions.json")
-        
         try:
             with open(json_path, "r", encoding="utf-8") as f:
-                self.questions = json.load(f)
-            random.shuffle(self.questions)
-            print(f"Loaded {len(self.questions)} questions.")
+                data = json.load(f)
+            self.questions = data[::-1]  # Reverse: last first
+            print(f"Loaded {len(self.questions)} questions (reversed, cycle).")
         except Exception as e:
-            print(f"Error loading questions.json: {e}")
-            # Fallback question if file missing
-            self.questions = [{
-                "id": 0,
-                "question": f"Error loading questions.json: {e}",
-                "options": ["Check file path", "Check JSON format", "Check permissions", "Panic"],
-                "correct_idx": 0,
-                "explanation": "Ensure questions.json is in the same folder as this script."
-            }]
+            print(f"Error: {e}")
+            self.questions = [{"id": 0, "question": str(e), "options": ["Fix"], "correct_idx": 0, "explanation": "JSON?"}]
+
+    def resize_window(self):
+        wrap_w = self.width - 60
+        self.q_label.config(wraplength=wrap_w)
+        for lbl in self.opt_labels:
+            lbl.config(wraplength=wrap_w - 20)
+        self.expl_label.config(wraplength=wrap_w)
+        self.root.update_idletasks()
+        screen_height = self.root.winfo_screenheight()
+        content_h = (self.q_label.winfo_reqheight() + sum(l.winfo_reqheight() for l in self.opt_labels) + self.expl_label.winfo_reqheight() + self.timer_label.winfo_reqheight() * 2 + 120)
+        new_h = max(500, min(int(screen_height * 0.85), content_h))
+        self.root.geometry(f"{self.width}x{new_h}+{self.root.winfo_x()}+{self.root.winfo_y()}")
 
     def show_next_question(self):
-        # Cancel any running timers
         if self.timer_job:
             self.root.after_cancel(self.timer_job)
-            
         self.current_q = next(self.quiz_cycle)
-        
-        # Reset UI
-        self.expl_label.config(text="") # Hide explanation
+        self.expl_label.config(text="")
         for lbl in self.opt_labels:
             lbl.config(fg=OPT_COLOR)
-
-        # Update Text with ID
+        self.resize_window()
         self.q_label.config(text=f"Q{self.current_q['id']}: {self.current_q['question']}")
-        letters = ['A', 'B', 'C', 'D']
-        for i, opt in enumerate(self.current_q['options']):
-            if i < 4: # Safety check
-                self.opt_labels[i].config(text=f"{letters[i]}. {opt}")
-
-        # Start Countdown
+        letters = 'ABCD'
+        for i, opt in enumerate(self.current_q['options'][:4]):
+            self.opt_labels[i].config(text=f"{letters[i]}. {opt}")
+        self.resize_window()
         self.remaining_sec = READ_TIME_SEC
         self.update_timer()
 
     def update_timer(self):
         if self.remaining_sec > 0:
-            # Update bar visualization
-            bars = "▓" * int(self.remaining_sec * (10/READ_TIME_SEC)) 
+            bars = "▓" * int(self.remaining_sec * 10 / READ_TIME_SEC)
             self.timer_label.config(text=f"Reveal in {self.remaining_sec}s  {bars}")
-            
             self.remaining_sec -= 1
             self.timer_job = self.root.after(1000, self.update_timer)
         else:
@@ -131,25 +110,20 @@ class StudyWidget:
 
     def reveal_answer(self):
         correct_idx = self.current_q['correct_idx']
-        explanation = self.current_q.get('explanation', "No explanation provided.")
-        
-        # Dim incorrect answers
+        explanation = self.current_q.get('explanation', "No explanation.")
         for i, lbl in enumerate(self.opt_labels):
             if i != correct_idx:
                 lbl.config(fg=WRONG_COLOR)
             else:
                 lbl.config(fg=CORRECT_COLOR, text=lbl.cget("text") + "  ✔")
-        
-        # Show Explanation
         self.expl_label.config(text=f"WHY: {explanation}")
-        
-        # Start Countdown to Next Question
+        self.resize_window()
         self.reveal_remaining_sec = REVEAL_TIME_SEC
         self.update_reveal_timer()
 
     def update_reveal_timer(self):
         if self.reveal_remaining_sec > 0:
-            bars = "▓" * int(self.reveal_remaining_sec * (10/REVEAL_TIME_SEC))
+            bars = "▓" * int(self.reveal_remaining_sec * 10 / REVEAL_TIME_SEC)
             self.timer_label.config(text=f"Next in {self.reveal_remaining_sec}s  {bars}")
             self.reveal_remaining_sec -= 1
             self.timer_job = self.root.after(1000, self.update_reveal_timer)
@@ -169,7 +143,7 @@ class StudyWidget:
         self.root.overrideredirect(True)
         self.root.attributes('-topmost', True)
         self.root.lift()
-        self.root.attributes('-alpha', 0.95) # High opacity for black bg
+        self.root.attributes('-alpha', 0.95)
         self.root.after(2000, self.apply_overlay_settings)
 
 if __name__ == "__main__":
