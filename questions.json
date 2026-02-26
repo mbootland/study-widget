@@ -637,12 +637,12 @@
   },
   {
     "id": 104,
-    "question": "Since ShopZen is using on-demand pricing, you want to figure out how much running the query will cost. Action?",
+    "question": "Using on-demand pricing, need to figure out query cost. Action?",
     "options": [
-      "- Arrange to switch to Flat-Rate pricing for this query. - Then move back to on-demand.",
-      "- Use the command line to run a dry run query to estimate the number of bytes read. - Then convert that bytes estimate to dollars using the Pricing Calculator.",
-      "- Use the command line to run a dry run query to estimate the number of bytes returned. - Then convert that bytes estimate to dollars using the Pricing Calculator.",
-      "- Run a \"select count (* )\" to get an idea of how many records your query will look through. - Then convert that number of rows to dollars using the Pricing Calculator."
+      "- Arrange to switch to Flat-Rate pricing for this query.\n- Then move back to on-demand.",
+      "- Use the command line to run a dry run query to estimate the number of bytes read.\n- Then convert that bytes estimate to dollars using the Pricing Calculator.",
+      "- Use the command line to run a dry run query to estimate the number of bytes returned.\n- Then convert that bytes estimate to dollars using the Pricing Calculator.",
+      "- Run a \"select count (* )\" to get an idea of how many records your query will look through.\n- Then convert that number of rows to dollars using the Pricing Calculator."
     ],
     "correct_idx": 1,
     "explanation": "D is incorrect because using a \"select count (* )\" approach does not give an accurate cost estimation. Although \"select count (* )\" will tell you the number of rows the query processes, it does not directly translate to bytes scanned or cost. The cost in BigQuery is based on the amount of data read in bytes, which depends on the data\u2019s structure and schema, rather than the number of rows processed. Thus, estimating cost based on row count will not yield a precise or reliable result, making this option unsuitable. The correct approach (B) uses --dry_run to estimate bytes *read* (scanned), which determines cost."
