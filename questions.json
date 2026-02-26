@@ -613,7 +613,7 @@
   },
   {
     "id": 102,
-    "question": "A startup called SparkThreads runs a complex data processing task on an on-premises server that takes about 40 hours to complete. This task is performed monthly, can run without user interaction, and must restart if interrupted. SparkThreads wants to move this workload to the cloud while keeping costs as low as possible. What approach should they take?",
+    "question": "Monthly 40-hour task. No user interaction. Must restart if interrupted. Move to cloud minimizing cost. Approach?",
     "options": [
       "Migrate the workload to a Compute Engine Preemptible VM.",
       "Migrate the workload to a Google Kubernetes Engine cluster with Preemptible nodes.",
@@ -625,7 +625,7 @@
   },
   {
     "id": 103,
-    "question": "You've been hired by a new tech startup, SpaceyMedia, to manage their cloud infrastructure on Google Cloud. One of your tasks is to produce a list of all the enabled GCP APIs for their GCP project. The project name is spacey-media-app. To use the gcloud command line within Cloud Shell to get this information. Action?",
+    "question": "List enabled GCP APIs for project \"spacey-media-app\" using Cloud Shell. Command?",
     "options": [
       "Run \u201cgcloud projects list\u201d to get the project ID, and then run \u201cgcloud services list --project <project ID>\u201d",
       "Run \u201cgcloud init\u201d to set the current project to spacey-media-app, and then run \u201cgcloud services list --available\u201d",
