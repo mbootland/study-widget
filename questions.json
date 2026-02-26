@@ -205,7 +205,7 @@
   },
   {
     "id": 68,
-    "question": "What is the recommended workflow?",
+    "question": "App works locally using Application Default Credentials (ADC). Moving to Compute Engine VM. Need Google-recommended auth with minimal changes. Action?",
     "options": [
       "Use 'gcloud app deploy'.",
       "Uild the image, push to Artifact Registry, and create a Deployment manifest using that image.",
@@ -805,7 +805,7 @@
   },
   {
     "id": 68,
-    "question": "Moving app from local dev (ADC) to Compute Engine VM. Need Google-recommended auth with minimal changes. Action?",
+    "question": "App works locally using Application Default Credentials (ADC). Moving to Compute Engine VM. Need Google-recommended auth with minimal changes. Action?",
     "options": [
       "Assign appropriate access roles to the service account attached to the Compute Engine VM.",
       "Create a new service account -> Configure application code to use this specific account key.",
