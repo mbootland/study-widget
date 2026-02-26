@@ -1,7 +1,7 @@
 [
   {
     "id": 51,
-    "question": "You have developed an application that reads objects from a Cloud Storage bucket. You created a service account with the 'Storage Object Viewer' role. However, when the application uses this service account, it fails to read objects. What should you do to fix this with minimal effort?",
+    "question": "You created a service account with the 'Storage Object Viewer' role. However, when the application uses this service account, it fails to read objects. What should you do to fix this with minimal effort?",
     "options": [
       "Grant the service account the Project Editor role.",
       "Ensure the service account is assigned to the instance and verify the 'https://www.googleapis.com/auth/devstorage.read_only' scope is enabled.",
@@ -49,7 +49,7 @@
   },
   {
     "id": 55,
-    "question": "You are performing a security check and need to see who has access to view data stored in your project. What is the recommended action?",
+    "question": "What is the recommended action?",
     "options": [
       "Enable Audit Logs for all APIs and review the logs.",
       "Review the IAM permissions for any role that allows for data access.",
@@ -121,7 +121,7 @@
   },
   {
     "id": 61,
-    "question": "You are managing a Bigtable cluster and notice performance issues. Which tool provides a heatmap to identify 'hot' rows or keys?",
+    "question": "Which tool provides a heatmap to identify 'hot' rows or keys?",
     "options": [
       "loud Monitoring",
       "Key Visualizer",
@@ -205,7 +205,7 @@
   },
   {
     "id": 68,
-    "question": "You have a Dockerfile and want to deploy it to GKE. What is the recommended workflow?",
+    "question": "What is the recommended workflow?",
     "options": [
       "Use 'gcloud app deploy'.",
       "uild the image, push to Artifact Registry, and create a Deployment manifest using that image.",
@@ -289,7 +289,7 @@
   },
   {
     "id": 75,
-    "question": "You are using the 'bq' command-line tool. How do you estimate the cost of a query without actually running it?",
+    "question": "How do you estimate the cost of a query without actually running it?",
     "options": [
       "bq query --estimate [SQL]",
       "bq query --dry_run [SQL]",
@@ -397,7 +397,7 @@
   },
   {
     "id": 84,
-    "question": "You are deploying a new version of an App Engine app. To send 10% of traffic to the new version. Which command do you use?",
+    "question": "To send 10% of traffic to the new version. Which command do you use?",
     "options": [
       "gcloud app versions migrate",
       "gcloud app services set-traffic --splits",
@@ -445,7 +445,7 @@
   },
   {
     "id": 88,
-    "question": "You have a project that is consistently hitting API rate limits. Action?",
+    "question": "Action?",
     "options": [
       "reate a new project.",
       "Request a quota increase in the Google Cloud Console.",
@@ -637,7 +637,7 @@
   },
   {
     "id": 104,
-    "question": "You work for a growing e-commerce platform, \"ShopZen,\" which uses BigQuery to analyze customer behavior and sales trends. You are about to run an important query to understand customer purchase patterns, but you expect the query to return a large number of records. Since ShopZen is using on-demand pricing, you want to figure out how much running the query will cost. Action?",
+    "question": "Since ShopZen is using on-demand pricing, you want to figure out how much running the query will cost. Action?",
     "options": [
       "- Arrange to switch to Flat-Rate pricing for this query. - Then move back to on-demand.",
       "- Use the command line to run a dry run query to estimate the number of bytes read. - Then convert that bytes estimate to dollars using the Pricing Calculator.",
