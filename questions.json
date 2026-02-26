@@ -802,5 +802,17 @@
     ],
     "correct_idx": 0,
     "explanation": "Layer 1 is the raw transmission of bits over a physical medium (light, electricity, radio)."
+  },
+  {
+    "id": 68,
+    "question": "Moving app from local dev (ADC) to Compute Engine VM. Need Google-recommended auth with minimal changes. Action?",
+    "options": [
+      "Assign appropriate access roles to the service account attached to the Compute Engine VM.",
+      "Create a new service account -> Configure application code to use this specific account key.",
+      "Store service account credentials in a config file -> Deploy file with app.",
+      "Store user account credentials in a config file -> Deploy file with app."
+    ],
+    "correct_idx": 0,
+    "explanation": "Compute Engine instances have an attached Service Account. ADC automatically finds credentials from the metadata server. Assigning roles to this attached SA requires ZERO code changes."
   }
 ]
