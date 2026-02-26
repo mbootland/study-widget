@@ -98,7 +98,8 @@ class StudyWidget:
         self.q_label.config(text=f"Q{self.current_q['id']}: {self.current_q['question']}")
         letters = 'ABCD'
         for i, opt in enumerate(self.current_q['options'][:4]):
-            self.opt_labels[i].config(text=f"{letters[i]}. {opt}")
+            clean_opt = opt.lstrip('ABCDEFGHIJKLMNOPQRSTUVWXYZ. )')
+            self.opt_labels[i].config(text=f"{letters[i]}) {clean_opt}")
         self.resize_window()
         self.remaining_sec = READ_TIME_SEC
         self.update_timer()
