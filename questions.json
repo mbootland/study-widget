@@ -646,5 +646,17 @@
     ],
     "correct_idx": 0,
     "explanation": "Compute Engine instances have an attached Service Account. ADC automatically finds credentials from the metadata server. Assigning roles to this attached SA requires ZERO code changes."
+  },
+  {
+    "id": 55,
+    "question": "Data Studio dashboard visualizes sales from BigQuery. Transactions appended daily; summary table recalculated/overwritten nightly. Dashboard charts stopped displaying properly. Investigation step?",
+    "options": [
+      "Review the Error Reporting page in the Cloud Console.",
+      "Use the BigQuery interface to review the nightly job and look for errors.",
+      "Use Cloud Debugger to find out why the data was not refreshed.",
+      "In Cloud Logging, create a filter for your Data Studio report."
+    ],
+    "correct_idx": 1,
+    "explanation": "BigQuery jobs (queries/loads) log errors directly in the BQ interface (Job History). If the dashboard is broken because data isn't updating, the nightly overwrite job likely failed. Error Reporting is for app crashes; Debugger is for code snapshots; Logging is broader but BQ UI is the direct source."
   }
 ]
