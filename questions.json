@@ -718,5 +718,89 @@
     ],
     "correct_idx": 2,
     "explanation": "Custom mode VPC required for specific IP ranges (10.108.x). Dynamic routing requires Cloud Router + BGP. Active/Passive routing (using route priorities/MED) ensures traffic flows over primary link and fails over only when needed, avoiding extra active tunnels."
+  },
+  {
+    "id": 61,
+    "question": "OSI Layer 7 (Application). Function and example in Python app?",
+    "options": [
+      "User Interface / High-level logic. Example: Python code using input() or browser showing timer.",
+      "Data translation. Example: Converting strings to JSON.",
+      "Session management. Example: User logging in.",
+      "Reliable delivery. Example: TCP connection."
+    ],
+    "correct_idx": 0,
+    "explanation": "Layer 7 is the Application layer, closest to the end user. It handles the UI and high-level logic (the Python app itself)."
+  },
+  {
+    "id": 62,
+    "question": "OSI Layer 6 (Presentation). Analogy and primary function?",
+    "options": [
+      "The Translator. Converts data formats (e.g., Python strings to JSON/UTF-8) for network transmission.",
+      "The Conversation. Manages start/end of connections.",
+      "The GPS. Handles IP addressing and routing.",
+      "The User Interface. Displays data to the user."
+    ],
+    "correct_idx": 0,
+    "explanation": "Layer 6 translates data into a readable format for the application (Encryption, Compression, Serialization like JSON/UTF-8)."
+  },
+  {
+    "id": 63,
+    "question": "OSI Layer 5 (Session). Role in a client-server interaction?",
+    "options": [
+      "The Conversation. Manages the start, maintenance, and teardown of connections (e.g., user login session).",
+      "The Delivery Service. Ensures reliable packet transport.",
+      "The Map. Routes packets across networks.",
+      "The Local Delivery. Moves frames between devices on same network."
+    ],
+    "correct_idx": 0,
+    "explanation": "Layer 5 controls the dialogues (connections) between computers. It establishes, manages, and terminates the connections."
+  },
+  {
+    "id": 64,
+    "question": "OSI Layer 4 (Transport). Key protocols and analogy?",
+    "options": [
+      "TCP (Reliable, registered letter) / UDP (Fast, postcard). The Delivery Service.",
+      "IP (Routing). The GPS.",
+      "MAC Addresses. The Local Delivery.",
+      "Fiber/Wi-Fi. The Physical Road."
+    ],
+    "correct_idx": 0,
+    "explanation": "Layer 4 ensures end-to-end communication, reliability (TCP), and flow control. It distinguishes streams via Ports."
+  },
+  {
+    "id": 65,
+    "question": "OSI Layer 3 (Network). What lives here and what is the analogy?",
+    "options": [
+      "IP Addresses, Routers, VPC Routes. The GPS / Map.",
+      "MAC Addresses, Switches. The Local Delivery.",
+      "TCP/UDP Ports. The Delivery Service.",
+      "Cables, Radio Waves. The Physical Road."
+    ],
+    "correct_idx": 0,
+    "explanation": "Layer 3 handles logical addressing (IP) and routing packets between different networks (Internet, VPCs)."
+  },
+  {
+    "id": 66,
+    "question": "OSI Layer 2 (Data Link). Addressing type and scope?",
+    "options": [
+      "MAC Addresses. Local delivery between devices on the same network segment (Wi-Fi/Ethernet).",
+      "IP Addresses. Global delivery across the internet.",
+      "Port Numbers. Process-to-process delivery.",
+      "Session IDs. User-to-application delivery."
+    ],
+    "correct_idx": 0,
+    "explanation": "Layer 2 uses physical (MAC) addresses to switch frames within a single LAN/VLAN. It does not route across networks."
+  },
+  {
+    "id": 67,
+    "question": "OSI Layer 1 (Physical). What constitutes this layer?",
+    "options": [
+      "The literal hardware: Fiber optics, Wi-Fi radio waves, Ethernet cables. The Physical Road.",
+      "The logic: MAC addresses and framing.",
+      "The routing: IP addresses and subnets.",
+      "The application: The code running on the CPU."
+    ],
+    "correct_idx": 0,
+    "explanation": "Layer 1 is the raw transmission of bits over a physical medium (light, electricity, radio)."
   }
 ]
