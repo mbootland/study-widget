@@ -5,7 +5,7 @@
     "options": [
       "Grant the service account the Project Editor role.",
       "Ensure the service account is assigned to the instance and verify the 'https://www.googleapis.com/auth/devstorage.read_only' scope is enabled.",
-      "Ownload a JSON key for the service account and hardcode it into the application.",
+      "Download a JSON key for the service account and hardcode it into the application.",
       "Wait 24 hours for the IAM permissions to propagate."
     ],
     "correct_idx": 1,
@@ -89,7 +89,7 @@
     "options": [
       "Create a new service and use an HTTP Load Balancer to split traffic.",
       "Create a new revision and use the 'Traffic' tab to split percentages between revisions.",
-      "Eploy the new version to a separate project.",
+      "Deploy the new version to a separate project.",
       "Use a Cloud Function as a proxy to route traffic."
     ],
     "correct_idx": 1,
@@ -101,8 +101,8 @@
     "options": [
       "Standard",
       "Nearline",
-      "Oldline",
-      "Rchive"
+      "Coldline",
+      "Archive"
     ],
     "correct_idx": 3,
     "explanation": "Archive storage is the cheapest for data stored for >365 days. Coldline is for >90 days."
@@ -113,8 +113,8 @@
     "options": [
       "Cloud VPN",
       "Partner Interconnect",
-      "Edicated Interconnect",
-      "Arrier Peering"
+      "Dedicated Interconnect",
+      "Carrier Peering"
     ],
     "correct_idx": 2,
     "explanation": "Dedicated Interconnect provides a direct physical link (10Gbps/100Gbps) to Google. VPN is over public internet."
@@ -159,10 +159,10 @@
     "id": 64,
     "question": "What is the 'gcloud' command to authenticate a service account using a private JSON key file?",
     "options": [
-      "Gcloud auth login --key-file=[KEY_FILE]",
-      "Gcloud auth activate-service-account --key-file=[KEY_FILE]",
-      "Gcloud config set account [SERVICE_ACCOUNT]",
-      "Gcloud iam service-accounts activate [KEY_FILE]"
+      "gcloud auth login --key-file=[KEY_FILE]",
+      "gcloud auth activate-service-account --key-file=[KEY_FILE]",
+      "gcloud config set account [SERVICE_ACCOUNT]",
+      "gcloud iam service-accounts activate [KEY_FILE]"
     ],
     "correct_idx": 1,
     "explanation": "'activate-service-account' is the specific command to switch the active identity to a service account using a key file."
@@ -172,7 +172,7 @@
     "question": "To automate the creation of a GCP environment (VPC, VMs, Buckets) using a declarative template. Which GCP-native service should you use?",
     "options": [
       "Cloud Build",
-      "Eployment Manager",
+      "Deployment Manager",
       "Cloud Composer",
       "Terraform"
     ],
@@ -269,7 +269,7 @@
     "options": [
       "Kubectl get logs [POD_NAME]",
       "Kubectl logs [POD_NAME]",
-      "Gcloud logging pods read [POD_NAME]",
+      "gcloud logging pods read [POD_NAME]",
       "Kubectl describe pod [POD_NAME]"
     ],
     "correct_idx": 1,
@@ -399,10 +399,10 @@
     "id": 84,
     "question": "To send 10% of traffic to the new version. Which command do you use?",
     "options": [
-      "Gcloud app versions migrate",
-      "Gcloud app services set-traffic --splits",
-      "Gcloud app deploy --no-promote",
-      "Gcloud app versions start"
+      "gcloud app versions migrate",
+      "gcloud app services set-traffic --splits",
+      "gcloud app deploy --no-promote",
+      "gcloud app versions start"
     ],
     "correct_idx": 1,
     "explanation": "'set-traffic' allows you to define split percentages (e.g., v1=.9, v2=.1). 'migrate' moves 100% instantly."
@@ -411,10 +411,10 @@
     "id": 85,
     "question": "Which command lists all configurations in the Google Cloud SDK?",
     "options": [
-      "Gcloud config list",
-      "Gcloud config configurations list",
-      "Gcloud auth list",
-      "Gcloud components list"
+      "gcloud config list",
+      "gcloud config configurations list",
+      "gcloud auth list",
+      "gcloud components list"
     ],
     "correct_idx": 1,
     "explanation": "'config list' shows properties of the CURRENT config. 'configurations list' shows all available profiles."
@@ -509,8 +509,8 @@
     "options": [
       "Pod",
       "Service (type: LoadBalancer)",
-      "Eployment",
-      "OnfigMap"
+      "Deployment",
+      "ConfigMap"
     ],
     "correct_idx": 1,
     "explanation": "Services define networking. Type 'LoadBalancer' provisions an external IP and Cloud LB."
@@ -519,10 +519,10 @@
     "id": 94,
     "question": "What is the command to create a new GKE cluster named 'my-cluster' with 3 nodes?",
     "options": [
-      "Gcloud container clusters create my-cluster --num-nodes=3",
+      "gcloud container clusters create my-cluster --num-nodes=3",
       "Kubectl create cluster my-cluster --nodes=3",
-      "Gcloud compute clusters create my-cluster",
-      "Gcloud container clusters start my-cluster --size=3"
+      "gcloud compute clusters create my-cluster",
+      "gcloud container clusters start my-cluster --size=3"
     ],
     "correct_idx": 0,
     "explanation": "The command group is 'gcloud container clusters'. The flag for size is '--num-nodes'."
@@ -591,7 +591,7 @@
     "id": 100,
     "question": "To see the cost of your resources grouped by a specific tag (e.g., 'department'). Action?",
     "options": [
-      "Use 'gcloud billing projects list'.",
+      "Use 'gcloud bBilling projects list'.",
       "Apply Labels to the resources and use the Billing Reports filter by label.",
       "Create a separate project for each tag.",
       "Review the Audit Logs for each resource."
