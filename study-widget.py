@@ -34,6 +34,10 @@ class StudyWidget:
         y_pos = 40
         self.root.geometry(f"{self.width}x{self.height}+{x_pos}+{y_pos}")
 
+        self.timer_job = None
+        self.remaining_sec = 0
+        self.reveal_remaining_sec = 0
+
         self.root.bind("<Button-1>", self.start_move)
         self.root.bind("<B1-Motion>", self.do_move)
         self.root.bind("<Button-3>", lambda e: root.quit())
@@ -65,7 +69,7 @@ class StudyWidget:
         try:
             with open(json_path, "r", encoding="utf-8") as f:
                 data = json.load(f)
-            self.questions = data[::-1]  # Reverse: last first
+            self.questions = data[::-1]
             print(f"Loaded {len(self.questions)} questions (reversed, cycle).")
         except Exception as e:
             print(f"Error: {e}")
@@ -79,7 +83,7 @@ class StudyWidget:
         self.expl_label.config(wraplength=wrap_w)
         self.root.update_idletasks()
         screen_height = self.root.winfo_screenheight()
-        content_h = (self.q_label.winfo_reqheight() + sum(l.winfo_reqheight() for l in self.opt_labels) + self.expl_label.winfo_reqheight() + self.timer_label.winfo_reqheight() * 2 + 120)
+        content_h = self.q_label.winfo_reqheight() + sum(l.winfo_reqheight() for l in self.opt_labels) + self.expl_label.winfo_reqheight() + self.timer_label.winfo_reqheight() * 2 + 120
         new_h = max(500, min(int(screen_height * 0.85), content_h))
         self.root.geometry(f"{self.width}x{new_h}+{self.root.winfo_x()}+{self.root.winfo_y()}")
 
