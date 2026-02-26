@@ -90,10 +90,10 @@
       "Create a new service and use an HTTP Load Balancer to split traffic.",
       "Create a new revision and use the 'Traffic' tab to split percentages between revisions.",
       "Deploy the new version to a separate project.",
-      "Use a Cloud Function as a proxy to route traffic."
+      "Enable API, create a Metrics Scope / Workspace under one project, and add the others to it."
     ],
     "correct_idx": 1,
-    "explanation": "Cloud Run has native Traffic Splitting features. You can assign 10% to Revision B and 90% to Revision A without a load balancer."
+    "explanation": "Google Cloud Monitoring now uses \"Metrics Scopes\" (formerly Workspaces) to view metrics from multiple projects in a single dashboard."
   },
   {
     "id": 59,
@@ -690,9 +690,9 @@
       "Enable API and share individual charts from each project.",
       "Enable API and grant metrics.reader role to each project.",
       "Enable API and use default dashboards to monitor each project in sequence.",
-      "Enable API, create a workspace under one project, and add the others to it."
+      "Enable API, create a Metrics Scope / Workspace under one project, and add the others to it."
     ],
     "correct_idx": 3,
-    "explanation": "Cloud Monitoring Workspaces (classic) or Metrics Scopes (modern) allow viewing metrics from multiple projects in a single dashboard/pane of glass."
+    "explanation": "Google Cloud Monitoring now uses \"Metrics Scopes\" (formerly Workspaces) to view metrics from multiple projects in a single dashboard."
   }
 ]
