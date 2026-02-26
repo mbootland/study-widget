@@ -11,6 +11,7 @@ CORRECT_COLOR = "#00E676"
 WRONG_COLOR = "#424242"
 TIMER_COLOR = "#FF5252"
 EXPLAIN_COLOR = "#FFD700"
+PAUSE_COLOR = "#B0BEC5"  # Grey for paused state
 
 FONT_Q = ("Consolas", 24, "bold")
 FONT_A = ("Consolas", 20, "bold")
@@ -41,9 +42,14 @@ class StudyWidget:
         self.timer_job = None
         self.remaining_sec = 0
         self.reveal_remaining_sec = 0
+        
+        # Pause state
+        self.is_paused = False
+        self.has_moved = False
 
         self.root.bind("<Button-1>", self.start_move)
         self.root.bind("<B1-Motion>", self.do_move)
+        self.root.bind("<ButtonRelease-1>", self.check_click_pause)
         self.root.bind("<Button-3>", lambda e: root.quit())
 
         self.load_questions()
@@ -80,13 +86,10 @@ class StudyWidget:
             self.questions = [{"id": 0, "question": str(e), "options": ["Fix"], "correct_idx": 0, "explanation": "JSON?"}]
 
     def resize_window(self):
-        # Measure content
         self.root.update_idletasks()
-        
         screen_width = self.root.winfo_screenwidth()
         screen_height = self.root.winfo_screenheight()
         
-        # Reset to base wrap first to measure natural height
         current_w = self.width
         wrap_w = current_w - 60
         
@@ -97,29 +100,22 @@ class StudyWidget:
         
         self.root.update_idletasks()
         
-        # Calculate total content height
         content_h = (self.q_label.winfo_reqheight() + 
                      sum(l.winfo_reqheight() for l in self.opt_labels) + 
                      self.expl_label.winfo_reqheight() + 
                      self.timer_label.winfo_reqheight() * 2 + 
-                     100) # padding
+                     100)
 
-        # Smart resize logic
         if content_h > self.base_height:
-            # Try growing height first
             new_h = min(content_h, int(screen_height * 0.85))
-            
-            # If still truncated, grow width
             if content_h > new_h:
                 new_w = min(int(screen_width * 0.9), 1600)
-                # Re-wrap with new width
                 wrap_w = new_w - 60
                 self.q_label.config(wraplength=wrap_w)
                 for lbl in self.opt_labels:
                     lbl.config(wraplength=wrap_w - 20)
                 self.expl_label.config(wraplength=wrap_w)
                 self.root.update_idletasks()
-                # Recalc height with wider text
                 content_h = (self.q_label.winfo_reqheight() + 
                              sum(l.winfo_reqheight() for l in self.opt_labels) + 
                              self.expl_label.winfo_reqheight() + 
@@ -129,15 +125,12 @@ class StudyWidget:
                 self.width = new_w
                 self.height = new_h
             else:
-                # Just height needed
                 self.width = self.base_width
                 self.height = new_h
         else:
-            # Fits in base
             self.width = self.base_width
             self.height = self.base_height
 
-        # Update geometry
         x = self.root.winfo_x()
         y = self.root.winfo_y()
         self.root.geometry(f"{self.width}x{self.height}+{x}+{y}")
@@ -150,22 +143,25 @@ class StudyWidget:
         for lbl in self.opt_labels:
             lbl.config(fg=OPT_COLOR)
         
-        # Set text first
         self.q_label.config(text=f"Q{self.current_q['id']}: {self.current_q['question']}")
         letters = 'ABCD'
         for i, opt in enumerate(self.current_q['options'][:4]):
             self.opt_labels[i].config(text=f"{letters[i]}) {opt}")
             
-        # Then resize to fit content
         self.resize_window()
-        
         self.remaining_sec = READ_TIME_SEC
+        self.is_paused = False
         self.update_timer()
 
     def update_timer(self):
+        if self.is_paused:
+            self.timer_label.config(text="PAUSED (Click to resume)", fg=PAUSE_COLOR)
+            self.timer_job = self.root.after(200, self.update_timer)
+            return
+
         if self.remaining_sec > 0:
             bars = "▓" * int(self.remaining_sec * 10 / READ_TIME_SEC)
-            self.timer_label.config(text=f"Reveal in {self.remaining_sec}s  {bars}")
+            self.timer_label.config(text=f"Reveal in {self.remaining_sec}s  {bars}", fg=TIMER_COLOR)
             self.remaining_sec -= 1
             self.timer_job = self.root.after(1000, self.update_timer)
         else:
@@ -181,16 +177,20 @@ class StudyWidget:
                 lbl.config(fg=CORRECT_COLOR, text=lbl.cget("text") + "  ✔")
         self.expl_label.config(text=f"WHY: {explanation}")
         
-        # Resize again for explanation text
         self.resize_window()
-        
         self.reveal_remaining_sec = REVEAL_TIME_SEC
+        self.is_paused = False
         self.update_reveal_timer()
 
     def update_reveal_timer(self):
+        if self.is_paused:
+            self.timer_label.config(text="PAUSED (Click to resume)", fg=PAUSE_COLOR)
+            self.timer_job = self.root.after(200, self.update_reveal_timer)
+            return
+
         if self.reveal_remaining_sec > 0:
             bars = "▓" * int(self.reveal_remaining_sec * 10 / REVEAL_TIME_SEC)
-            self.timer_label.config(text=f"Next in {self.reveal_remaining_sec}s  {bars}")
+            self.timer_label.config(text=f"Next in {self.reveal_remaining_sec}s  {bars}", fg=TIMER_COLOR)
             self.reveal_remaining_sec -= 1
             self.timer_job = self.root.after(1000, self.update_reveal_timer)
         else:
@@ -199,11 +199,23 @@ class StudyWidget:
     def start_move(self, event):
         self._drag_start_x = event.x
         self._drag_start_y = event.y
+        self.has_moved = False
 
     def do_move(self, event):
         x = self.root.winfo_x() + (event.x - self._drag_start_x)
         y = self.root.winfo_y() + (event.y - self._drag_start_y)
         self.root.geometry(f"+{x}+{y}")
+        self.has_moved = True
+
+    def check_click_pause(self, event):
+        if not self.has_moved:
+            self.is_paused = not self.is_paused
+            if self.remaining_sec > 0 and self.timer_job:
+                self.root.after_cancel(self.timer_job)
+                self.update_timer()
+            elif self.reveal_remaining_sec > 0 and self.timer_job:
+                self.root.after_cancel(self.timer_job)
+                self.update_reveal_timer()
 
     def apply_overlay_settings(self):
         self.root.overrideredirect(True)
