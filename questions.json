@@ -5,7 +5,7 @@
     "options": [
       "Grant the service account the Project Editor role.",
       "Ensure the service account is assigned to the instance and verify the 'https://www.googleapis.com/auth/devstorage.read_only' scope is enabled.",
-      "Download a JSON key for the service account and hardcode it into the application.",
+      "ownload a JSON key for the service account and hardcode it into the application.",
       "Wait 24 hours for the IAM permissions to propagate."
     ],
     "correct_idx": 1,
@@ -13,9 +13,9 @@
   },
   {
     "id": 52,
-    "question": "A GKE container is emitting a high volume of logs, causing unexpected costs. You want to disable the logs quickly using the minimum number of steps. What should you do?",
+    "question": "A GKE container is emitting a high volume of logs, causing unexpected costs. To disable the logs quickly using the minimum number of steps. Action?",
     "options": [
-      "Delete the GKE cluster and recreate it without logging.",
+      "elete the GKE cluster and recreate it without logging.",
       "Go to the Logs Ingestion window in Cloud Logging and disable the log source for the GKE container resource.",
       "SSH into each GKE node and disable the fluent-bit service.",
       "Update the application code to stop logging and redeploy the container."
@@ -25,23 +25,23 @@
   },
   {
     "id": 53,
-    "question": "You want to deploy a containerized application that scales to zero when there is no traffic to minimize costs. Which service should you choose?",
+    "question": "To deploy a containerized application that scales to zero when there is no traffic to minimize costs. Which service should you choose?",
     "options": [
-      "Compute Engine with Autoscaling",
+      "ompute Engine with Autoscaling",
       "GKE with Cluster Autoscaler",
-      "Cloud Run",
-      "App Engine Flexible"
+      "loud Run",
+      "pp Engine Flexible"
     ],
     "correct_idx": 2,
     "explanation": "Cloud Run is a fully managed serverless platform that scales to zero (0 instances = $0 cost) automatically when idle."
   },
   {
     "id": 54,
-    "question": "You need to export all daily billing data to BigQuery for long-term analysis. What is the first step you must take in the Billing Console?",
+    "question": "To export all daily billing data to BigQuery for long-term analysis. What is the first step you must take in the Billing Console?",
     "options": [
       "Enable the BigQuery Data Transfer Service.",
       "Set up Billing Export to BigQuery in the Billing settings of the Cloud Console.",
-      "Create a Cloud Function to push logs to BigQuery.",
+      "reate a Cloud Function to push logs to BigQuery.",
       "Grant the BigQuery Data Editor role to the Billing account."
     ],
     "correct_idx": 1,
@@ -61,12 +61,12 @@
   },
   {
     "id": 56,
-    "question": "You need to increase the number of replicas for a GKE deployment from 2 to 5 while adhering to infrastructure-as-code principles. What should you do?",
+    "question": "To increase the number of replicas for a GKE deployment from 2 to 5 while adhering to infrastructure-as-code principles. Action?",
     "options": [
       "Run 'kubectl scale deployment [NAME] --replicas=5'.",
       "Update the replicas value in the YAML manifest and run 'kubectl apply -f [FILE]'.",
       "Modify the Node Pool size in the GKE Console.",
-      "Delete the pod and let the ReplicaSet recreate them."
+      "elete the pod and let the ReplicaSet recreate them."
     ],
     "correct_idx": 1,
     "explanation": "Imperative commands ('kubectl scale') change the live state but leave the config file outdated. Updating the YAML guarantees the source of truth is correct."
@@ -85,11 +85,11 @@
   },
   {
     "id": 58,
-    "question": "You want to evaluate an updated version of your Cloud Run application with a specific percentage of production users (Canary Deployment). What should you do?",
+    "question": "To evaluate an updated version of your Cloud Run application with a specific percentage of production users (Canary Deployment). Action?",
     "options": [
-      "Create a new service and use an HTTP Load Balancer to split traffic.",
-      "Create a new revision and use the 'Traffic' tab to split percentages between revisions.",
-      "Deploy the new version to a separate project.",
+      "reate a new service and use an HTTP Load Balancer to split traffic.",
+      "reate a new revision and use the 'Traffic' tab to split percentages between revisions.",
+      "eploy the new version to a separate project.",
       "Use a Cloud Function as a proxy to route traffic."
     ],
     "correct_idx": 1,
@@ -101,20 +101,20 @@
     "options": [
       "Standard",
       "Nearline",
-      "Coldline",
-      "Archive"
+      "oldline",
+      "rchive"
     ],
     "correct_idx": 3,
     "explanation": "Archive storage is the cheapest for data stored for >365 days. Coldline is for >90 days."
   },
   {
     "id": 60,
-    "question": "You need to connect an on-premises data center to a GCP VPC using a high-bandwidth, direct physical connection. Which service should you use?",
+    "question": "To connect an on-premises data center to a GCP VPC using a high-bandwidth, direct physical connection. Which service should you use?",
     "options": [
-      "Cloud VPN",
+      "loud VPN",
       "Partner Interconnect",
-      "Dedicated Interconnect",
-      "Carrier Peering"
+      "edicated Interconnect",
+      "arrier Peering"
     ],
     "correct_idx": 2,
     "explanation": "Dedicated Interconnect provides a direct physical link (10Gbps/100Gbps) to Google. VPN is over public internet."
@@ -123,9 +123,9 @@
     "id": 61,
     "question": "You are managing a Bigtable cluster and notice performance issues. Which tool provides a heatmap to identify 'hot' rows or keys?",
     "options": [
-      "Cloud Monitoring",
+      "loud Monitoring",
       "Key Visualizer",
-      "Cloud Trace",
+      "loud Trace",
       "Error Reporting"
     ],
     "correct_idx": 1,
@@ -135,9 +135,9 @@
     "id": 62,
     "question": "A team needs to perform SQL queries on a multi-petabyte dataset. They need a serverless, highly scalable data warehouse. Which service do you recommend?",
     "options": [
-      "Cloud SQL",
-      "Cloud Spanner",
-      "BigQuery",
+      "loud SQL",
+      "loud Spanner",
+      "igQuery",
       "Firestore"
     ],
     "correct_idx": 2,
@@ -148,7 +148,7 @@
     "question": "How do you provide a user access to a specific Cloud Storage bucket without giving them access to all buckets in the project?",
     "options": [
       "Grant the 'Storage Admin' role at the project level.",
-      "Assign IAM permissions at the bucket level.",
+      "ssign IAM permissions at the bucket level.",
       "Enable OS Login for the user.",
       "Move the bucket to a separate project."
     ],
@@ -169,11 +169,11 @@
   },
   {
     "id": 65,
-    "question": "You need to automate the creation of a GCP environment (VPC, VMs, Buckets) using a declarative template. Which GCP-native service should you use?",
+    "question": "To automate the creation of a GCP environment (VPC, VMs, Buckets) using a declarative template. Which GCP-native service should you use?",
     "options": [
-      "Cloud Build",
-      "Deployment Manager",
-      "Cloud Composer",
+      "loud Build",
+      "eployment Manager",
+      "loud Composer",
       "Terraform"
     ],
     "correct_idx": 1,
@@ -181,10 +181,10 @@
   },
   {
     "id": 66,
-    "question": "You want to set a budget alert that notifies you when spending reaches 90% of your monthly budget. Where do you configure this?",
+    "question": "To set a budget alert that notifies you when spending reaches 90% of your monthly budget. Where do you configure this?",
     "options": [
-      "Cloud Monitoring",
-      "Billing Console > Budgets & alerts",
+      "loud Monitoring",
+      "illing Console > Budgets & alerts",
       "Payment Center",
       "IAM Console"
     ],
@@ -208,7 +208,7 @@
     "question": "You have a Dockerfile and want to deploy it to GKE. What is the recommended workflow?",
     "options": [
       "Use 'gcloud app deploy'.",
-      "Build the image, push to Artifact Registry, and create a Deployment manifest using that image.",
+      "uild the image, push to Artifact Registry, and create a Deployment manifest using that image.",
       "Upload the Dockerfile to a Cloud Storage bucket and point GKE to the bucket.",
       "Use 'kubectl app deploy'."
     ],
@@ -217,12 +217,12 @@
   },
   {
     "id": 69,
-    "question": "You need to migrate a VM from the us-east1-a zone to the us-east1-b zone. What is the most reliable manual method?",
+    "question": "To migrate a VM from the us-east1-a zone to the us-east1-b zone. What is the most reliable manual method?",
     "options": [
       "Snapshot the disk, create a new disk in us-east1-b from the snapshot, and create a new VM.",
       "Use the 'gcloud compute instances move' command.",
-      "Change the zone in the instance settings and click 'Save'.",
-      "Detach the disk and reattach it to a new VM in the other zone."
+      "hange the zone in the instance settings and click 'Save'.",
+      "etach the disk and reattach it to a new VM in the other zone."
     ],
     "correct_idx": 0,
     "explanation": "VMs are zonal. You cannot 'move' them or reattach a zonal disk to another zone. Snapshots are global/regional, so they bridge the gap."
@@ -243,9 +243,9 @@
     "id": 71,
     "question": "You need a relational database that supports horizontal scaling and global consistency. Which service should you choose?",
     "options": [
-      "Cloud SQL",
-      "Cloud Spanner",
-      "Cloud Bigtable",
+      "loud SQL",
+      "loud Spanner",
+      "loud Bigtable",
       "Firestore"
     ],
     "correct_idx": 1,
@@ -258,7 +258,7 @@
       "Project Owner",
       "Project Creator",
       "Organization Admin",
-      "Billing Account User"
+      "illing Account User"
     ],
     "correct_idx": 1,
     "explanation": "The 'Project Creator' role is specific to the ability to spawn new projects attached to the billing account."
@@ -277,11 +277,11 @@
   },
   {
     "id": 74,
-    "question": "You want to restrict which IP addresses can access your Compute Engine instances via SSH. What should you configure?",
+    "question": "To restrict which IP addresses can access your Compute Engine instances via SSH. What should you configure?",
     "options": [
       "IAM Policies",
       "VPC Firewall Rules",
-      "Cloud Armor",
+      "loud Armor",
       "Identity-Aware Proxy (IAP)"
     ],
     "correct_idx": 1,
@@ -305,7 +305,7 @@
     "options": [
       "Object Versioning",
       "Lifecycle Management",
-      "Bucket Lock",
+      "ucket Lock",
       "Signed URLs"
     ],
     "correct_idx": 1,
@@ -313,12 +313,12 @@
   },
   {
     "id": 77,
-    "question": "You need to store small amounts of data (under 10GB) in a relational database with standard SQL support for a low-traffic application. Which is the most cost-effective?",
+    "question": "To store small amounts of data (under 10GB) in a relational database with standard SQL support for a low-traffic application. Which is the most cost-effective?",
     "options": [
-      "Cloud Spanner",
-      "Cloud SQL",
-      "BigQuery",
-      "Cloud Bigtable"
+      "loud Spanner",
+      "loud SQL",
+      "igQuery",
+      "loud Bigtable"
     ],
     "correct_idx": 1,
     "explanation": "Cloud SQL (especially db-f1-micro) is the standard entry-level SQL DB. Spanner is expensive enterprise scale."
@@ -327,10 +327,10 @@
     "id": 78,
     "question": "A developer needs to execute code only when a new message is published to a Pub/Sub topic. Which serverless option is best?",
     "options": [
-      "App Engine Standard",
-      "Cloud Functions",
-      "Compute Engine",
-      "Cloud Build"
+      "pp Engine Standard",
+      "loud Functions",
+      "ompute Engine",
+      "loud Build"
     ],
     "correct_idx": 1,
     "explanation": "Cloud Functions are event-driven. They have native triggers for Pub/Sub (push)."
@@ -349,12 +349,12 @@
   },
   {
     "id": 80,
-    "question": "You want to provide temporary access (1 hour) to a private file in Cloud Storage to an external partner. What is the best practice?",
+    "question": "To provide temporary access (1 hour) to a private file in Cloud Storage to an external partner. What is the best practice?",
     "options": [
       "Give the partner's email the Storage Object Viewer role.",
       "Generate a Signed URL with a 1-hour expiration.",
       "Make the bucket public for 1 hour.",
-      "Create a service account and share the JSON key."
+      "reate a service account and share the JSON key."
     ],
     "correct_idx": 1,
     "explanation": "Signed URLs are the precise tool for time-bound, unauthenticated (or external) access to specific objects."
@@ -364,7 +364,7 @@
     "question": "Which GKE feature automatically adjusts the number of nodes in a cluster based on the workload demands?",
     "options": [
       "Horizontal Pod Autoscaler",
-      "Cluster Autoscaler",
+      "luster Autoscaler",
       "Vertical Pod Autoscaler",
       "Node Auto-Provisioning"
     ],
@@ -373,7 +373,7 @@
   },
   {
     "id": 82,
-    "question": "You need to ensure that no two projects in your organization use the same VPC network names. Is this possible?",
+    "question": "To ensure that no two projects in your organization use the same VPC network names. Is this possible?",
     "options": [
       "Yes, VPC names must be unique across the organization.",
       "No, VPC names only need to be unique within a project.",
@@ -397,7 +397,7 @@
   },
   {
     "id": 84,
-    "question": "You are deploying a new version of an App Engine app. You want to send 10% of traffic to the new version. Which command do you use?",
+    "question": "You are deploying a new version of an App Engine app. To send 10% of traffic to the new version. Which command do you use?",
     "options": [
       "gcloud app versions migrate",
       "gcloud app services set-traffic --splits",
@@ -421,11 +421,11 @@
   },
   {
     "id": 86,
-    "question": "You need to run a high-performance computing (HPC) workload on Compute Engine. Which network feature should you enable to reduce latency?",
+    "question": "To run a high-performance computing (HPC) workload on Compute Engine. Which network feature should you enable to reduce latency?",
     "options": [
-      "Cloud CDN",
+      "loud CDN",
       "Tier 1 Networking (High Bandwidth)",
-      "Cloud Armor",
+      "loud Armor",
       "VPC Peering"
     ],
     "correct_idx": 1,
@@ -445,12 +445,12 @@
   },
   {
     "id": 88,
-    "question": "You have a project that is consistently hitting API rate limits. What should you do?",
+    "question": "You have a project that is consistently hitting API rate limits. Action?",
     "options": [
-      "Create a new project.",
+      "reate a new project.",
       "Request a quota increase in the Google Cloud Console.",
       "Switch to a different region.",
-      "Assign the 'Owner' role to your service account."
+      "ssign the 'Owner' role to your service account."
     ],
     "correct_idx": 1,
     "explanation": "Quotas (Rate Limits) are soft limits. You can request increases via the IAM & Admin > Quotas page."
@@ -459,22 +459,22 @@
     "id": 89,
     "question": "Which service is designed for real-time messaging and streaming data between independent applications?",
     "options": [
-      "Cloud Tasks",
+      "loud Tasks",
       "Pub/Sub",
-      "Cloud Dataflow",
-      "Cloud Storage"
+      "loud Dataflow",
+      "loud Storage"
     ],
     "correct_idx": 1,
     "explanation": "Pub/Sub is the asynchronous messaging service (Many-to-Many). Cloud Tasks is for execution queues (One-to-One)."
   },
   {
     "id": 90,
-    "question": "You need to store sensitive data and ensure it is encrypted with a key that you manage yourself. Which service do you use?",
+    "question": "To store sensitive data and ensure it is encrypted with a key that you manage yourself. Which service do you use?",
     "options": [
       "Secret Manager",
-      "Cloud Key Management Service (KMS)",
+      "loud Key Management Service (KMS)",
       "Identity Platform",
-      "Cloud HSM"
+      "loud HSM"
     ],
     "correct_idx": 1,
     "explanation": "Cloud KMS allows you to generate, rotate, and manage encryption keys (CMEK) that integrate with other GCP services."
@@ -493,12 +493,12 @@
   },
   {
     "id": 92,
-    "question": "You want to run a script every night at 2 AM to generate a report. Which GCP service is best for scheduling this?",
+    "question": "To run a script every night at 2 AM to generate a report. Which GCP service is best for scheduling this?",
     "options": [
-      "Cloud Build",
-      "Cloud Scheduler",
-      "Cloud Functions",
-      "Cloud Run"
+      "loud Build",
+      "loud Scheduler",
+      "loud Functions",
+      "loud Run"
     ],
     "correct_idx": 1,
     "explanation": "Cloud Scheduler is the managed 'cron as a service' for GCP."
@@ -509,8 +509,8 @@
     "options": [
       "Pod",
       "Service (type: LoadBalancer)",
-      "Deployment",
-      "ConfigMap"
+      "eployment",
+      "onfigMap"
     ],
     "correct_idx": 1,
     "explanation": "Services define networking. Type 'LoadBalancer' provisions an external IP and Cloud LB."
@@ -531,9 +531,9 @@
     "id": 95,
     "question": "A team member needs to be able to view billing accounts but not modify them. Which role is most appropriate?",
     "options": [
-      "Billing Account User",
-      "Billing Account Viewer",
-      "Billing Account Administrator",
+      "illing Account User",
+      "illing Account Viewer",
+      "illing Account Administrator",
       "Project Viewer"
     ],
     "correct_idx": 1,
@@ -541,12 +541,12 @@
   },
   {
     "id": 96,
-    "question": "You need to store data in a NoSQL document database that offers mobile synchronization. Which service do you choose?",
+    "question": "To store data in a NoSQL document database that offers mobile synchronization. Which service do you choose?",
     "options": [
-      "Cloud Bigtable",
+      "loud Bigtable",
       "Firestore",
       "Memorystore",
-      "Cloud SQL"
+      "loud SQL"
     ],
     "correct_idx": 1,
     "explanation": "Firestore (Native Mode) has client SDKs for mobile/web that handle offline sync and real-time updates."
@@ -555,17 +555,17 @@
     "id": 97,
     "question": "Which GCP tool allows you to debug production code without stopping the application or slowing it down?",
     "options": [
-      "Cloud Debugger (now integrated into Cloud Logging/Profiler)",
-      "Cloud Trace",
+      "loud Debugger (now integrated into Cloud Logging/Profiler)",
+      "loud Trace",
       "Error Reporting",
-      "Cloud Monitoring"
+      "loud Monitoring"
     ],
     "correct_idx": 0,
     "explanation": "Snapshot Debugger captures state (variables) without pausing execution, unlike traditional debuggers."
   },
   {
     "id": 98,
-    "question": "You want to restrict all resources in your organization to be located only in the 'us-central1' region. What should you use?",
+    "question": "To restrict all resources in your organization to be located only in the 'us-central1' region. What should you use?",
     "options": [
       "IAM Conditions",
       "Organization Policy Service",
@@ -589,11 +589,11 @@
   },
   {
     "id": 100,
-    "question": "You need to see the cost of your resources grouped by a specific tag (e.g., 'department'). What should you do?",
+    "question": "To see the cost of your resources grouped by a specific tag (e.g., 'department'). Action?",
     "options": [
       "Use 'gcloud billing projects list'.",
-      "Apply Labels to the resources and use the Billing Reports filter by label.",
-      "Create a separate project for each tag.",
+      "pply Labels to the resources and use the Billing Reports filter by label.",
+      "reate a separate project for each tag.",
       "Review the Audit Logs for each resource."
     ],
     "correct_idx": 1,
@@ -601,10 +601,10 @@
   },
   {
     "id": 101,
-    "question": "Your company runs a platform that rents out specialized drones to agricultural businesses for monitoring crop health and irrigation needs. Each drone is equipped with multiple sensors that transmit event data every few seconds. The data includes information such as flight status, distance covered, battery level, and camera feeds. Customers are charged based on the metrics collected by these sensors. You anticipate high throughput, with thousands of events being generated every hour by each drone. You need to retrieve consistent data based on the event's timestamp, and each signal update should be atomic. How should you handle this?",
+    "question": "runs a platform that rents out specialized drones to agricultural businesses for monitoring crop health and irrigation needs. Each drone is equipped with multiple sensors that transmit event data every few seconds. The data includes information such as flight status, distance covered, battery level, and camera feeds. Customers are charged based on the metrics collected by these sensors. You anticipate high throughput, with thousands of events being generated every hour by each drone. To retrieve consistent data based on the event's timestamp, and each signal update should be atomic. How should you handle this?",
     "options": [
-      "Create a file in Cloud Storage for each drone and append new data to the file.",
-      "Create a file in Cloud Filestore for each drone and append new data to the file.",
+      "reate a file in Cloud Storage for each drone and append new data to the file.",
+      "reate a file in Cloud Filestore for each drone and append new data to the file.",
       "Ingest the data into Datastore and store it in an entity group organized by the drone.",
       "Ingest the data into Cloud Bigtable and create a row key based on the event's timestamp."
     ],
@@ -618,14 +618,14 @@
       "Migrate the workload to a Compute Engine Preemptible VM.",
       "Migrate the workload to a Google Kubernetes Engine cluster with Preemptible nodes.",
       "Migrate the workload to a Compute Engine VM. Start and stop the instance as needed.",
-      "Create an Instance Template with Preemptible VMs ON. Create a Managed Instance Group from the template and adjust Target CPU Utilization. Migrate the workload."
+      "reate an Instance Template with Preemptible VMs ON. Create a Managed Instance Group from the template and adjust Target CPU Utilization. Migrate the workload."
     ],
     "correct_idx": 2,
     "explanation": "Preemptible/Spot VMs max 24h, GCP interrupts anytime (no restart guarantee). 40h job fails. Standard VM + manual start/stop = pay only active time (cheap for monthly burst)."
   },
   {
     "id": 103,
-    "question": "You've been hired by a new tech startup, SpaceyMedia, to manage their cloud infrastructure on Google Cloud. One of your tasks is to produce a list of all the enabled Google Cloud Platform APIs for their GCP project. The project name is spacey-media-app. You need to use the gcloud command line within Cloud Shell to get this information. How do you proceed?",
+    "question": "You've been hired by a new tech startup, SpaceyMedia, to manage their cloud infrastructure on Google Cloud. One of your tasks is to produce a list of all the enabled GCP APIs for their GCP project. The project name is spacey-media-app. To use the gcloud command line within Cloud Shell to get this information. Action?",
     "options": [
       "Run \u201cgcloud projects list\u201d to get the project ID, and then run \u201cgcloud services list --project <project ID>\u201d",
       "Run \u201cgcloud init\u201d to set the current project to spacey-media-app, and then run \u201cgcloud services list --available\u201d",
@@ -637,12 +637,12 @@
   },
   {
     "id": 104,
-    "question": "You work for a growing e-commerce platform, \"ShopZen,\" which uses BigQuery to analyze customer behavior and sales trends. You are about to run an important query to understand customer purchase patterns, but you expect the query to return a large number of records. Since ShopZen is using on-demand pricing, you want to figure out how much running the query will cost. What should you do?",
+    "question": "You work for a growing e-commerce platform, \"ShopZen,\" which uses BigQuery to analyze customer behavior and sales trends. You are about to run an important query to understand customer purchase patterns, but you expect the query to return a large number of records. Since ShopZen is using on-demand pricing, you want to figure out how much running the query will cost. Action?",
     "options": [
-      "A. - Arrange to switch to Flat-Rate pricing for this query. - Then move back to on-demand.",
-      "B. - Use the command line to run a dry run query to estimate the number of bytes read. - Then convert that bytes estimate to dollars using the Pricing Calculator.",
-      "C. - Use the command line to run a dry run query to estimate the number of bytes returned. - Then convert that bytes estimate to dollars using the Pricing Calculator.",
-      "D. - Run a \"select count (* )\" to get an idea of how many records your query will look through. - Then convert that number of rows to dollars using the Pricing Calculator."
+      "- Arrange to switch to Flat-Rate pricing for this query. - Then move back to on-demand.",
+      "- Use the command line to run a dry run query to estimate the number of bytes read. - Then convert that bytes estimate to dollars using the Pricing Calculator.",
+      "- Use the command line to run a dry run query to estimate the number of bytes returned. - Then convert that bytes estimate to dollars using the Pricing Calculator.",
+      "- Run a \"select count (* )\" to get an idea of how many records your query will look through. - Then convert that number of rows to dollars using the Pricing Calculator."
     ],
     "correct_idx": 1,
     "explanation": "D is incorrect because using a \"select count (* )\" approach does not give an accurate cost estimation. Although \"select count (* )\" will tell you the number of rows the query processes, it does not directly translate to bytes scanned or cost. The cost in BigQuery is based on the amount of data read in bytes, which depends on the data\u2019s structure and schema, rather than the number of rows processed. Thus, estimating cost based on row count will not yield a precise or reliable result, making this option unsuitable. The correct approach (B) uses --dry_run to estimate bytes *read* (scanned), which determines cost."
