@@ -5,7 +5,7 @@
     "options": [
       "Grant the service account the Project Editor role.",
       "Ensure the service account is assigned to the instance and verify the 'https://www.googleapis.com/auth/devstorage.read_only' scope is enabled.",
-      "ownload a JSON key for the service account and hardcode it into the application.",
+      "Ownload a JSON key for the service account and hardcode it into the application.",
       "Wait 24 hours for the IAM permissions to propagate."
     ],
     "correct_idx": 1,
@@ -15,7 +15,7 @@
     "id": 52,
     "question": "A GKE container is emitting a high volume of logs, causing unexpected costs. To disable the logs quickly using the minimum number of steps. Action?",
     "options": [
-      "elete the GKE cluster and recreate it without logging.",
+      "Delete the GKE cluster and recreate it without logging.",
       "Go to the Logs Ingestion window in Cloud Logging and disable the log source for the GKE container resource.",
       "SSH into each GKE node and disable the fluent-bit service.",
       "Update the application code to stop logging and redeploy the container."
@@ -27,10 +27,10 @@
     "id": 53,
     "question": "To deploy a containerized application that scales to zero when there is no traffic to minimize costs. Which service should you choose?",
     "options": [
-      "ompute Engine with Autoscaling",
+      "Ompute Engine with Autoscaling",
       "GKE with Cluster Autoscaler",
-      "loud Run",
-      "pp Engine Flexible"
+      "Loud Run",
+      "Pp Engine Flexible"
     ],
     "correct_idx": 2,
     "explanation": "Cloud Run is a fully managed serverless platform that scales to zero (0 instances = $0 cost) automatically when idle."
@@ -41,7 +41,7 @@
     "options": [
       "Enable the BigQuery Data Transfer Service.",
       "Set up Billing Export to BigQuery in the Billing settings of the Cloud Console.",
-      "reate a Cloud Function to push logs to BigQuery.",
+      "Create a Cloud Function to push logs to BigQuery.",
       "Grant the BigQuery Data Editor role to the Billing account."
     ],
     "correct_idx": 1,
@@ -66,7 +66,7 @@
       "Run 'kubectl scale deployment [NAME] --replicas=5'.",
       "Update the replicas value in the YAML manifest and run 'kubectl apply -f [FILE]'.",
       "Modify the Node Pool size in the GKE Console.",
-      "elete the pod and let the ReplicaSet recreate them."
+      "Delete the pod and let the ReplicaSet recreate them."
     ],
     "correct_idx": 1,
     "explanation": "Imperative commands ('kubectl scale') change the live state but leave the config file outdated. Updating the YAML guarantees the source of truth is correct."
@@ -87,9 +87,9 @@
     "id": 58,
     "question": "To evaluate an updated version of your Cloud Run application with a specific percentage of production users (Canary Deployment). Action?",
     "options": [
-      "reate a new service and use an HTTP Load Balancer to split traffic.",
-      "reate a new revision and use the 'Traffic' tab to split percentages between revisions.",
-      "eploy the new version to a separate project.",
+      "Create a new service and use an HTTP Load Balancer to split traffic.",
+      "Create a new revision and use the 'Traffic' tab to split percentages between revisions.",
+      "Eploy the new version to a separate project.",
       "Use a Cloud Function as a proxy to route traffic."
     ],
     "correct_idx": 1,
@@ -101,8 +101,8 @@
     "options": [
       "Standard",
       "Nearline",
-      "oldline",
-      "rchive"
+      "Oldline",
+      "Rchive"
     ],
     "correct_idx": 3,
     "explanation": "Archive storage is the cheapest for data stored for >365 days. Coldline is for >90 days."
@@ -111,10 +111,10 @@
     "id": 60,
     "question": "To connect an on-premises data center to a GCP VPC using a high-bandwidth, direct physical connection. Which service should you use?",
     "options": [
-      "loud VPN",
+      "Loud VPN",
       "Partner Interconnect",
-      "edicated Interconnect",
-      "arrier Peering"
+      "Edicated Interconnect",
+      "Arrier Peering"
     ],
     "correct_idx": 2,
     "explanation": "Dedicated Interconnect provides a direct physical link (10Gbps/100Gbps) to Google. VPN is over public internet."
@@ -123,9 +123,9 @@
     "id": 61,
     "question": "Which tool provides a heatmap to identify 'hot' rows or keys?",
     "options": [
-      "loud Monitoring",
+      "Loud Monitoring",
       "Key Visualizer",
-      "loud Trace",
+      "Loud Trace",
       "Error Reporting"
     ],
     "correct_idx": 1,
@@ -135,9 +135,9 @@
     "id": 62,
     "question": "A team needs to perform SQL queries on a multi-petabyte dataset. They need a serverless, highly scalable data warehouse. Which service do you recommend?",
     "options": [
-      "loud SQL",
-      "loud Spanner",
-      "igQuery",
+      "Loud SQL",
+      "Loud Spanner",
+      "IgQuery",
       "Firestore"
     ],
     "correct_idx": 2,
@@ -148,7 +148,7 @@
     "question": "How do you provide a user access to a specific Cloud Storage bucket without giving them access to all buckets in the project?",
     "options": [
       "Grant the 'Storage Admin' role at the project level.",
-      "ssign IAM permissions at the bucket level.",
+      "Ssign IAM permissions at the bucket level.",
       "Enable OS Login for the user.",
       "Move the bucket to a separate project."
     ],
@@ -159,10 +159,10 @@
     "id": 64,
     "question": "What is the 'gcloud' command to authenticate a service account using a private JSON key file?",
     "options": [
-      "gcloud auth login --key-file=[KEY_FILE]",
-      "gcloud auth activate-service-account --key-file=[KEY_FILE]",
-      "gcloud config set account [SERVICE_ACCOUNT]",
-      "gcloud iam service-accounts activate [KEY_FILE]"
+      "Gcloud auth login --key-file=[KEY_FILE]",
+      "Gcloud auth activate-service-account --key-file=[KEY_FILE]",
+      "Gcloud config set account [SERVICE_ACCOUNT]",
+      "Gcloud iam service-accounts activate [KEY_FILE]"
     ],
     "correct_idx": 1,
     "explanation": "'activate-service-account' is the specific command to switch the active identity to a service account using a key file."
@@ -171,9 +171,9 @@
     "id": 65,
     "question": "To automate the creation of a GCP environment (VPC, VMs, Buckets) using a declarative template. Which GCP-native service should you use?",
     "options": [
-      "loud Build",
-      "eployment Manager",
-      "loud Composer",
+      "Loud Build",
+      "Eployment Manager",
+      "Loud Composer",
       "Terraform"
     ],
     "correct_idx": 1,
@@ -183,8 +183,8 @@
     "id": 66,
     "question": "To set a budget alert that notifies you when spending reaches 90% of your monthly budget. Where do you configure this?",
     "options": [
-      "loud Monitoring",
-      "illing Console > Budgets & alerts",
+      "Loud Monitoring",
+      "Billing Console > Budgets & alerts",
       "Payment Center",
       "IAM Console"
     ],
@@ -208,7 +208,7 @@
     "question": "What is the recommended workflow?",
     "options": [
       "Use 'gcloud app deploy'.",
-      "uild the image, push to Artifact Registry, and create a Deployment manifest using that image.",
+      "Uild the image, push to Artifact Registry, and create a Deployment manifest using that image.",
       "Upload the Dockerfile to a Cloud Storage bucket and point GKE to the bucket.",
       "Use 'kubectl app deploy'."
     ],
@@ -221,8 +221,8 @@
     "options": [
       "Snapshot the disk, create a new disk in us-east1-b from the snapshot, and create a new VM.",
       "Use the 'gcloud compute instances move' command.",
-      "hange the zone in the instance settings and click 'Save'.",
-      "etach the disk and reattach it to a new VM in the other zone."
+      "Hange the zone in the instance settings and click 'Save'.",
+      "Etach the disk and reattach it to a new VM in the other zone."
     ],
     "correct_idx": 0,
     "explanation": "VMs are zonal. You cannot 'move' them or reattach a zonal disk to another zone. Snapshots are global/regional, so they bridge the gap."
@@ -243,9 +243,9 @@
     "id": 71,
     "question": "You need a relational database that supports horizontal scaling and global consistency. Which service should you choose?",
     "options": [
-      "loud SQL",
-      "loud Spanner",
-      "loud Bigtable",
+      "Loud SQL",
+      "Loud Spanner",
+      "Loud Bigtable",
       "Firestore"
     ],
     "correct_idx": 1,
@@ -258,7 +258,7 @@
       "Project Owner",
       "Project Creator",
       "Organization Admin",
-      "illing Account User"
+      "Billing Account User"
     ],
     "correct_idx": 1,
     "explanation": "The 'Project Creator' role is specific to the ability to spawn new projects attached to the billing account."
@@ -267,10 +267,10 @@
     "id": 73,
     "question": "A user needs to view the logs for a specific GKE Pod. Which command should they use?",
     "options": [
-      "kubectl get logs [POD_NAME]",
-      "kubectl logs [POD_NAME]",
-      "gcloud logging pods read [POD_NAME]",
-      "kubectl describe pod [POD_NAME]"
+      "Kubectl get logs [POD_NAME]",
+      "Kubectl logs [POD_NAME]",
+      "Gcloud logging pods read [POD_NAME]",
+      "Kubectl describe pod [POD_NAME]"
     ],
     "correct_idx": 1,
     "explanation": "'kubectl logs' is the standard command. 'describe' shows events and config, but not application stdout/stderr."
@@ -281,7 +281,7 @@
     "options": [
       "IAM Policies",
       "VPC Firewall Rules",
-      "loud Armor",
+      "Loud Armor",
       "Identity-Aware Proxy (IAP)"
     ],
     "correct_idx": 1,
@@ -291,10 +291,10 @@
     "id": 75,
     "question": "How do you estimate the cost of a query without actually running it?",
     "options": [
-      "bq query --estimate [SQL]",
-      "bq query --dry_run [SQL]",
-      "bq cost estimate [SQL]",
-      "bq query --calculate_bytes [SQL]"
+      "Bq query --estimate [SQL]",
+      "Bq query --dry_run [SQL]",
+      "Bq cost estimate [SQL]",
+      "Bq query --calculate_bytes [SQL]"
     ],
     "correct_idx": 1,
     "explanation": "--dry_run returns the bytes processed (and thus cost) without executing the job."
@@ -305,7 +305,7 @@
     "options": [
       "Object Versioning",
       "Lifecycle Management",
-      "ucket Lock",
+      "Ucket Lock",
       "Signed URLs"
     ],
     "correct_idx": 1,
@@ -315,10 +315,10 @@
     "id": 77,
     "question": "To store small amounts of data (under 10GB) in a relational database with standard SQL support for a low-traffic application. Which is the most cost-effective?",
     "options": [
-      "loud Spanner",
-      "loud SQL",
-      "igQuery",
-      "loud Bigtable"
+      "Loud Spanner",
+      "Loud SQL",
+      "IgQuery",
+      "Loud Bigtable"
     ],
     "correct_idx": 1,
     "explanation": "Cloud SQL (especially db-f1-micro) is the standard entry-level SQL DB. Spanner is expensive enterprise scale."
@@ -327,10 +327,10 @@
     "id": 78,
     "question": "A developer needs to execute code only when a new message is published to a Pub/Sub topic. Which serverless option is best?",
     "options": [
-      "pp Engine Standard",
-      "loud Functions",
-      "ompute Engine",
-      "loud Build"
+      "Pp Engine Standard",
+      "Loud Functions",
+      "Ompute Engine",
+      "Loud Build"
     ],
     "correct_idx": 1,
     "explanation": "Cloud Functions are event-driven. They have native triggers for Pub/Sub (push)."
@@ -354,7 +354,7 @@
       "Give the partner's email the Storage Object Viewer role.",
       "Generate a Signed URL with a 1-hour expiration.",
       "Make the bucket public for 1 hour.",
-      "reate a service account and share the JSON key."
+      "Create a service account and share the JSON key."
     ],
     "correct_idx": 1,
     "explanation": "Signed URLs are the precise tool for time-bound, unauthenticated (or external) access to specific objects."
@@ -364,7 +364,7 @@
     "question": "Which GKE feature automatically adjusts the number of nodes in a cluster based on the workload demands?",
     "options": [
       "Horizontal Pod Autoscaler",
-      "luster Autoscaler",
+      "Luster Autoscaler",
       "Vertical Pod Autoscaler",
       "Node Auto-Provisioning"
     ],
@@ -399,10 +399,10 @@
     "id": 84,
     "question": "To send 10% of traffic to the new version. Which command do you use?",
     "options": [
-      "gcloud app versions migrate",
-      "gcloud app services set-traffic --splits",
-      "gcloud app deploy --no-promote",
-      "gcloud app versions start"
+      "Gcloud app versions migrate",
+      "Gcloud app services set-traffic --splits",
+      "Gcloud app deploy --no-promote",
+      "Gcloud app versions start"
     ],
     "correct_idx": 1,
     "explanation": "'set-traffic' allows you to define split percentages (e.g., v1=.9, v2=.1). 'migrate' moves 100% instantly."
@@ -411,10 +411,10 @@
     "id": 85,
     "question": "Which command lists all configurations in the Google Cloud SDK?",
     "options": [
-      "gcloud config list",
-      "gcloud config configurations list",
-      "gcloud auth list",
-      "gcloud components list"
+      "Gcloud config list",
+      "Gcloud config configurations list",
+      "Gcloud auth list",
+      "Gcloud components list"
     ],
     "correct_idx": 1,
     "explanation": "'config list' shows properties of the CURRENT config. 'configurations list' shows all available profiles."
@@ -423,9 +423,9 @@
     "id": 86,
     "question": "To run a high-performance computing (HPC) workload on Compute Engine. Which network feature should you enable to reduce latency?",
     "options": [
-      "loud CDN",
+      "Loud CDN",
       "Tier 1 Networking (High Bandwidth)",
-      "loud Armor",
+      "Loud Armor",
       "VPC Peering"
     ],
     "correct_idx": 1,
@@ -447,10 +447,10 @@
     "id": 88,
     "question": "Action?",
     "options": [
-      "reate a new project.",
+      "Create a new project.",
       "Request a quota increase in the Google Cloud Console.",
       "Switch to a different region.",
-      "ssign the 'Owner' role to your service account."
+      "Ssign the 'Owner' role to your service account."
     ],
     "correct_idx": 1,
     "explanation": "Quotas (Rate Limits) are soft limits. You can request increases via the IAM & Admin > Quotas page."
@@ -459,10 +459,10 @@
     "id": 89,
     "question": "Which service is designed for real-time messaging and streaming data between independent applications?",
     "options": [
-      "loud Tasks",
+      "Loud Tasks",
       "Pub/Sub",
-      "loud Dataflow",
-      "loud Storage"
+      "Loud Dataflow",
+      "Loud Storage"
     ],
     "correct_idx": 1,
     "explanation": "Pub/Sub is the asynchronous messaging service (Many-to-Many). Cloud Tasks is for execution queues (One-to-One)."
@@ -472,9 +472,9 @@
     "question": "To store sensitive data and ensure it is encrypted with a key that you manage yourself. Which service do you use?",
     "options": [
       "Secret Manager",
-      "loud Key Management Service (KMS)",
+      "Loud Key Management Service (KMS)",
       "Identity Platform",
-      "loud HSM"
+      "Loud HSM"
     ],
     "correct_idx": 1,
     "explanation": "Cloud KMS allows you to generate, rotate, and manage encryption keys (CMEK) that integrate with other GCP services."
@@ -495,10 +495,10 @@
     "id": 92,
     "question": "To run a script every night at 2 AM to generate a report. Which GCP service is best for scheduling this?",
     "options": [
-      "loud Build",
-      "loud Scheduler",
-      "loud Functions",
-      "loud Run"
+      "Loud Build",
+      "Loud Scheduler",
+      "Loud Functions",
+      "Loud Run"
     ],
     "correct_idx": 1,
     "explanation": "Cloud Scheduler is the managed 'cron as a service' for GCP."
@@ -509,8 +509,8 @@
     "options": [
       "Pod",
       "Service (type: LoadBalancer)",
-      "eployment",
-      "onfigMap"
+      "Eployment",
+      "OnfigMap"
     ],
     "correct_idx": 1,
     "explanation": "Services define networking. Type 'LoadBalancer' provisions an external IP and Cloud LB."
@@ -519,10 +519,10 @@
     "id": 94,
     "question": "What is the command to create a new GKE cluster named 'my-cluster' with 3 nodes?",
     "options": [
-      "gcloud container clusters create my-cluster --num-nodes=3",
-      "kubectl create cluster my-cluster --nodes=3",
-      "gcloud compute clusters create my-cluster",
-      "gcloud container clusters start my-cluster --size=3"
+      "Gcloud container clusters create my-cluster --num-nodes=3",
+      "Kubectl create cluster my-cluster --nodes=3",
+      "Gcloud compute clusters create my-cluster",
+      "Gcloud container clusters start my-cluster --size=3"
     ],
     "correct_idx": 0,
     "explanation": "The command group is 'gcloud container clusters'. The flag for size is '--num-nodes'."
@@ -531,9 +531,9 @@
     "id": 95,
     "question": "A team member needs to be able to view billing accounts but not modify them. Which role is most appropriate?",
     "options": [
-      "illing Account User",
-      "illing Account Viewer",
-      "illing Account Administrator",
+      "Billing Account User",
+      "Billing Account Viewer",
+      "Billing Account Administrator",
       "Project Viewer"
     ],
     "correct_idx": 1,
@@ -543,10 +543,10 @@
     "id": 96,
     "question": "To store data in a NoSQL document database that offers mobile synchronization. Which service do you choose?",
     "options": [
-      "loud Bigtable",
+      "Loud Bigtable",
       "Firestore",
       "Memorystore",
-      "loud SQL"
+      "Loud SQL"
     ],
     "correct_idx": 1,
     "explanation": "Firestore (Native Mode) has client SDKs for mobile/web that handle offline sync and real-time updates."
@@ -555,10 +555,10 @@
     "id": 97,
     "question": "Which GCP tool allows you to debug production code without stopping the application or slowing it down?",
     "options": [
-      "loud Debugger (now integrated into Cloud Logging/Profiler)",
-      "loud Trace",
+      "Loud Debugger (now integrated into Cloud Logging/Profiler)",
+      "Loud Trace",
       "Error Reporting",
-      "loud Monitoring"
+      "Loud Monitoring"
     ],
     "correct_idx": 0,
     "explanation": "Snapshot Debugger captures state (variables) without pausing execution, unlike traditional debuggers."
@@ -579,10 +579,10 @@
     "id": 99,
     "question": "What is the 'gsutil' command to synchronize a local directory with a Cloud Storage bucket?",
     "options": [
-      "gsutil cp -r [LOCAL_DIR] gs://[BUCKET]",
-      "gsutil rsync -r [LOCAL_DIR] gs://[BUCKET]",
-      "gsutil sync [LOCAL_DIR] gs://[BUCKET]",
-      "gsutil mv [LOCAL_DIR] gs://[BUCKET]"
+      "Gsutil cp -r [LOCAL_DIR] gs://[BUCKET]",
+      "Gsutil rsync -r [LOCAL_DIR] gs://[BUCKET]",
+      "Gsutil sync [LOCAL_DIR] gs://[BUCKET]",
+      "Gsutil mv [LOCAL_DIR] gs://[BUCKET]"
     ],
     "correct_idx": 1,
     "explanation": "rsync (Remote Sync) only copies changed files, making it efficient for synchronization compared to cp."
@@ -592,8 +592,8 @@
     "question": "To see the cost of your resources grouped by a specific tag (e.g., 'department'). Action?",
     "options": [
       "Use 'gcloud billing projects list'.",
-      "pply Labels to the resources and use the Billing Reports filter by label.",
-      "reate a separate project for each tag.",
+      "Apply Labels to the resources and use the Billing Reports filter by label.",
+      "Create a separate project for each tag.",
       "Review the Audit Logs for each resource."
     ],
     "correct_idx": 1,
@@ -603,8 +603,8 @@
     "id": 101,
     "question": "runs a platform that rents out specialized drones to agricultural businesses for monitoring crop health and irrigation needs. Each drone is equipped with multiple sensors that transmit event data every few seconds. The data includes information such as flight status, distance covered, battery level, and camera feeds. Customers are charged based on the metrics collected by these sensors. You anticipate high throughput, with thousands of events being generated every hour by each drone. To retrieve consistent data based on the event's timestamp, and each signal update should be atomic. How should you handle this?",
     "options": [
-      "reate a file in Cloud Storage for each drone and append new data to the file.",
-      "reate a file in Cloud Filestore for each drone and append new data to the file.",
+      "Create a file in Cloud Storage for each drone and append new data to the file.",
+      "Create a file in Cloud Filestore for each drone and append new data to the file.",
       "Ingest the data into Datastore and store it in an entity group organized by the drone.",
       "Ingest the data into Cloud Bigtable and create a row key based on the event's timestamp."
     ],
@@ -618,7 +618,7 @@
       "Migrate the workload to a Compute Engine Preemptible VM.",
       "Migrate the workload to a Google Kubernetes Engine cluster with Preemptible nodes.",
       "Migrate the workload to a Compute Engine VM. Start and stop the instance as needed.",
-      "reate an Instance Template with Preemptible VMs ON. Create a Managed Instance Group from the template and adjust Target CPU Utilization. Migrate the workload."
+      "Create an Instance Template with Preemptible VMs ON. Create a Managed Instance Group from the template and adjust Target CPU Utilization. Migrate the workload."
     ],
     "correct_idx": 2,
     "explanation": "Preemptible/Spot VMs max 24h, GCP interrupts anytime (no restart guarantee). 40h job fails. Standard VM + manual start/stop = pay only active time (cheap for monthly burst)."
