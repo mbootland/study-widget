@@ -114,7 +114,7 @@ class StudyWidget:
         if content_h > self.base_height:
             new_h = min(content_h, int(screen_height * 0.9))
             if content_h > new_h:
-                new_w = min(int(screen_width * 0.6), self.max_width)
+                new_w = min(int(screen_width * 0.8), self.max_width)
                 wrap_w = new_w - 60
                 self.q_label.config(wraplength=wrap_w)
                 for lbl in self.opt_labels:
