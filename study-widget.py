@@ -2,15 +2,14 @@ import tkinter as tk
 import itertools
 import json
 import os
-from PIL import Image, ImageTk, ImageSequence
 
 # CONFIG
-BG_COLOR = "#F5E6C4"       # Parchment / Scroll Beige
-FG_COLOR = "#000000"       # Black Ink
-CORRECT_COLOR = "#006400"  # Dark Green
-WRONG_COLOR = "#555555"    # Dark Grey
-TIMER_COLOR = "#8B0000"    # Dark Red
-PAUSE_COLOR = "#607D8B"    # Blue Grey
+BG_COLOR = "#0A0A12"       # Midnight Blue
+FG_COLOR = "#FFD700"       # Gold
+CORRECT_COLOR = "#00E676"  # Strong Green
+WRONG_COLOR = "#616161"    # Grey 700
+TIMER_COLOR = "#FF5252"    # Red Accent 200
+PAUSE_COLOR = "#B0BEC5"    # Blue Grey 200
 
 FONT_Q = ("Consolas", 18)
 FONT_A = ("Consolas", 15)
@@ -40,7 +39,6 @@ class StudyWidget:
         self.root.geometry(f"{self.width}x{self.height}+{x_pos}+{y_pos}")
 
         self.timer_job = None
-        self.anim_job = None
         self.remaining_sec = 0
         self.reveal_remaining_sec = 0
         self.is_paused = False
@@ -52,107 +50,25 @@ class StudyWidget:
         self.root.bind("<Button-3>", self.skip_step)
         self.root.bind("<Button-2>", lambda e: root.quit())
 
-        # Load & Resize GIF to Small Icon (64x64)
-        self.frames = []
-        self.frame_idx = 0
-        try:
-            script_dir = os.path.dirname(os.path.abspath(__file__))
-            gif_path = os.path.join(script_dir, "fireplace.gif")
-            
-            gif_img = Image.open(gif_path)
-            
-            # Resize to small icon size
-            icon_size = (64, 64)
-            
-            for frame in ImageSequence.Iterator(gif_img):
-                frame = frame.convert("RGBA")
-                # Resize
-                resized = frame.resize(icon_size, Image.Resampling.LANCZOS)
-                # Create PhotoImage
-                self.frames.append( ImageTk.PhotoImage(resized) )
-            
-            print(f"Loaded {len(self.frames)} frames (64x64) for icon.")
-            
-        except Exception as e:
-            print(f"Could not load GIF icon: {e}")
-
-        # Main Layout Frame
-        # We use a Canvas to draw the GIF, but regular labels for text?
-        # Actually, let's stick to Canvas for everything so we can layer the GIF easily.
-        # Or simpler: Use a Label for the GIF in the corner.
-        
-        # Strategy: 
-        # 1. Main UI constructed with pack() for text (auto-resize height).
-        # 2. GIF placed absolutely in top-right using place().
-        
-        # Container for text content
-        # We need padding at the BOTTOM-LEFT for the fire
-        self.content_frame = tk.Frame(root, bg=BG_COLOR)
-        # Use pack but with padding to avoid the icon space?
-        # Better: use place() for icon and standard pack for text, but add bottom padding to text container.
-        self.content_frame.pack(fill="both", expand=True, padx=10, pady=(10, 80)) # Bottom padding for icon
-        
-        # Forward drags from frame
-        self.content_frame.bind("<Button-1>", self.start_move)
-        self.content_frame.bind("<B1-Motion>", self.do_move)
-
         self.load_questions()
 
-        # Question Label (Top)
-        self.q_label = tk.Label(self.content_frame, text="", font=FONT_Q, bg=BG_COLOR, fg=FG_COLOR, justify="left", wraplength=self.width-40) 
-        self.q_label.pack(pady=(0, 10), anchor="w")
-        
-        # Options Labels
+        self.q_label = tk.Label(root, text="", font=FONT_Q, bg=BG_COLOR, fg=FG_COLOR, justify="left")
+        self.q_label.pack(pady=(10, 5), padx=10, anchor="w")
+
         self.opt_labels = []
         for i in range(4):
-            lbl = tk.Label(self.content_frame, text="", font=FONT_A, bg=BG_COLOR, fg=FG_COLOR, anchor="w", justify="left", wraplength=self.width-40)
-            lbl.pack(fill="x", pady=2)
+            lbl = tk.Label(root, text="", font=FONT_A, bg=BG_COLOR, fg=FG_COLOR, anchor="w", justify="left")
+            lbl.pack(fill="x", padx=20, pady=2)
             self.opt_labels.append(lbl)
 
-        # Explanation Label
-        self.expl_label = tk.Label(self.content_frame, text="", font=FONT_EXPL, bg=BG_COLOR, fg=FG_COLOR, justify="left", wraplength=self.width-40)
-        self.expl_label.pack(pady=(10, 5), anchor="w")
+        self.expl_label = tk.Label(root, text="", font=FONT_EXPL, bg=BG_COLOR, fg=FG_COLOR, justify="left")
+        self.expl_label.pack(pady=(5, 5), padx=10, anchor="w")
 
-        # Timer Label - Move slightly up or right to avoid icon?
-        # Since icon is bottom-left, timer can stay bottom-right in the content frame
-        self.timer_label = tk.Label(self.content_frame, text="", font=FONT_TIMER, bg=BG_COLOR, fg=TIMER_COLOR, anchor="e")
-        self.timer_label.pack(side="bottom", fill="x", pady=5)
-
-        # GIF Label (Placed in BOTTOM-LEFT corner of ROOT)
-        self.gif_label = tk.Label(root, bg=BG_COLOR, borderwidth=0)
-        self.gif_label.place(relx=0.0, rely=1.0, x=10, y=-10, anchor="sw") # Bottom Left padding
-        
-        # Bind events to all widgets recursively
-        self.bind_recursive(self.root)
+        self.timer_label = tk.Label(root, text="", font=FONT_TIMER, bg=BG_COLOR, fg=TIMER_COLOR, anchor="e")
+        self.timer_label.pack(side="bottom", fill="x", padx=10, pady=5)
 
         self.quiz_cycle = itertools.cycle(self.questions)
         self.show_next_question()
-
-        if self.frames:
-            self.animate_gif()
-
-    def bind_recursive(self, widget):
-        widget.bind("<Button-1>", self.start_move)
-        widget.bind("<B1-Motion>", self.do_move)
-        widget.bind("<ButtonRelease-1>", self.check_click_pause)
-        if isinstance(widget, tk.Label): # Only labels might block, frames pass through usually
-             pass 
-        
-        # Actually simpler: just bind to known elements
-        for lbl in [self.q_label, self.expl_label, self.timer_label, self.gif_label] + self.opt_labels:
-            lbl.bind("<Button-1>", self.start_move)
-            lbl.bind("<B1-Motion>", self.do_move)
-
-    def animate_gif(self):
-        if not self.frames:
-            return
-        
-        frame = self.frames[self.frame_idx]
-        self.frame_idx = (self.frame_idx + 1) % len(self.frames)
-        
-        self.gif_label.configure(image=frame)
-        
-        self.anim_job = self.root.after(100, self.animate_gif)
 
     def load_questions(self):
         script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -171,10 +87,7 @@ class StudyWidget:
         screen_width = self.root.winfo_screenwidth()
         screen_height = self.root.winfo_screenheight()
         
-        # Width logic (Question text width = full width - padding)
-        # Icon is bottom-left, so it doesn't restrict question width at top
         wrap_w = self.width - 40
-        
         self.q_label.config(wraplength=wrap_w)
         for lbl in self.opt_labels:
             lbl.config(wraplength=wrap_w - 20)
@@ -182,27 +95,32 @@ class StudyWidget:
         
         self.root.update_idletasks()
         
-        # Measure content height via the container frame
-        req_h = self.content_frame.winfo_reqheight() + 20 # Padding
+        content_h = (self.q_label.winfo_reqheight() + 
+                     sum(l.winfo_reqheight() for l in self.opt_labels) + 
+                     self.expl_label.winfo_reqheight() + 
+                     self.timer_label.winfo_reqheight() * 2 + 
+                     60)
 
-        # Enforce max
-        new_h = min(req_h, int(screen_height * 0.8))
+        # Enforce strict max height to prevent runaway growth
+        new_h = min(content_h, int(screen_height * 0.8))
         
-        if req_h > new_h:
+        if content_h > new_h:
              new_w = min(int(screen_width * 0.6), 800)
              self.width = new_w
-             # Recalculate wrap
              wrap_w = self.width - 40
              self.q_label.config(wraplength=wrap_w)
              for lbl in self.opt_labels:
                  lbl.config(wraplength=wrap_w - 20)
              self.expl_label.config(wraplength=wrap_w)
-             
              self.root.update_idletasks()
-             req_h = self.content_frame.winfo_reqheight() + 20
-             new_h = min(req_h, int(screen_height * 0.8))
+             content_h = (self.q_label.winfo_reqheight() + 
+                          sum(l.winfo_reqheight() for l in self.opt_labels) + 
+                          self.expl_label.winfo_reqheight() + 
+                          self.timer_label.winfo_reqheight() * 2 + 
+                          60)
+             new_h = min(content_h, int(screen_height * 0.8))
         
-        # Stability check
+        # Only update if height actually changes significantly (prevent jitter/loops)
         if abs(self.height - new_h) > 5:
             self.height = new_h
             self.root.geometry(f"{self.width}x{self.height}")
@@ -284,12 +202,16 @@ class StudyWidget:
     def check_click_pause(self, event):
         if not self.has_moved:
             self.is_paused = not self.is_paused
-            self.update_timer_display()
+            if self.timer_job:
+                self.root.after_cancel(self.timer_job)
+                if self.remaining_sec > 0:
+                    self.update_timer()
+                elif self.reveal_remaining_sec > 0:
+                    self.update_reveal_timer()
+            # Force update of text
+            if self.is_paused:
+                 self.timer_label.config(text="PAUSED (Click to resume)", fg=PAUSE_COLOR)
 
-    def update_timer_display(self):
-        # Helper to force update label text immediately on pause
-        if self.is_paused:
-             self.timer_label.config(text="PAUSED (Click to resume)", fg=PAUSE_COLOR)
 
     def skip_step(self, event):
         if self.timer_job:
