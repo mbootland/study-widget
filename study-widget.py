@@ -5,18 +5,18 @@ import os
 
 # CONFIG
 BG_COLOR = "#000000"
-Q_COLOR = "#FFD700"
-OPT_COLOR = "#4FC3F7"
-CORRECT_COLOR = "#00E676"
-WRONG_COLOR = "#424242"
-TIMER_COLOR = "#FF5252"
-EXPLAIN_COLOR = "#FFD700"
+Q_COLOR = "#FFA500"  # Orange (deeper than Gold)
+OPT_COLOR = "#29B6F6"  # Light Blue 400 (slightly deeper)
+CORRECT_COLOR = "#00C853" # Green A700 (deeper)
+WRONG_COLOR = "#616161"   # Grey 700 (lighter than 424242 so it is visible)
+TIMER_COLOR = "#D32F2F"   # Red 700 (deeper)
+EXPLAIN_COLOR = "#FFA500" # Orange
 PAUSE_COLOR = "#B0BEC5"
 
-FONT_Q = ("Consolas", 12, "bold")
-FONT_A = ("Consolas", 10, "bold")
-FONT_TIMER = ("Consolas", 9, "bold")
-FONT_EXPL = ("Consolas", 10, "italic")
+FONT_Q = ("Consolas", 14, "bold")
+FONT_A = ("Consolas", 12, "bold")
+FONT_TIMER = ("Consolas", 11, "bold")
+FONT_EXPL = ("Consolas", 12, "italic")
 
 READ_TIME_SEC = 30
 REVEAL_TIME_SEC = 10
@@ -27,8 +27,8 @@ class StudyWidget:
         self.root.title("GCP Quiz Overlay")
         self.root.configure(bg=BG_COLOR)
 
-        self.base_width = 350
-        self.base_height = 150
+        self.base_width = 500
+        self.base_height = 200
         self.width = self.base_width
         self.height = self.base_height
         
@@ -43,6 +43,9 @@ class StudyWidget:
         
         self.is_paused = False
         self.has_moved = False
+
+        # Max width logic
+        self.max_width = 800
 
         self.root.bind("<Button-1>", self.start_move)
         self.root.bind("<B1-Motion>", self.do_move)
@@ -111,11 +114,11 @@ class StudyWidget:
         if content_h > self.base_height:
             new_h = min(content_h, int(screen_height * 0.9))
             if content_h > new_h:
-                new_w = min(int(screen_width * 0.4), 450)
-                wrap_w = new_w - 20
+                new_w = min(int(screen_width * 0.6), self.max_width)
+                wrap_w = new_w - 60
                 self.q_label.config(wraplength=wrap_w)
                 for lbl in self.opt_labels:
-                    lbl.config(wraplength=wrap_w - 10)
+                    lbl.config(wraplength=wrap_w - 20)
                 self.expl_label.config(wraplength=wrap_w)
                 self.root.update_idletasks()
                 content_h = (self.q_label.winfo_reqheight() + 
