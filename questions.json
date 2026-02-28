@@ -730,5 +730,17 @@
     ],
     "correct_idx": 3,
     "explanation": "Dataflow (Box 1) handles streaming/batch ETL processing. Bigtable (Box 2) is the high-throughput NoSQL DB optimized for time-series/IoT storage. BigQuery (Box 3) is the warehouse for SQL analytics. Datastore is for documents; Spanner is for global transactions."
+  },
+  {
+    "id": 109,
+    "question": "SnapTech stores sensitive photos in buckets with data access logging enabled. You need to investigate a specific employee's actions (viewing/metadata) with fewest steps. What do you do?",
+    "options": [
+      "Filter the Activity log in the GCP Console.",
+      "Filter the Stackdriver log in the GCP Console.",
+      "View the bucket in the Storage section.",
+      "Create a trace in Stackdriver."
+    ],
+    "correct_idx": 0,
+    "explanation": "The 'Activity log' (part of Cloud Logging) specifically captures Admin Activity and Data Access logs (if enabled). Filtering this log is the direct way to see who accessed what resource. 'Stackdriver log' is a legacy term/broader suite; tracing is for latency; storage UI doesn't show access history."
   }
 ]
