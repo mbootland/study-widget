@@ -694,5 +694,17 @@
     ],
     "correct_idx": 2,
     "explanation": "The OS Config agent enables VM Manager features like vulnerability reporting. The 'vulnerabilityReportViewer' role grants access to these reports. Ops Agent is for logging/monitoring (metrics), not vulnerability scanning."
+  },
+  {
+    "id": 106,
+    "question": "SnapShop needs visibility into firewall rule changes and VM creation after a breach. They favor uncomplicated solutions. What should you do?",
+    "options": [
+      "Log Sink to Cloud Storage -> BigQuery analysis",
+      "Cloud Logging filters -> Log-based metrics -> Alerts",
+      "Log Sink to Pub/Sub -> Kibana on Compute Engine",
+      "Turn on firewall rules logging -> Alerts on insert/update/delete"
+    ],
+    "correct_idx": 1,
+    "explanation": "Cloud Audit Logs (Admin Activity) are enabled by default and always on. Creating log-based metrics from these existing logs is the most straightforward native solution to trigger alerts on specific API calls. Sinks/Kibana add unnecessary complexity."
   }
 ]
