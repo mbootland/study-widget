@@ -5,12 +5,12 @@ import os
 from PIL import Image, ImageTk, ImageSequence
 
 # CONFIG
-BG_COLOR = "#0A0A12"       # Midnight Blue
-FG_COLOR = "#FFD700"       # Gold
-CORRECT_COLOR = "#00E676"  # Strong Green
-WRONG_COLOR = "#616161"    # Grey 700
-TIMER_COLOR = "#FF5252"    # Red Accent 200
-PAUSE_COLOR = "#B0BEC5"    # Blue Grey 200
+BG_COLOR = "#F5E6C4"       # Parchment / Scroll Beige
+FG_COLOR = "#000000"       # Black Ink
+CORRECT_COLOR = "#006400"  # Dark Green
+WRONG_COLOR = "#555555"    # Dark Grey
+TIMER_COLOR = "#8B0000"    # Dark Red
+PAUSE_COLOR = "#607D8B"    # Blue Grey
 
 FONT_Q = ("Consolas", 18)
 FONT_A = ("Consolas", 15)
@@ -86,8 +86,11 @@ class StudyWidget:
         # 2. GIF placed absolutely in top-right using place().
         
         # Container for text content
+        # We need padding at the BOTTOM-LEFT for the fire
         self.content_frame = tk.Frame(root, bg=BG_COLOR)
-        self.content_frame.pack(fill="both", expand=True, padx=10, pady=10)
+        # Use pack but with padding to avoid the icon space?
+        # Better: use place() for icon and standard pack for text, but add bottom padding to text container.
+        self.content_frame.pack(fill="both", expand=True, padx=10, pady=(10, 80)) # Bottom padding for icon
         
         # Forward drags from frame
         self.content_frame.bind("<Button-1>", self.start_move)
@@ -96,7 +99,7 @@ class StudyWidget:
         self.load_questions()
 
         # Question Label (Top)
-        self.q_label = tk.Label(self.content_frame, text="", font=FONT_Q, bg=BG_COLOR, fg=FG_COLOR, justify="left", wraplength=self.width-80) # Subtract space for icon
+        self.q_label = tk.Label(self.content_frame, text="", font=FONT_Q, bg=BG_COLOR, fg=FG_COLOR, justify="left", wraplength=self.width-40) 
         self.q_label.pack(pady=(0, 10), anchor="w")
         
         # Options Labels
@@ -110,13 +113,14 @@ class StudyWidget:
         self.expl_label = tk.Label(self.content_frame, text="", font=FONT_EXPL, bg=BG_COLOR, fg=FG_COLOR, justify="left", wraplength=self.width-40)
         self.expl_label.pack(pady=(10, 5), anchor="w")
 
-        # Timer Label
+        # Timer Label - Move slightly up or right to avoid icon?
+        # Since icon is bottom-left, timer can stay bottom-right in the content frame
         self.timer_label = tk.Label(self.content_frame, text="", font=FONT_TIMER, bg=BG_COLOR, fg=TIMER_COLOR, anchor="e")
         self.timer_label.pack(side="bottom", fill="x", pady=5)
 
-        # GIF Label (Placed in top-right corner of ROOT, over content)
+        # GIF Label (Placed in BOTTOM-LEFT corner of ROOT)
         self.gif_label = tk.Label(root, bg=BG_COLOR, borderwidth=0)
-        self.gif_label.place(relx=1.0, x=-5, y=5, anchor="ne") # Top Right padding
+        self.gif_label.place(relx=0.0, rely=1.0, x=10, y=-10, anchor="sw") # Bottom Left padding
         
         # Bind events to all widgets recursively
         self.bind_recursive(self.root)
@@ -167,14 +171,14 @@ class StudyWidget:
         screen_width = self.root.winfo_screenwidth()
         screen_height = self.root.winfo_screenheight()
         
-        # Width logic (Question text needs space for icon)
-        wrap_w_q = self.width - 80 # Space for 64px icon + padding
-        wrap_w_std = self.width - 40
+        # Width logic (Question text width = full width - padding)
+        # Icon is bottom-left, so it doesn't restrict question width at top
+        wrap_w = self.width - 40
         
-        self.q_label.config(wraplength=wrap_w_q)
+        self.q_label.config(wraplength=wrap_w)
         for lbl in self.opt_labels:
-            lbl.config(wraplength=wrap_w_std)
-        self.expl_label.config(wraplength=wrap_w_std)
+            lbl.config(wraplength=wrap_w - 20)
+        self.expl_label.config(wraplength=wrap_w)
         
         self.root.update_idletasks()
         
@@ -188,12 +192,11 @@ class StudyWidget:
              new_w = min(int(screen_width * 0.6), 800)
              self.width = new_w
              # Recalculate wrap
-             wrap_w_q = self.width - 80
-             wrap_w_std = self.width - 40
-             self.q_label.config(wraplength=wrap_w_q)
+             wrap_w = self.width - 40
+             self.q_label.config(wraplength=wrap_w)
              for lbl in self.opt_labels:
-                 lbl.config(wraplength=wrap_w_std)
-             self.expl_label.config(wraplength=wrap_w_std)
+                 lbl.config(wraplength=wrap_w - 20)
+             self.expl_label.config(wraplength=wrap_w)
              
              self.root.update_idletasks()
              req_h = self.content_frame.winfo_reqheight() + 20
