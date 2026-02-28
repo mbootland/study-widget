@@ -754,5 +754,17 @@
     ],
     "correct_idx": 0,
     "explanation": "Creation of resources (like service accounts) is an Admin Activity, found under the 'Configuration' category (or simply 'Activity' in modern UI). Filtering by Resource Type 'Service Account' isolates the relevant events. Data Access logs track usage (API calls to data), not resource creation."
+  },
+  {
+    "id": 111,
+    "question": "DataBreeze Solutions GKE cluster with autoscaler enabled. Need to ensure a monitoring pod runs on EVERY node (current and future) to collect metrics. Action?",
+    "options": [
+      "Deploy monitoring pod in a StatefulSet",
+      "Deploy monitoring pod in a DaemonSet",
+      "Deploy monitoring pod in a Deployment",
+      "Reference monitoring pod in a cluster initializer"
+    ],
+    "correct_idx": 1,
+    "explanation": "A DaemonSet ensures that a copy of a Pod runs on all (or selected) Nodes. When nodes are added by the autoscaler, the DaemonSet automatically adds the pod to them. This is the standard pattern for node-level agents (logging, monitoring). Deployments distribute replicas but do not guarantee one-per-node."
   }
 ]
