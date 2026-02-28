@@ -718,5 +718,17 @@
     ],
     "correct_idx": 0,
     "explanation": "External TCP Network Load Balancers (Layer 4) are 'pass-through'. They forward packets without terminating the connection, preserving the client's source IP. TCP/SSL Proxy LBs terminate connections (Layer 7 style), replacing the source IP."
+  },
+  {
+    "id": 108,
+    "question": "A.C. manufacturer mobile app. Need pipeline for time-series data. Box 1 (Pipeline) -> Box 2 (Storage) -> Box 3 (Analytics). Which services?",
+    "options": [
+      "1. Dataflow -> 2. Datastore -> 3. BigQuery",
+      "1. Firebase Messages -> 2. Spanner -> 3. BigQuery",
+      "1. BigQuery -> 2. Bigtable -> 3. Cloud Storage",
+      "1. Dataflow -> 2. Bigtable -> 3. BigQuery"
+    ],
+    "correct_idx": 3,
+    "explanation": "Dataflow (Box 1) handles streaming/batch ETL processing. Bigtable (Box 2) is the high-throughput NoSQL DB optimized for time-series/IoT storage. BigQuery (Box 3) is the warehouse for SQL analytics. Datastore is for documents; Spanner is for global transactions."
   }
 ]
