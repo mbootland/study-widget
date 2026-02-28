@@ -682,5 +682,17 @@
     ],
     "correct_idx": 3,
     "explanation": "Use Standard VMs for critical workloads (SLA/uptime required). Use Spot VMs (cheaper, preemptible) for fault-tolerant/batch workloads. Separate Node Pools allows targeting specific workloads to specific VM types via node affinity/taints."
+  },
+  {
+    "id": 105,
+    "question": "Your company, EverGlow Apps, has a critical online marketplace application running on a specific Compute Engine instance. A security team member needs visibility into potential vulnerabilities and other OS metadata for this instance. What steps should you take?",
+    "options": [
+      "Ops Agent + Custom Metric + Access to Dashboard",
+      "Ops Agent + roles/osconfig.inventoryViewer",
+      "OS Config agent + roles/osconfig.vulnerabilityReportViewer",
+      "OS Config agent + Log Sink to BigQuery + Access to Dataset"
+    ],
+    "correct_idx": 2,
+    "explanation": "The OS Config agent enables VM Manager features like vulnerability reporting. The 'vulnerabilityReportViewer' role grants access to these reports. Ops Agent is for logging/monitoring (metrics), not vulnerability scanning."
   }
 ]
