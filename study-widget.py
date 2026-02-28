@@ -4,18 +4,21 @@ import json
 import os
 
 # CONFIG
-BG_COLOR = "#010101"       # Almost Black (Key Color for Transparency)
+BG_COLOR = "#000000"       # Black background
 FG_COLOR = "#FFFFFF"       # White text
 CORRECT_COLOR = "#00E676"  # Bright Green
 WRONG_COLOR = "#757575"    # Grey
 TIMER_COLOR = "#FF5252"    # Red
 PAUSE_COLOR = "#B0BEC5"    # Grey
 
-# ... (fonts same)
+FONT_Q = ("Consolas", 14, "bold")
+FONT_A = ("Consolas", 12, "bold")
+FONT_TIMER = ("Consolas", 11, "bold")
+FONT_EXPL = ("Consolas", 11, "italic")
 
 READ_TIME_SEC = 30
 REVEAL_TIME_SEC = 10
-OPACITY = 1.0  # Keep text solid!
+OPACITY = 0.3  # 30% visible (Almost Transparent)
 
 class StudyWidget:
     def __init__(self, root):
@@ -23,11 +26,8 @@ class StudyWidget:
         self.root.title("GCP Quiz Overlay")
         self.root.configure(bg=BG_COLOR)
         
-        # KEY CHANGE: Make the background color transparent
-        self.root.wm_attributes("-transparentcolor", BG_COLOR)
         self.root.attributes('-topmost', True)
-        # self.root.overrideredirect(True) # kept from before
-
+        
         self.base_width = 500
         self.base_height = 200
         self.width = self.base_width
@@ -65,12 +65,6 @@ class StudyWidget:
         self.q_label.bind("<Button-1>", self.start_move)
         self.q_label.bind("<B1-Motion>", self.do_move)
         
-        self.expl_label.bind("<Button-1>", self.start_move)
-        self.expl_label.bind("<B1-Motion>", self.do_move)
-        
-        self.timer_label.bind("<Button-1>", self.start_move)
-        self.timer_label.bind("<B1-Motion>", self.do_move)
-
         self.opt_labels = []
         for i in range(4):
             lbl = tk.Label(root, text="", font=FONT_A, bg=BG_COLOR, fg=FG_COLOR, anchor="w", justify="left")
@@ -81,9 +75,13 @@ class StudyWidget:
 
         self.expl_label = tk.Label(root, text="", font=FONT_EXPL, bg=BG_COLOR, fg=FG_COLOR, justify="left")
         self.expl_label.pack(pady=(5, 5), padx=10, anchor="w")
+        self.expl_label.bind("<Button-1>", self.start_move)
+        self.expl_label.bind("<B1-Motion>", self.do_move)
 
         self.timer_label = tk.Label(root, text="", font=FONT_TIMER, bg=BG_COLOR, fg=TIMER_COLOR, anchor="e")
         self.timer_label.pack(side="bottom", fill="x", padx=10, pady=5)
+        self.timer_label.bind("<Button-1>", self.start_move)
+        self.timer_label.bind("<B1-Motion>", self.do_move)
 
         self.quiz_cycle = itertools.cycle(self.questions)
         self.show_next_question()
@@ -244,7 +242,7 @@ class StudyWidget:
         self.root.overrideredirect(True)
         self.root.attributes('-topmost', True)
         self.root.lift()
-        # self.root.attributes('-alpha', OPACITY) # No alpha blending
+        self.root.attributes('-alpha', OPACITY) # Back to Alpha Blending
         self.root.after(2000, self.apply_overlay_settings)
 
 if __name__ == "__main__":
