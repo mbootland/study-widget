@@ -4,12 +4,12 @@ import json
 import os
 
 # CONFIG
-BG_COLOR = "#000000"       # Black
-FG_COLOR = "#FFFFFF"       # White
-CORRECT_COLOR = "#00E676"  # Green
+BG_COLOR = "#FFFFFF"       # White
+FG_COLOR = "#000000"       # Black
+CORRECT_COLOR = "#008000"  # Strong Green
 WRONG_COLOR = "#757575"    # Grey
-TIMER_COLOR = "#FF5252"    # Red
-PAUSE_COLOR = "#B0BEC5"    # Grey
+TIMER_COLOR = "#D32F2F"    # Red
+PAUSE_COLOR = "#607D8B"    # Blue Grey
 
 FONT_Q = ("Consolas", 14, "bold")
 FONT_A = ("Consolas", 12, "bold")
@@ -18,7 +18,6 @@ FONT_EXPL = ("Consolas", 11, "italic")
 
 READ_TIME_SEC = 30
 REVEAL_TIME_SEC = 10
-OPACITY = 0.7  # 70% Visible (Dark Glass)
 
 class StudyWidget:
     def __init__(self, root):
@@ -26,10 +25,10 @@ class StudyWidget:
         self.root.title("GCP Quiz Overlay")
         self.root.configure(bg=BG_COLOR)
         
-        # SIMPLEST CONFIGURATION
+        # SOLID WHITE WINDOW (Paper Theme)
         self.root.attributes('-topmost', True)
         self.root.overrideredirect(True)
-        self.root.attributes('-alpha', OPACITY)
+        # self.root.attributes('-alpha', 1.0) # Default is 1.0
 
         self.base_width = 500
         self.base_height = 200
@@ -145,7 +144,7 @@ class StudyWidget:
 
     def update_timer(self):
         if self.is_paused:
-            self.timer_label.config(text="PAUSED (Click to resume)", fg="#B0BEC5")
+            self.timer_label.config(text="PAUSED (Click to resume)", fg=PAUSE_COLOR)
             self.timer_job = self.root.after(200, self.update_timer)
             return
 
@@ -175,7 +174,7 @@ class StudyWidget:
 
     def update_reveal_timer(self):
         if self.is_paused:
-            self.timer_label.config(text="PAUSED (Click to resume)", fg="#B0BEC5")
+            self.timer_label.config(text="PAUSED (Click to resume)", fg=PAUSE_COLOR)
             self.timer_job = self.root.after(200, self.update_reveal_timer)
             return
 
