@@ -742,5 +742,17 @@
     ],
     "correct_idx": 0,
     "explanation": "The 'Activity log' (part of Cloud Logging) specifically captures Admin Activity and Data Access logs (if enabled). Filtering this log is the direct way to see who accessed what resource. 'Stackdriver log' is a legacy term/broader suite; tracing is for latency; storage UI doesn't show access history."
+  },
+  {
+    "id": 110,
+    "question": "Arcadia FinTech: Need to confirm exact creation time of a new service account critical for transactions. Action?",
+    "options": [
+      "Activity Log -> Filter: Category=Configuration, Resource=Service Account",
+      "Activity Log -> Filter: Category=Configuration, Resource=Google Project",
+      "Activity Log -> Filter: Category=Data Access, Resource=Service Account",
+      "Activity Log -> Filter: Category=Data Access, Resource=Google Project"
+    ],
+    "correct_idx": 0,
+    "explanation": "Creation of resources (like service accounts) is an Admin Activity, found under the 'Configuration' category (or simply 'Activity' in modern UI). Filtering by Resource Type 'Service Account' isolates the relevant events. Data Access logs track usage (API calls to data), not resource creation."
   }
 ]
