@@ -4,6 +4,7 @@ import json
 import os
 
 # CONFIG
+# GCP Quiz Overlay
 BG_COLOR = "#000000"       # Black background
 FG_COLOR = "#FFFFFF"       # White text
 CORRECT_COLOR = "#00E676"  # Bright Green
