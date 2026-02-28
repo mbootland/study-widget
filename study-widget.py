@@ -5,22 +5,11 @@ import os
 
 # CONFIG
 BG_COLOR = "#000000"       # Black
-FG_COLOR = "#FFD700"       # Gold (Default)
+FG_COLOR = "#FFA500"       # Orange (The "orangy yellow" from the list)
 CORRECT_COLOR = "#00E676"  # Strong Green
 WRONG_COLOR = "#616161"    # Grey 700
 TIMER_COLOR = "#FF5252"    # Red Accent 200
 PAUSE_COLOR = "#B0BEC5"    # Blue Grey 200
-
-# Christmas Tree Colors (Cycle through these)
-RAINBOW_COLORS = [
-    "#FF0000", # Red
-    "#00FF00", # Green
-    "#0000FF", # Blue
-    "#FFFF00", # Yellow
-    "#00FFFF", # Cyan
-    "#FF00FF", # Magenta
-    "#FFA500", # Orange
-]
 
 FONT_Q = ("Consolas", 18)
 FONT_A = ("Consolas", 15)
@@ -63,28 +52,13 @@ class StudyWidget:
 
         self.load_questions()
 
-        # REPLACE Label with Text widget for the Question to support multi-color
-        self.q_text = tk.Text(root, font=FONT_Q, bg=BG_COLOR, fg=FG_COLOR, 
-                              bd=0, highlightthickness=0, wrap="word", height=4)
-        self.q_text.pack(pady=(10, 5), padx=10, fill="x")
-        # Disable editing
-        self.q_text.bind("<Key>", lambda e: "break")
-        # Forward drag events
-        self.q_text.bind("<Button-1>", self.start_move)
-        self.q_text.bind("<B1-Motion>", self.do_move)
-        self.q_text.bind("<ButtonRelease-1>", self.check_click_pause)
-        self.q_text.bind("<Button-3>", self.skip_step)
-
-        # Setup tags for colors
-        for i, color in enumerate(RAINBOW_COLORS):
-            self.q_text.tag_configure(f"c{i}", foreground=color)
+        self.q_label = tk.Label(root, text="", font=FONT_Q, bg=BG_COLOR, fg=FG_COLOR, justify="left")
+        self.q_label.pack(pady=(10, 5), padx=10, anchor="w")
 
         self.opt_labels = []
         for i in range(4):
             lbl = tk.Label(root, text="", font=FONT_A, bg=BG_COLOR, fg=FG_COLOR, anchor="w", justify="left")
             lbl.pack(fill="x", padx=20, pady=2)
-            lbl.bind("<Button-1>", self.start_move)
-            lbl.bind("<B1-Motion>", self.do_move)
             self.opt_labels.append(lbl)
 
         self.expl_label = tk.Label(root, text="", font=FONT_EXPL, bg=BG_COLOR, fg=FG_COLOR, justify="left")
@@ -108,42 +82,20 @@ class StudyWidget:
             print(f"Error: {e}")
             self.questions = [{"id": 0, "question": str(e), "options": ["Fix"], "correct_idx": 0, "explanation": "JSON?"}]
 
-    def set_rainbow_text(self, text_widget, content):
-        text_widget.config(state="normal")
-        text_widget.delete("1.0", "end")
-        
-        # Insert character by character with cycling color tags
-        for i, char in enumerate(content):
-            tag = f"c{i % len(RAINBOW_COLORS)}"
-            text_widget.insert("end", char, tag)
-            
-        text_widget.config(state="disabled")
-
     def resize_window(self):
         self.root.update_idletasks()
         screen_width = self.root.winfo_screenwidth()
         screen_height = self.root.winfo_screenheight()
         
         wrap_w = self.width - 40
-        # For Text widget, wrapping is handled by width in CHARACTERS not pixels usually,
-        # but place/pack fill handles width. We just need to ensure height is enough.
-        
+        self.q_label.config(wraplength=wrap_w)
         for lbl in self.opt_labels:
             lbl.config(wraplength=wrap_w - 20)
         self.expl_label.config(wraplength=wrap_w)
         
         self.root.update_idletasks()
         
-        # Calculate height needed for Text widget based on content
-        # This is tricky with Text widgets. simpler to just let it fill what it needs or fixed height?
-        # Let's try to estimate lines.
-        # num_lines = int(self.q_text.index('end-1c').split('.')[0])
-        # q_height = num_lines * 30 # Approx px per line
-        
-        # Better: use dlineinfo to measure
-        # But for now, let's just stick to a slightly flexible approach
-        
-        content_h = (100 + # Approx for Question Text (fixed height=4 lines approx)
+        content_h = (self.q_label.winfo_reqheight() + 
                      sum(l.winfo_reqheight() for l in self.opt_labels) + 
                      self.expl_label.winfo_reqheight() + 
                      self.timer_label.winfo_reqheight() * 2 + 
@@ -154,12 +106,12 @@ class StudyWidget:
              new_w = min(int(screen_width * 0.6), 800)
              self.width = new_w
              wrap_w = self.width - 40
-             # Resize text width? It fills X automatically.
+             self.q_label.config(wraplength=wrap_w)
              for lbl in self.opt_labels:
                  lbl.config(wraplength=wrap_w - 20)
              self.expl_label.config(wraplength=wrap_w)
              self.root.update_idletasks()
-             content_h = (100 + 
+             content_h = (self.q_label.winfo_reqheight() + 
                           sum(l.winfo_reqheight() for l in self.opt_labels) + 
                           self.expl_label.winfo_reqheight() + 
                           self.timer_label.winfo_reqheight() * 2 + 
@@ -178,9 +130,7 @@ class StudyWidget:
         for lbl in self.opt_labels:
             lbl.config(fg=FG_COLOR)
         
-        q_str = f"Q{self.current_q['id']}: {self.current_q['question']}"
-        self.set_rainbow_text(self.q_text, q_str)
-        
+        self.q_label.config(text=f"Q{self.current_q['id']}: {self.current_q['question']}")
         letters = 'ABCD'
         for i, opt in enumerate(self.current_q['options'][:4]):
             self.opt_labels[i].config(text=f"{letters[i]}) {opt}")
