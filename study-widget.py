@@ -4,15 +4,12 @@ import json
 import os
 
 # CONFIG
-TRANSPARENT_COLOR = "#FF00FF" # Magenta - will be made transparent
-OUTLINE_COLOR = "#FFFFFF"     # White outline
-Q_COLOR = "#000000"           # Black text
-OPT_COLOR = "#000000"
-CORRECT_COLOR = "#008000"     # Green
-WRONG_COLOR = "#404040"       # Dark Grey
-TIMER_COLOR = "#000000"
-EXPLAIN_COLOR = "#000000"
-PAUSE_COLOR = "#808080"
+BG_COLOR = "#000000"       # Black background
+FG_COLOR = "#FFFFFF"       # White text
+CORRECT_COLOR = "#00E676"  # Bright Green for correct
+WRONG_COLOR = "#757575"    # Grey for wrong
+TIMER_COLOR = "#FF5252"    # Red for timer
+PAUSE_COLOR = "#B0BEC5"    # Grey for pause
 
 FONT_Q = ("Consolas", 14, "bold")
 FONT_A = ("Consolas", 12, "bold")
@@ -21,20 +18,16 @@ FONT_EXPL = ("Consolas", 11, "italic")
 
 READ_TIME_SEC = 30
 REVEAL_TIME_SEC = 10
+OPACITY = 0.8  # 0.0 to 1.0 (80% visible)
 
 class StudyWidget:
     def __init__(self, root):
         self.root = root
         self.root.title("GCP Quiz Overlay")
-        self.root.configure(bg=TRANSPARENT_COLOR)
-        
-        # Make the window background transparent
-        self.root.wm_attributes("-transparentcolor", TRANSPARENT_COLOR)
-        self.root.attributes('-topmost', True)
-        self.root.overrideredirect(True)
+        self.root.configure(bg=BG_COLOR)
 
         self.base_width = 500
-        self.base_height = 250
+        self.base_height = 200
         self.width = self.base_width
         self.height = self.base_height
         
@@ -46,22 +39,41 @@ class StudyWidget:
         self.timer_job = None
         self.remaining_sec = 0
         self.reveal_remaining_sec = 0
+        
         self.is_paused = False
         self.has_moved = False
 
         self.root.bind("<Button-1>", self.start_move)
         self.root.bind("<B1-Motion>", self.do_move)
         self.root.bind("<ButtonRelease-1>", self.check_click_pause)
+        
+        # Right Click -> Skip
         self.root.bind("<Button-3>", self.skip_step)
+        
+        # Middle Click -> Quit
         self.root.bind("<Button-2>", lambda e: root.quit())
 
-        # Main Canvas
-        self.canvas = tk.Canvas(root, bg=TRANSPARENT_COLOR, highlightthickness=0)
-        self.canvas.pack(fill="both", expand=True)
-
         self.load_questions()
+
+        # UI Elements
+        self.q_label = tk.Label(root, text="", font=FONT_Q, bg=BG_COLOR, fg=FG_COLOR, justify="left")
+        self.q_label.pack(pady=(10, 5), padx=10, anchor="w")
+
+        self.opt_labels = []
+        for i in range(4):
+            lbl = tk.Label(root, text="", font=FONT_A, bg=BG_COLOR, fg=FG_COLOR, anchor="w", justify="left")
+            lbl.pack(fill="x", padx=20, pady=2)
+            self.opt_labels.append(lbl)
+
+        self.expl_label = tk.Label(root, text="", font=FONT_EXPL, bg=BG_COLOR, fg=FG_COLOR, justify="left")
+        self.expl_label.pack(pady=(5, 5), padx=10, anchor="w")
+
+        self.timer_label = tk.Label(root, text="", font=FONT_TIMER, bg=BG_COLOR, fg=TIMER_COLOR, anchor="e")
+        self.timer_label.pack(side="bottom", fill="x", padx=10, pady=5)
+
         self.quiz_cycle = itertools.cycle(self.questions)
         self.show_next_question()
+        self.apply_overlay_settings()
 
     def load_questions(self):
         script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -75,127 +87,110 @@ class StudyWidget:
             print(f"Error: {e}")
             self.questions = [{"id": 0, "question": str(e), "options": ["Fix"], "correct_idx": 0, "explanation": "JSON?"}]
 
-    def draw_text_outline(self, x, y, text, font, color, anchor="nw", width=None):
-        # Draw outline (4 directions)
-        for dx, dy in [(-1, -1), (-1, 1), (1, -1), (1, 1)]:
-            self.canvas.create_text(x + dx, y + dy, text=text, font=font, fill=OUTLINE_COLOR, anchor=anchor, width=width)
-        # Draw main text
-        self.canvas.create_text(x, y, text=text, font=font, fill=color, anchor=anchor, width=width)
-
-    def render_scene(self):
-        self.canvas.delete("all")
+    def resize_window(self):
+        self.root.update_idletasks()
+        screen_width = self.root.winfo_screenwidth()
+        screen_height = self.root.winfo_screenheight()
         
-        # Calculate max width for text wrapping
-        max_text_width = self.width - 20
-
-        y_cursor = 10
+        # Dynamic resizing logic
+        wrap_w = self.width - 40
+        self.q_label.config(wraplength=wrap_w)
+        for lbl in self.opt_labels:
+            lbl.config(wraplength=wrap_w - 20)
+        self.expl_label.config(wraplength=wrap_w)
         
-        # Question
-        q_text = f"Q{self.current_q['id']}: {self.current_q['question']}"
-        self.draw_text_outline(10, y_cursor, q_text, FONT_Q, Q_COLOR, width=max_text_width)
+        self.root.update_idletasks()
         
-        # Calculate height of question to move cursor
-        # (This is a bit tricky in canvas, we approximate or query bbox)
-        # For simplicity, we query the last item created
-        bbox = self.canvas.bbox("all")
-        if bbox:
-            y_cursor = bbox[3] + 10
-        else:
-            y_cursor += 30
+        content_h = (self.q_label.winfo_reqheight() + 
+                     sum(l.winfo_reqheight() for l in self.opt_labels) + 
+                     self.expl_label.winfo_reqheight() + 
+                     self.timer_label.winfo_reqheight() * 2 + 
+                     60)
 
-        # Options
-        letters = 'ABCD'
-        correct_idx = self.current_q['correct_idx']
+        # Cap height/width
+        new_h = min(content_h, int(screen_height * 0.8))
+        if content_h > new_h:
+             # If too tall, widen it
+             new_w = min(int(screen_width * 0.6), 800)
+             self.width = new_w
+             # Recalculate wrapping with new width
+             wrap_w = self.width - 40
+             self.q_label.config(wraplength=wrap_w)
+             for lbl in self.opt_labels:
+                 lbl.config(wraplength=wrap_w - 20)
+             self.expl_label.config(wraplength=wrap_w)
+             self.root.update_idletasks()
+             # Re-measure height
+             content_h = (self.q_label.winfo_reqheight() + 
+                          sum(l.winfo_reqheight() for l in self.opt_labels) + 
+                          self.expl_label.winfo_reqheight() + 
+                          self.timer_label.winfo_reqheight() * 2 + 
+                          60)
+             new_h = min(content_h, int(screen_height * 0.8))
         
-        for i, opt in enumerate(self.current_q['options'][:4]):
-            color = OPT_COLOR
-            text = f"{letters[i]}) {opt}"
-            
-            # If revealing
-            if self.remaining_sec <= 0 and self.reveal_remaining_sec > 0:
-                if i == correct_idx:
-                    color = CORRECT_COLOR
-                    text += "  ✔"
-                else:
-                    color = WRONG_COLOR
-            
-            self.draw_text_outline(20, y_cursor, text, FONT_A, color, width=max_text_width-20)
-            
-            bbox = self.canvas.bbox("all")
-            y_cursor = bbox[3] + 5
-
-        # Explanation (if revealing)
-        if self.remaining_sec <= 0 and self.reveal_remaining_sec > 0:
-            expl = self.current_q.get('explanation', "No explanation.")
-            y_cursor += 5
-            self.draw_text_outline(10, y_cursor, f"WHY: {expl}", FONT_EXPL, EXPLAIN_COLOR, width=max_text_width)
-            
-            bbox = self.canvas.bbox("all")
-            y_cursor = bbox[3] + 10
-
-        # Timer
-        y_cursor += 10
-        if self.is_paused:
-            timer_text = "PAUSED (Click to resume)"
-            timer_col = PAUSE_COLOR
-        elif self.remaining_sec > 0:
-            bars = "▓" * int(self.remaining_sec * 10 / READ_TIME_SEC)
-            timer_text = f"Reveal in {self.remaining_sec}s  {bars}"
-            timer_col = TIMER_COLOR
-        else:
-            bars = "▓" * int(self.reveal_remaining_sec * 10 / REVEAL_TIME_SEC)
-            timer_text = f"Next in {self.reveal_remaining_sec}s  {bars}"
-            timer_col = TIMER_COLOR
-
-        # Draw timer at bottom right effectively, or just below everything
-        self.draw_text_outline(10, y_cursor, timer_text, FONT_TIMER, timer_col, width=max_text_width)
-
-        # Update window height if needed
-        bbox = self.canvas.bbox("all")
-        if bbox:
-            required_h = bbox[3] + 20
-            if required_h != self.height:
-                self.height = required_h
-                self.root.geometry(f"{self.width}x{self.height}")
+        self.height = new_h
+        self.root.geometry(f"{self.width}x{self.height}")
 
     def show_next_question(self):
         if self.timer_job:
             self.root.after_cancel(self.timer_job)
         self.current_q = next(self.quiz_cycle)
+        self.expl_label.config(text="")
+        
+        # Reset colors
+        for lbl in self.opt_labels:
+            lbl.config(fg=FG_COLOR)
+        
+        self.q_label.config(text=f"Q{self.current_q['id']}: {self.current_q['question']}")
+        letters = 'ABCD'
+        for i, opt in enumerate(self.current_q['options'][:4]):
+            self.opt_labels[i].config(text=f"{letters[i]}) {opt}")
+            
+        self.resize_window()
         self.remaining_sec = READ_TIME_SEC
         self.is_paused = False
-        self.render_scene()
         self.update_timer()
 
     def update_timer(self):
         if self.is_paused:
-            self.render_scene()
+            self.timer_label.config(text="PAUSED (Click to resume)", fg=PAUSE_COLOR)
             self.timer_job = self.root.after(200, self.update_timer)
             return
 
         if self.remaining_sec > 0:
+            bars = "▓" * int(self.remaining_sec * 10 / READ_TIME_SEC)
+            self.timer_label.config(text=f"Reveal in {self.remaining_sec}s  {bars}", fg=TIMER_COLOR)
             self.remaining_sec -= 1
-            self.render_scene()
             self.timer_job = self.root.after(1000, self.update_timer)
         else:
             self.reveal_answer()
 
     def reveal_answer(self):
-        self.remaining_sec = 0 
+        correct_idx = self.current_q['correct_idx']
+        explanation = self.current_q.get('explanation', "No explanation.")
+        for i, lbl in enumerate(self.opt_labels):
+            if i != correct_idx:
+                lbl.config(fg=WRONG_COLOR)
+            else:
+                lbl.config(fg=CORRECT_COLOR, text=lbl.cget("text") + "  ✔")
+        self.expl_label.config(text=f"WHY: {explanation}")
+        
+        self.resize_window()
+        self.remaining_sec = 0
         self.reveal_remaining_sec = REVEAL_TIME_SEC
         self.is_paused = False
-        self.render_scene()
         self.update_reveal_timer()
 
     def update_reveal_timer(self):
         if self.is_paused:
-            self.render_scene()
+            self.timer_label.config(text="PAUSED (Click to resume)", fg=PAUSE_COLOR)
             self.timer_job = self.root.after(200, self.update_reveal_timer)
             return
 
         if self.reveal_remaining_sec > 0:
+            bars = "▓" * int(self.reveal_remaining_sec * 10 / REVEAL_TIME_SEC)
+            self.timer_label.config(text=f"Next in {self.reveal_remaining_sec}s  {bars}", fg=TIMER_COLOR)
             self.reveal_remaining_sec -= 1
-            self.render_scene()
             self.timer_job = self.root.after(1000, self.update_reveal_timer)
         else:
             self.show_next_question()
@@ -214,18 +209,30 @@ class StudyWidget:
     def check_click_pause(self, event):
         if not self.has_moved:
             self.is_paused = not self.is_paused
-            self.render_scene()
+            if self.timer_job:
+                self.root.after_cancel(self.timer_job)
+                if self.remaining_sec > 0:
+                    self.update_timer()
+                elif self.reveal_remaining_sec > 0:
+                    self.update_reveal_timer()
 
     def skip_step(self, event):
         if self.timer_job:
             self.root.after_cancel(self.timer_job)
-        
         if self.remaining_sec > 0:
             self.remaining_sec = 0
             self.reveal_answer()
         else:
             self.reveal_remaining_sec = 0
             self.show_next_question()
+
+    def apply_overlay_settings(self):
+        self.root.overrideredirect(True)
+        self.root.attributes('-topmost', True)
+        self.root.lift()
+        # This is the key line: 80% opacity for the whole window
+        self.root.attributes('-alpha', OPACITY)
+        self.root.after(2000, self.apply_overlay_settings)
 
 if __name__ == "__main__":
     root = tk.Tk()
