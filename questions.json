@@ -766,5 +766,17 @@
     ],
     "correct_idx": 1,
     "explanation": "A DaemonSet ensures that a copy of a Pod runs on all (or selected) Nodes. When nodes are added by the autoscaler, the DaemonSet automatically adds the pod to them. This is the standard pattern for node-level agents (logging, monitoring). Deployments distribute replicas but do not guarantee one-per-node."
+  },
+  {
+    "id": 112,
+    "question": "ByteStream Solutions has two projects in different regions/zones. Need to launch instances for each via CLI efficiently. How to manage settings?",
+    "options": [
+      "Create 2 configs (`gcloud config configurations create`) -> Activate (`activate`) to switch context",
+      "Create 2 configs -> Run `gcloud configurations list`",
+      "Activate 2 configs -> Run `gcloud config list`",
+      "Activate 2 configs -> Run `gcloud configurations list`"
+    ],
+    "correct_idx": 0,
+    "explanation": "gcloud configurations allow you to define named profiles containing project, region, zone, and auth settings. You create them with `gcloud config configurations create [NAME]` and switch between them using `gcloud config configurations activate [NAME]`. This is the standard workflow for multi-project management."
   }
 ]
