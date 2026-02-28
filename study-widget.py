@@ -2,6 +2,7 @@ import tkinter as tk
 import itertools
 import json
 import os
+from PIL import Image, ImageTk, ImageSequence
 
 # CONFIG
 BG_COLOR = "#000000"       # Black
@@ -51,39 +52,47 @@ class StudyWidget:
         self.root.bind("<Button-3>", self.skip_step)
         self.root.bind("<Button-2>", lambda e: root.quit())
 
-        # Load GIF Frames (Using built-in PhotoImage)
+        # Load GIF using Pillow for resizing
         self.frames = []
         self.frame_idx = 0
+        self.pil_frames = [] # Keep original PIL images for resizing
+        
         try:
             script_dir = os.path.dirname(os.path.abspath(__file__))
             gif_path = os.path.join(script_dir, "fireplace.gif")
-            # Load frames until error
-            while True:
-                try:
-                    photo = tk.PhotoImage(file=gif_path, format=f"gif -index {len(self.frames)}")
-                    self.frames.append(photo)
-                except tk.TclError:
-                    break
-            print(f"Loaded {len(self.frames)} frames from fireplace.gif")
+            
+            # Open the GIF
+            gif_img = Image.open(gif_path)
+            
+            # Extract all frames
+            for frame in ImageSequence.Iterator(gif_img):
+                # Convert to RGBA
+                frame = frame.convert("RGBA")
+                
+                # Create a darkened version for better text readability
+                # Create a semi-transparent black overlay
+                overlay = Image.new("RGBA", frame.size, (0, 0, 0, 150)) # 150/255 opacity
+                
+                # Composite overlay on top of frame
+                darkened_frame = Image.alpha_composite(frame, overlay)
+                
+                self.pil_frames.append(darkened_frame)
+            
+            print(f"Loaded {len(self.pil_frames)} frames from fireplace.gif")
+            
+            # Initial resize of frames
+            self.resize_frames(self.width, self.height)
+            
         except Exception as e:
-            print(f"Could not load GIF: {e}")
+            print(f"Could not load GIF with Pillow: {e}")
 
         # Create Background Canvas for GIF
         self.canvas = tk.Canvas(root, bg=BG_COLOR, highlightthickness=0)
-        self.canvas.place(x=0, y=0, relwidth=1, relheight=1) # Cover entire window
-        self.canvas.bind("<Button-1>", self.start_move) # Pass clicks through
+        self.canvas.place(x=0, y=0, relwidth=1, relheight=1)
+        self.canvas.bind("<Button-1>", self.start_move)
         self.canvas.bind("<B1-Motion>", self.do_move)
 
-        # Create Container Frame for Text (Transparent background simulation)
-        # Tkinter frames are opaque, so we place labels directly on top of canvas?
-        # Better: Draw text ON the canvas or float labels on top?
-        # Labels have backgrounds. If we use labels, they block the fire.
-        # Solution: Draw text directly on Canvas OR set Label bg to match (impossible with moving GIF).
-        # We MUST use Canvas.create_text for transparent text over an image.
-        
-        # We need to restructure slightly to use Canvas for everything.
         self.load_questions()
-        
         self.quiz_cycle = itertools.cycle(self.questions)
         self.current_q = next(self.quiz_cycle)
 
@@ -95,53 +104,46 @@ class StudyWidget:
         self.render_ui()
         self.update_timer()
 
+    def resize_frames(self, width, height):
+        self.frames = [] # Clear old PhotoImages
+        for pil_frame in self.pil_frames:
+            # Resize using LANCZOS for quality
+            resized = pil_frame.resize((width, height), Image.Resampling.LANCZOS)
+            self.frames.append( ImageTk.PhotoImage(resized) )
+            
     def animate_gif(self):
         if not self.frames:
             return
         
+        # If window size changed significantly, we might want to resize frames here?
+        # But resizing every frame every loop is too slow.
+        # We only resize when window geometry changes in resize_window
+        
         frame = self.frames[self.frame_idx]
         self.frame_idx = (self.frame_idx + 1) % len(self.frames)
         
-        # Center the image? Or tile? Or stretch?
-        # PhotoImage can't stretch easily. Let's center it.
+        # Center coordinates
         cx = self.width // 2
         cy = self.height // 2
         
-        # Update background image on canvas
-        # Tag 'bg_img' so we can update it without redrawing text every frame?
-        # Actually, Canvas layering: items created later are on top.
-        # We need the image at the BOTTOM (tag 'bg').
-        
-        # Delete old image only
         self.canvas.delete("bg_img")
         self.canvas.create_image(cx, cy, image=frame, tags="bg_img")
-        self.canvas.tag_lower("bg_img") # Send to back
+        self.canvas.tag_lower("bg_img")
         
-        # Add a semi-transparent dark overlay? 
-        # Tkinter canvas doesn't support alpha shapes easily without extensive hacks.
-        # We rely on text shadow/outline for readability against fire.
-        
-        self.anim_job = self.root.after(100, self.animate_gif) # 10FPS approx
+        self.anim_job = self.root.after(100, self.animate_gif)
 
     def render_ui(self):
-        # Clear text items (not the background image)
         self.canvas.delete("ui_text")
         
-        # Draw Question
-        # Wrapping logic manually needed for create_text
         wrap_w = self.width - 40
         
-        # Question Text (Orange)
-        # Add black outline for readability against fire
+        # Question Text
         q_text = f"Q{self.current_q['id']}: {self.current_q['question']}"
         self.draw_outlined_text(20, 20, q_text, FONT_Q, FG_COLOR, wrap_w)
         
-        # Estimate height for next items
-        # Canvas text bounding box?
         bbox = self.canvas.bbox("ui_text")
         y_cursor = bbox[3] + 20 if bbox else 60
         
-        # Options
         letters = 'ABCD'
         correct_idx = self.current_q['correct_idx']
         
@@ -149,7 +151,6 @@ class StudyWidget:
             color = FG_COLOR
             text = f"{letters[i]}) {opt}"
             
-            # Reveal Logic
             if self.remaining_sec <= 0 and self.reveal_remaining_sec > 0:
                 if i == correct_idx:
                     color = CORRECT_COLOR
@@ -161,7 +162,6 @@ class StudyWidget:
             bbox = self.canvas.bbox("ui_text")
             y_cursor = bbox[3] + 5
 
-        # Explanation
         if self.remaining_sec <= 0 and self.reveal_remaining_sec > 0:
             expl = self.current_q.get('explanation', "No explanation.")
             y_cursor += 10
@@ -169,7 +169,6 @@ class StudyWidget:
             bbox = self.canvas.bbox("ui_text")
             y_cursor = bbox[3] + 10
 
-        # Timer
         y_cursor += 15
         if self.is_paused:
             timer_text = "PAUSED (Click to resume)"
@@ -185,19 +184,21 @@ class StudyWidget:
             
         self.draw_outlined_text(20, y_cursor, timer_text, FONT_TIMER, timer_col, wrap_w)
         
-        # Adjust Window Height if needed
         bbox = self.canvas.bbox("all")
         if bbox:
             req_h = bbox[3] + 20
-            if req_h > self.height:
-                self.height = req_h
+            # Only resize if height changes significantly to avoid jitter
+            # And also resize GIF frames if dimensions change
+            if req_h != self.height:
+                self.height = max(req_h, self.base_height)
                 self.root.geometry(f"{self.width}x{self.height}")
+                # We need to re-scale the background frames to match new height!
+                if self.pil_frames:
+                     self.resize_frames(self.width, self.height)
 
     def draw_outlined_text(self, x, y, text, font, color, width):
-        # Draw black outline (offsets)
         for dx, dy in [(-1,-1), (-1,1), (1,-1), (1,1), (0,1), (0,-1), (1,0), (-1,0)]:
             self.canvas.create_text(x+dx, y+dy, text=text, font=font, fill="black", width=width, anchor="nw", tags="ui_text")
-        # Draw main text
         self.canvas.create_text(x, y, text=text, font=font, fill=color, width=width, anchor="nw", tags="ui_text")
 
     def load_questions(self):
@@ -223,13 +224,13 @@ class StudyWidget:
 
     def update_timer(self):
         if self.is_paused:
-            self.render_ui() # Just to update status text
+            self.render_ui() 
             self.timer_job = self.root.after(200, self.update_timer)
             return
 
         if self.remaining_sec > 0:
             self.remaining_sec -= 1
-            self.render_ui() # Redraw timer
+            self.render_ui()
             self.timer_job = self.root.after(1000, self.update_timer)
         else:
             self.reveal_answer()
@@ -268,7 +269,7 @@ class StudyWidget:
     def check_click_pause(self, event):
         if not self.has_moved:
             self.is_paused = not self.is_paused
-            self.render_ui() # Update paused status
+            self.render_ui() 
 
     def skip_step(self, event):
         if self.timer_job:
