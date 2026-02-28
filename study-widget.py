@@ -4,13 +4,12 @@ import json
 import os
 
 # CONFIG
-# GCP Quiz Overlay
-BG_COLOR = "#000000"       # Black background
+TEXT_BG_KEY = "#000001"    # Almost black, used as transparent key for text window
+BG_TINT_COLOR = "#000000"  # Pure black for the background tint window
 FG_COLOR = "#FFFFFF"       # White text
 CORRECT_COLOR = "#00E676"  # Bright Green
 WRONG_COLOR = "#757575"    # Grey
 TIMER_COLOR = "#FF5252"    # Red
-PAUSE_COLOR = "#B0BEC5"    # Grey
 
 FONT_Q = ("Consolas", 14, "bold")
 FONT_A = ("Consolas", 12, "bold")
@@ -19,16 +18,29 @@ FONT_EXPL = ("Consolas", 11, "italic")
 
 READ_TIME_SEC = 30
 REVEAL_TIME_SEC = 10
-OPACITY = 0.3  # 30% visible (Almost Transparent)
+BG_OPACITY = 0.2  # 20% visible background (Very faint tint)
 
 class StudyWidget:
     def __init__(self, root):
         self.root = root
-        self.root.title("GCP Quiz Overlay")
-        self.root.configure(bg=BG_COLOR)
         
+        # --- WINDOW 1: The Background Tint (Ghostly) ---
+        self.bg_window = tk.Toplevel(root)
+        self.bg_window.title("GCP Background")
+        self.bg_window.configure(bg=BG_TINT_COLOR)
+        self.bg_window.overrideredirect(True)
+        self.bg_window.attributes('-alpha', BG_OPACITY) # Faint!
+        self.bg_window.attributes('-topmost', True)
+
+        # --- WINDOW 2: The Text Layer (Solid) ---
+        # Root is the text layer
+        self.root.title("GCP Quiz Text")
+        self.root.configure(bg=TEXT_BG_KEY)
+        self.root.wm_attributes("-transparentcolor", TEXT_BG_KEY) # Make background 100% invisible
         self.root.attributes('-topmost', True)
-        
+        self.root.overrideredirect(True)
+        self.root.attributes('-alpha', 1.0) # Text is 100% solid!
+
         self.base_width = 500
         self.base_height = 200
         self.width = self.base_width
@@ -37,56 +49,64 @@ class StudyWidget:
         screen_width = self.root.winfo_screenwidth()
         x_pos = screen_width - self.width - 40
         y_pos = 40
+        
+        # Position both windows
         self.root.geometry(f"{self.width}x{self.height}+{x_pos}+{y_pos}")
+        self.bg_window.geometry(f"{self.width}x{self.height}+{x_pos}+{y_pos}")
 
         self.timer_job = None
         self.remaining_sec = 0
         self.reveal_remaining_sec = 0
-        
         self.is_paused = False
         self.has_moved = False
 
+        # Bind dragging to the TEXT window (since user clicks text)
+        # We need to move BOTH windows
         self.root.bind("<Button-1>", self.start_move)
         self.root.bind("<B1-Motion>", self.do_move)
         self.root.bind("<ButtonRelease-1>", self.check_click_pause)
-        
-        # Right Click -> Skip
         self.root.bind("<Button-3>", self.skip_step)
-        
-        # Middle Click -> Quit
-        self.root.bind("<Button-2>", lambda e: root.quit())
+        self.root.bind("<Button-2>", lambda e: self.quit_all())
 
         self.load_questions()
 
-        # UI Elements
-        self.q_label = tk.Label(root, text="", font=FONT_Q, bg=BG_COLOR, fg=FG_COLOR, justify="left")
+        # UI Elements (on Root/Text Window)
+        self.q_label = tk.Label(root, text="", font=FONT_Q, bg=TEXT_BG_KEY, fg=FG_COLOR, justify="left")
         self.q_label.pack(pady=(10, 5), padx=10, anchor="w")
+        self.bind_drag(self.q_label)
 
-        # Bind drag to labels too, so you can drag by clicking text
-        self.q_label.bind("<Button-1>", self.start_move)
-        self.q_label.bind("<B1-Motion>", self.do_move)
-        
         self.opt_labels = []
         for i in range(4):
-            lbl = tk.Label(root, text="", font=FONT_A, bg=BG_COLOR, fg=FG_COLOR, anchor="w", justify="left")
+            lbl = tk.Label(root, text="", font=FONT_A, bg=TEXT_BG_KEY, fg=FG_COLOR, anchor="w", justify="left")
             lbl.pack(fill="x", padx=20, pady=2)
-            lbl.bind("<Button-1>", self.start_move)
-            lbl.bind("<B1-Motion>", self.do_move)
+            self.bind_drag(lbl)
             self.opt_labels.append(lbl)
 
-        self.expl_label = tk.Label(root, text="", font=FONT_EXPL, bg=BG_COLOR, fg=FG_COLOR, justify="left")
+        self.expl_label = tk.Label(root, text="", font=FONT_EXPL, bg=TEXT_BG_KEY, fg=FG_COLOR, justify="left")
         self.expl_label.pack(pady=(5, 5), padx=10, anchor="w")
-        self.expl_label.bind("<Button-1>", self.start_move)
-        self.expl_label.bind("<B1-Motion>", self.do_move)
+        self.bind_drag(self.expl_label)
 
-        self.timer_label = tk.Label(root, text="", font=FONT_TIMER, bg=BG_COLOR, fg=TIMER_COLOR, anchor="e")
+        self.timer_label = tk.Label(root, text="", font=FONT_TIMER, bg=TEXT_BG_KEY, fg=TIMER_COLOR, anchor="e")
         self.timer_label.pack(side="bottom", fill="x", padx=10, pady=5)
-        self.timer_label.bind("<Button-1>", self.start_move)
-        self.timer_label.bind("<B1-Motion>", self.do_move)
+        self.bind_drag(self.timer_label)
 
         self.quiz_cycle = itertools.cycle(self.questions)
         self.show_next_question()
-        self.apply_overlay_settings()
+        
+        # Keep background behind text
+        self.lift_windows()
+
+    def bind_drag(self, widget):
+        widget.bind("<Button-1>", self.start_move)
+        widget.bind("<B1-Motion>", self.do_move)
+
+    def quit_all(self):
+        self.root.quit()
+
+    def lift_windows(self):
+        self.bg_window.lift()
+        self.root.lift()
+        self.root.after(2000, self.lift_windows)
 
     def load_questions(self):
         script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -105,7 +125,6 @@ class StudyWidget:
         screen_width = self.root.winfo_screenwidth()
         screen_height = self.root.winfo_screenheight()
         
-        # Dynamic resizing logic
         wrap_w = self.width - 40
         self.q_label.config(wraplength=wrap_w)
         for lbl in self.opt_labels:
@@ -120,20 +139,16 @@ class StudyWidget:
                      self.timer_label.winfo_reqheight() * 2 + 
                      60)
 
-        # Cap height/width
         new_h = min(content_h, int(screen_height * 0.8))
         if content_h > new_h:
-             # If too tall, widen it
              new_w = min(int(screen_width * 0.6), 800)
              self.width = new_w
-             # Recalculate wrapping with new width
              wrap_w = self.width - 40
              self.q_label.config(wraplength=wrap_w)
              for lbl in self.opt_labels:
                  lbl.config(wraplength=wrap_w - 20)
              self.expl_label.config(wraplength=wrap_w)
              self.root.update_idletasks()
-             # Re-measure height
              content_h = (self.q_label.winfo_reqheight() + 
                           sum(l.winfo_reqheight() for l in self.opt_labels) + 
                           self.expl_label.winfo_reqheight() + 
@@ -142,7 +157,12 @@ class StudyWidget:
              new_h = min(content_h, int(screen_height * 0.8))
         
         self.height = new_h
-        self.root.geometry(f"{self.width}x{self.height}")
+        # Resize BOTH windows
+        geo = f"{self.width}x{self.height}"
+        x = self.root.winfo_x()
+        y = self.root.winfo_y()
+        self.root.geometry(f"{geo}+{x}+{y}")
+        self.bg_window.geometry(f"{geo}+{x}+{y}")
 
     def show_next_question(self):
         if self.timer_job:
@@ -150,7 +170,6 @@ class StudyWidget:
         self.current_q = next(self.quiz_cycle)
         self.expl_label.config(text="")
         
-        # Reset colors
         for lbl in self.opt_labels:
             lbl.config(fg=FG_COLOR)
         
@@ -166,7 +185,7 @@ class StudyWidget:
 
     def update_timer(self):
         if self.is_paused:
-            self.timer_label.config(text="PAUSED (Click to resume)", fg=PAUSE_COLOR)
+            self.timer_label.config(text="PAUSED (Click to resume)", fg="#B0BEC5")
             self.timer_job = self.root.after(200, self.update_timer)
             return
 
@@ -196,7 +215,7 @@ class StudyWidget:
 
     def update_reveal_timer(self):
         if self.is_paused:
-            self.timer_label.config(text="PAUSED (Click to resume)", fg=PAUSE_COLOR)
+            self.timer_label.config(text="PAUSED (Click to resume)", fg="#B0BEC5")
             self.timer_job = self.root.after(200, self.update_reveal_timer)
             return
 
@@ -214,9 +233,13 @@ class StudyWidget:
         self.has_moved = False
 
     def do_move(self, event):
+        # Calculate new position
         x = self.root.winfo_x() + (event.x - self._drag_start_x)
         y = self.root.winfo_y() + (event.y - self._drag_start_y)
+        
+        # Move BOTH windows together
         self.root.geometry(f"+{x}+{y}")
+        self.bg_window.geometry(f"+{x}+{y}")
         self.has_moved = True
 
     def check_click_pause(self, event):
@@ -238,13 +261,6 @@ class StudyWidget:
         else:
             self.reveal_remaining_sec = 0
             self.show_next_question()
-
-    def apply_overlay_settings(self):
-        self.root.overrideredirect(True)
-        self.root.attributes('-topmost', True)
-        self.root.lift()
-        self.root.attributes('-alpha', OPACITY) # Back to Alpha Blending
-        self.root.after(2000, self.apply_overlay_settings)
 
 if __name__ == "__main__":
     root = tk.Tk()
