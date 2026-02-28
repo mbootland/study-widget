@@ -706,5 +706,17 @@
     ],
     "correct_idx": 1,
     "explanation": "Cloud Audit Logs (Admin Activity) are enabled by default and always on. Creating log-based metrics from these existing logs is the most straightforward native solution to trigger alerts on specific API calls. Sinks/Kibana add unnecessary complexity."
+  },
+  {
+    "id": 107,
+    "question": "FinTechGuru app on MIG handles TCP port 389 traffic. Must preserve client original IP and be accessible from internet. Which Load Balancer?",
+    "options": [
+      "External TCP Network Load Balancer (Passthrough)",
+      "TCP Proxy Load Balancer",
+      "SSL Proxy Load Balancer",
+      "Internal TCP Network Load Balancer"
+    ],
+    "correct_idx": 0,
+    "explanation": "External TCP Network Load Balancers (Layer 4) are 'pass-through'. They forward packets without terminating the connection, preserving the client's source IP. TCP/SSL Proxy LBs terminate connections (Layer 7 style), replacing the source IP."
   }
 ]
