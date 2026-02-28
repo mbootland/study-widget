@@ -789,6 +789,6 @@
       "Setup Hadoop cluster -> Load to Hive -> Run SQL"
     ],
     "correct_idx": 2,
-    "explanation": "BigQuery External Tables allow you to query data directly in Cloud Storage (AVRO, CSV, JSON, Parquet) without loading it into BQ storage. This saves ingestion time and storage costs (you only pay for the query bytes scanned). Loading 7TB would be slow and expensive if temporary."
+    "explanation": "BigQuery External Tables allow you to query data directly in Cloud Storage without loading it. AVRO is a row-oriented binary format with an embedded schema, which BigQuery supports natively. This means you can query the 7TB file immediately (schema-on-read) using SQL, saving the time and cost of ingesting it into native BQ storage."
   }
 ]
