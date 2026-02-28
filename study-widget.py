@@ -4,12 +4,12 @@ import json
 import os
 
 # CONFIG
-BG_COLOR = "#FFFFFF"       # White
-FG_COLOR = "#000000"       # Black
-CORRECT_COLOR = "#008000"  # Strong Green
-WRONG_COLOR = "#757575"    # Grey
-TIMER_COLOR = "#D32F2F"    # Red
-PAUSE_COLOR = "#607D8B"    # Blue Grey
+BG_COLOR = "#000000"       # Black
+FG_COLOR = "#FFD700"       # Gold (Yellowy)
+CORRECT_COLOR = "#00E676"  # Strong Green
+WRONG_COLOR = "#616161"    # Grey 700 (Visible on black)
+TIMER_COLOR = "#FF5252"    # Red Accent 200
+PAUSE_COLOR = "#B0BEC5"    # Blue Grey 200
 
 FONT_Q = ("Consolas", 18)
 FONT_A = ("Consolas", 15)
