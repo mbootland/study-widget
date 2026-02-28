@@ -4,14 +4,14 @@ import json
 import os
 
 # CONFIG
-BG_COLOR = "#FFFFFF"       # White background
-Q_COLOR = "#000000"        # Black for questions
-OPT_COLOR = "#1565C0"      # Dark Blue for options
-CORRECT_COLOR = "#2E7D32"  # Dark Green for correct
-WRONG_COLOR = "#BDBDBD"    # Light Grey for wrong (faded out)
-TIMER_COLOR = "#C62828"    # Dark Red for timer
-EXPLAIN_COLOR = "#EF6C00"  # Dark Orange for explanation
-PAUSE_COLOR = "#78909C"    # Blue Grey
+BG_COLOR = "#FFFFFF"
+Q_COLOR = "#000000"        # Black
+OPT_COLOR = "#000000"      # Black
+CORRECT_COLOR = "#008000"  # Strong Green
+WRONG_COLOR = "#000000"    # Black (will just stay black, correct turns green)
+TIMER_COLOR = "#000000"    # Black
+EXPLAIN_COLOR = "#000000"  # Black
+PAUSE_COLOR = "#808080"    # Grey for pause state
 
 FONT_Q = ("Consolas", 14, "bold")
 FONT_A = ("Consolas", 12, "bold")
