@@ -4,19 +4,19 @@ import json
 import os
 
 # CONFIG
-BG_COLOR = "#000000"
-Q_COLOR = "#FFA500"  # Orange (deeper than Gold)
-OPT_COLOR = "#29B6F6"  # Light Blue 400 (slightly deeper)
-CORRECT_COLOR = "#00C853" # Green A700 (deeper)
-WRONG_COLOR = "#616161"   # Grey 700 (lighter than 424242 so it is visible)
-TIMER_COLOR = "#D32F2F"   # Red 700 (deeper)
-EXPLAIN_COLOR = "#FFA500" # Orange
-PAUSE_COLOR = "#B0BEC5"
+BG_COLOR = "#FFFFFF"       # White background
+Q_COLOR = "#000000"        # Black for questions
+OPT_COLOR = "#1565C0"      # Dark Blue for options
+CORRECT_COLOR = "#2E7D32"  # Dark Green for correct
+WRONG_COLOR = "#BDBDBD"    # Light Grey for wrong (faded out)
+TIMER_COLOR = "#C62828"    # Dark Red for timer
+EXPLAIN_COLOR = "#EF6C00"  # Dark Orange for explanation
+PAUSE_COLOR = "#78909C"    # Blue Grey
 
 FONT_Q = ("Consolas", 14, "bold")
 FONT_A = ("Consolas", 12, "bold")
 FONT_TIMER = ("Consolas", 11, "bold")
-FONT_EXPL = ("Consolas", 12, "italic")
+FONT_EXPL = ("Consolas", 11, "italic")
 
 READ_TIME_SEC = 30
 REVEAL_TIME_SEC = 10
