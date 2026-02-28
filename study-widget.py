@@ -13,10 +13,10 @@ TIMER_COLOR = "#FF5252"
 EXPLAIN_COLOR = "#FFD700"
 PAUSE_COLOR = "#B0BEC5"
 
-FONT_Q = ("Consolas", 24, "bold")
-FONT_A = ("Consolas", 20, "bold")
-FONT_TIMER = ("Consolas", 16, "bold")
-FONT_EXPL = ("Consolas", 16, "bold italic")
+FONT_Q = ("Consolas", 12, "bold")
+FONT_A = ("Consolas", 10, "bold")
+FONT_TIMER = ("Consolas", 9, "bold")
+FONT_EXPL = ("Consolas", 10, "italic")
 
 READ_TIME_SEC = 30
 REVEAL_TIME_SEC = 10
@@ -27,8 +27,8 @@ class StudyWidget:
         self.root.title("GCP Quiz Overlay")
         self.root.configure(bg=BG_COLOR)
 
-        self.base_width = 1000
-        self.base_height = 500
+        self.base_width = 350
+        self.base_height = 150
         self.width = self.base_width
         self.height = self.base_height
         
@@ -57,19 +57,19 @@ class StudyWidget:
         self.load_questions()
 
         self.q_label = tk.Label(root, text="", font=FONT_Q, bg=BG_COLOR, fg=Q_COLOR, justify="left")
-        self.q_label.pack(pady=(15, 10), padx=15, anchor="w")
+        self.q_label.pack(pady=(5, 5), padx=5, anchor="w")
 
         self.opt_labels = []
         for i in range(4):
             lbl = tk.Label(root, text="", font=FONT_A, bg=BG_COLOR, fg=OPT_COLOR, anchor="w", justify="left")
-            lbl.pack(fill="x", padx=25, pady=2)
+            lbl.pack(fill="x", padx=10, pady=1)
             self.opt_labels.append(lbl)
 
         self.expl_label = tk.Label(root, text="", font=FONT_EXPL, bg=BG_COLOR, fg=EXPLAIN_COLOR, justify="left")
-        self.expl_label.pack(pady=(10, 5), padx=15, anchor="w")
+        self.expl_label.pack(pady=(5, 2), padx=5, anchor="w")
 
         self.timer_label = tk.Label(root, text="", font=FONT_TIMER, bg=BG_COLOR, fg=TIMER_COLOR, anchor="e")
-        self.timer_label.pack(side="bottom", fill="x", padx=10, pady=5)
+        self.timer_label.pack(side="bottom", fill="x", padx=5, pady=2)
 
         self.quiz_cycle = itertools.cycle(self.questions)
         self.show_next_question()
@@ -93,11 +93,11 @@ class StudyWidget:
         screen_height = self.root.winfo_screenheight()
         
         current_w = self.width
-        wrap_w = current_w - 60
+        wrap_w = current_w - 20  # Reduced padding
         
         self.q_label.config(wraplength=wrap_w)
         for lbl in self.opt_labels:
-            lbl.config(wraplength=wrap_w - 20)
+            lbl.config(wraplength=wrap_w - 10)
         self.expl_label.config(wraplength=wrap_w)
         
         self.root.update_idletasks()
@@ -106,24 +106,24 @@ class StudyWidget:
                      sum(l.winfo_reqheight() for l in self.opt_labels) + 
                      self.expl_label.winfo_reqheight() + 
                      self.timer_label.winfo_reqheight() * 2 + 
-                     100)
+                     50) # Reduced buffer
 
         if content_h > self.base_height:
-            new_h = min(content_h, int(screen_height * 0.85))
+            new_h = min(content_h, int(screen_height * 0.9))
             if content_h > new_h:
-                new_w = min(int(screen_width * 0.9), 1600)
-                wrap_w = new_w - 60
+                new_w = min(int(screen_width * 0.4), 450)
+                wrap_w = new_w - 20
                 self.q_label.config(wraplength=wrap_w)
                 for lbl in self.opt_labels:
-                    lbl.config(wraplength=wrap_w - 20)
+                    lbl.config(wraplength=wrap_w - 10)
                 self.expl_label.config(wraplength=wrap_w)
                 self.root.update_idletasks()
                 content_h = (self.q_label.winfo_reqheight() + 
                              sum(l.winfo_reqheight() for l in self.opt_labels) + 
                              self.expl_label.winfo_reqheight() + 
                              self.timer_label.winfo_reqheight() * 2 + 
-                             100)
-                new_h = min(content_h, int(screen_height * 0.85))
+                             50)
+                new_h = min(content_h, int(screen_height * 0.9))
                 self.width = new_w
                 self.height = new_h
             else:
