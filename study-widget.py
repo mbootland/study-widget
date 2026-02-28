@@ -4,27 +4,29 @@ import json
 import os
 
 # CONFIG
-BG_COLOR = "#000000"       # Black background
+BG_COLOR = "#010101"       # Almost Black (Key Color for Transparency)
 FG_COLOR = "#FFFFFF"       # White text
-CORRECT_COLOR = "#00E676"  # Bright Green for correct
-WRONG_COLOR = "#757575"    # Grey for wrong
-TIMER_COLOR = "#FF5252"    # Red for timer
-PAUSE_COLOR = "#B0BEC5"    # Grey for pause
+CORRECT_COLOR = "#00E676"  # Bright Green
+WRONG_COLOR = "#757575"    # Grey
+TIMER_COLOR = "#FF5252"    # Red
+PAUSE_COLOR = "#B0BEC5"    # Grey
 
-FONT_Q = ("Consolas", 14, "bold")
-FONT_A = ("Consolas", 12, "bold")
-FONT_TIMER = ("Consolas", 11, "bold")
-FONT_EXPL = ("Consolas", 11, "italic")
+# ... (fonts same)
 
 READ_TIME_SEC = 30
 REVEAL_TIME_SEC = 10
-OPACITY = 0.6  # 60% visible (Glass-like)
+OPACITY = 1.0  # Keep text solid!
 
 class StudyWidget:
     def __init__(self, root):
         self.root = root
         self.root.title("GCP Quiz Overlay")
         self.root.configure(bg=BG_COLOR)
+        
+        # KEY CHANGE: Make the background color transparent
+        self.root.wm_attributes("-transparentcolor", BG_COLOR)
+        self.root.attributes('-topmost', True)
+        # self.root.overrideredirect(True) # kept from before
 
         self.base_width = 500
         self.base_height = 200
@@ -59,10 +61,22 @@ class StudyWidget:
         self.q_label = tk.Label(root, text="", font=FONT_Q, bg=BG_COLOR, fg=FG_COLOR, justify="left")
         self.q_label.pack(pady=(10, 5), padx=10, anchor="w")
 
+        # Bind drag to labels too, so you can drag by clicking text
+        self.q_label.bind("<Button-1>", self.start_move)
+        self.q_label.bind("<B1-Motion>", self.do_move)
+        
+        self.expl_label.bind("<Button-1>", self.start_move)
+        self.expl_label.bind("<B1-Motion>", self.do_move)
+        
+        self.timer_label.bind("<Button-1>", self.start_move)
+        self.timer_label.bind("<B1-Motion>", self.do_move)
+
         self.opt_labels = []
         for i in range(4):
             lbl = tk.Label(root, text="", font=FONT_A, bg=BG_COLOR, fg=FG_COLOR, anchor="w", justify="left")
             lbl.pack(fill="x", padx=20, pady=2)
+            lbl.bind("<Button-1>", self.start_move)
+            lbl.bind("<B1-Motion>", self.do_move)
             self.opt_labels.append(lbl)
 
         self.expl_label = tk.Label(root, text="", font=FONT_EXPL, bg=BG_COLOR, fg=FG_COLOR, justify="left")
@@ -230,8 +244,7 @@ class StudyWidget:
         self.root.overrideredirect(True)
         self.root.attributes('-topmost', True)
         self.root.lift()
-        # This is the key line: 80% opacity for the whole window
-        self.root.attributes('-alpha', OPACITY)
+        # self.root.attributes('-alpha', OPACITY) # No alpha blending
         self.root.after(2000, self.apply_overlay_settings)
 
 if __name__ == "__main__":
