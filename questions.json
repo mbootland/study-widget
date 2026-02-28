@@ -778,5 +778,17 @@
     ],
     "correct_idx": 0,
     "explanation": "gcloud configurations allow you to define named profiles containing project, region, zone, and auth settings. You create them with `gcloud config configurations create [NAME]` and switch between them using `gcloud config configurations activate [NAME]`. This is the standard workflow for multi-project management."
+  },
+  {
+    "id": 113,
+    "question": "DataPro Insights has a 7-TB AVRO file in Cloud Storage. SQL-savvy data scientists need to query it quickly and cost-efficiently. Action?",
+    "options": [
+      "Load data into Datastore -> Run SQL",
+      "Load data into BigQuery table -> Run SQL -> Delete table",
+      "Create BigQuery external table referencing GCS -> Run SQL",
+      "Setup Hadoop cluster -> Load to Hive -> Run SQL"
+    ],
+    "correct_idx": 2,
+    "explanation": "BigQuery External Tables allow you to query data directly in Cloud Storage (AVRO, CSV, JSON, Parquet) without loading it into BQ storage. This saves ingestion time and storage costs (you only pay for the query bytes scanned). Loading 7TB would be slow and expensive if temporary."
   }
 ]
