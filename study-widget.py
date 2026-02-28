@@ -11,10 +11,10 @@ WRONG_COLOR = "#757575"    # Grey
 TIMER_COLOR = "#D32F2F"    # Red
 PAUSE_COLOR = "#607D8B"    # Blue Grey
 
-FONT_Q = ("Consolas", 14)
-FONT_A = ("Consolas", 12)
-FONT_TIMER = ("Consolas", 11)
-FONT_EXPL = ("Consolas", 11, "italic")
+FONT_Q = ("Consolas", 18)
+FONT_A = ("Consolas", 15)
+FONT_TIMER = ("Consolas", 13)
+FONT_EXPL = ("Consolas", 14, "italic")
 
 READ_TIME_SEC = 30
 REVEAL_TIME_SEC = 10
