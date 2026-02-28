@@ -18,7 +18,7 @@ FONT_EXPL = ("Consolas", 11, "italic")
 
 READ_TIME_SEC = 30
 REVEAL_TIME_SEC = 10
-OPACITY = 0.8  # 0.0 to 1.0 (80% visible)
+OPACITY = 0.6  # 60% visible (Glass-like)
 
 class StudyWidget:
     def __init__(self, root):
