@@ -802,5 +802,17 @@
     ],
     "correct_idx": 1,
     "explanation": "Using Deployment Manager templates allows you to define infrastructure as code (IaC), promoting consistency and reusability. Storing these templates in Cloud Source Repositories (which is basically GitHub but hosted by Google) provides built-in version control, enabling change tracking, collaboration, and code reviews, which are essential for best practices. Storing templates in a Storage bucket lacks version control, and saving command output (C/D) does not define the infrastructure configuration structure."
+  },
+  {
+    "id": 115,
+    "question": "You are the project owner of a new online photo-sharing platform called \"Snapify,\" which allows users to upload, share, and store their photos. You want to delegate control to your colleagues so they can manage the storage buckets and files where the photos are stored. Following Google-recommended practices, which IAM roles should you grant your colleagues?",
+    "options": [
+      "Project Editor",
+      "Storage Admin",
+      "Storage Object Admin",
+      "Storage Object Creator"
+    ],
+    "correct_idx": 1,
+    "explanation": "The Storage Admin role provides full control over buckets and objects, which is required to manage the entire storage lifecycle (create buckets, delete buckets, manage ACLs). Project Editor is too broad (violates least privilege). Storage Object Admin only manages objects (files), not buckets themselves. Storage Object Creator can only write, not delete or manage."
   }
 ]
