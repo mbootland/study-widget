@@ -850,5 +850,17 @@
     ],
     "correct_idx": 3,
     "explanation": "To see *current* permissions (who HAS access), you inspect the IAM Policy (`gcloud projects get-iam-policy` or IAM page). Audit Logs show *past* activity (who DID something). SSH keys and IAP are for specific access methods (VM login, web app access), not project-level roles."
+  },
+  {
+    "id": 119,
+    "question": "StudyPal app runs on a Compute Engine instance. You need daily backups retained for 30 days with least management overhead. Solution?",
+    "options": [
+      "Update instance metadata with custom keys like 'snapshot-schedule' and 'snapshot-retention'.",
+      "In the Compute Engine Disks page, create a Snapshot Schedule (Daily, 1:00 AM, Auto-delete after 30 days) and attach it to the disk.",
+      "Create Cloud Functions to create/delete snapshots and trigger them via Cloud Scheduler.",
+      "Create a bash script on the instance to copy disk content to Cloud Storage and manage retention via crontab."
+    ],
+    "correct_idx": 1,
+    "explanation": "Snapshot Schedules are a native Compute Engine feature. You define the frequency and retention policy once, attach it to the disk, and GCP handles the rest automatically. Custom scripts (cron) or Cloud Functions add unnecessary complexity and maintenance overhead."
   }
 ]
