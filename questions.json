@@ -838,5 +838,17 @@
     ],
     "correct_idx": 0,
     "explanation": "The n1-standard-96 is a specific machine type that provides exactly 96 vCPUs. Selecting the CPU platform (Skylake) affects the architecture, not the core count. Default settings are small (e.g., n1-standard-1). Rightsizing is for unknown workloads; here the requirement is known (96 vCPUs)."
+  },
+  {
+    "id": 118,
+    "question": "Skybright Solutions needs to audit who has the Project Owner role. What is the most direct way to see the current role assignments?",
+    "options": [
+      "Check project-wide SSH keys in the console.",
+      "Navigate to Identity-Aware Proxy (IAP) settings.",
+      "Enable Audit Logs on the IAM & admin page and review the output.",
+      "Use the command 'gcloud projects get-iam-policy'."
+    ],
+    "correct_idx": 3,
+    "explanation": "To see *current* permissions (who HAS access), you inspect the IAM Policy (`gcloud projects get-iam-policy` or IAM page). Audit Logs show *past* activity (who DID something). SSH keys and IAP are for specific access methods (VM login, web app access), not project-level roles."
   }
 ]
