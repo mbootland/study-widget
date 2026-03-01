@@ -874,5 +874,17 @@
     ],
     "correct_idx": 0,
     "explanation": "Billing Export to BigQuery is the standard way to aggregate billing data from multiple accounts/projects into one place for analysis. Data Studio (Looker Studio) connects natively to BigQuery for visualization. The built-in Reports view is scoped to a single billing account, so it can't show a unified view across multiple accounts."
+  },
+  {
+    "id": 121,
+    "question": "SnapPixel runs on internal-only VMs (no external IP) in a custom VPC. Security policy forbids internet access, but VMs need to access a Cloud Storage bucket. Configuration?",
+    "options": [
+      "Enable Private Service Access on the Cloud Storage bucket.",
+      "Add storage.googleapis.com to VPC Service Controls restricted services.",
+      "Enable Private Google Access on the subnet within the custom VPC.",
+      "Deploy a Cloud NAT instance and route traffic to the bucket."
+    ],
+    "correct_idx": 2,
+    "explanation": "Private Google Access (PGA) allows VMs with only internal IPs to reach Google APIs (like Cloud Storage) via Google's private network. Private Service Access is for connecting to managed services (like Cloud SQL/Memorystore) via peering. Cloud NAT provides outbound internet access, which violates the 'no internet' requirement."
   }
 ]
