@@ -898,5 +898,17 @@
     ],
     "correct_idx": 0,
     "explanation": "The 'projects.move' API method (or `gcloud beta projects move`) is the standard way to migrate a project between Organizations. You must also manually update the Billing Account to the new Org's account. Drag-and-drop generally doesn't work across Organization boundaries easily without specific setup, and migrating resources (Terraform/Catalog) is huge effort compared to moving the container."
+  },
+  {
+    "id": 123,
+    "question": "TechFolio needs DNS records to point 'techfolio.com', 'www.techfolio.com', and 'home.techfolio.com' to a Load Balancer IP. Best practice configuration?",
+    "options": [
+      "CNAME for root (techfolio.com) -> LB; A records for www/home -> techfolio.com.",
+      "CNAME for root (techfolio.com) -> LB; AAAA records for www/home -> techfolio.com.",
+      "A record for root (techfolio.com) -> LB IP; CNAME records for www/home -> techfolio.com.",
+      "A record for root (techfolio.com) -> LB IP; NS records for www/home -> techfolio.com."
+    ],
+    "correct_idx": 2,
+    "explanation": "Root domains (apex) must typically use A records (points to IP) because CNAMEs at root break other records (like MX). Subdomains (www, home) should use CNAMEs pointing to the root domain so they automatically follow the root IP if it changes. \n\n- **A Record**: Maps hostname to IPv4 address.\n- **AAAA Record**: Maps hostname to IPv6 address.\n- **CNAME**: Maps hostname to another hostname (alias).\n- **NS**: Delegates a subdomain to a different Name Server."
   }
 ]
