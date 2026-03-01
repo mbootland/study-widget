@@ -862,5 +862,17 @@
     ],
     "correct_idx": 1,
     "explanation": "Snapshot Schedules are a native Compute Engine feature. You define the frequency and retention policy once, attach it to the disk, and GCP handles the rest automatically. Custom scripts (cron) or Cloud Functions add unnecessary complexity and maintenance overhead."
+  },
+  {
+    "id": 120,
+    "question": "EcoCrafts has multiple projects linked to different billing accounts. You need a single, unified visualization of all costs across these projects with near real-time updates. What should you do?",
+    "options": [
+      "Configure Billing Data Export to BigQuery and visualize the data in Data Studio (Looker Studio).",
+      "Export CSVs from the Cost Table page and upload to Data Studio.",
+      "Use the Pricing Calculator to estimate monthly costs.",
+      "Use the Reports view in the Cloud Billing Console."
+    ],
+    "correct_idx": 0,
+    "explanation": "Billing Export to BigQuery is the standard way to aggregate billing data from multiple accounts/projects into one place for analysis. Data Studio (Looker Studio) connects natively to BigQuery for visualization. The built-in Reports view is scoped to a single billing account, so it can't show a unified view across multiple accounts."
   }
 ]
