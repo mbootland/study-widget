@@ -796,7 +796,7 @@
     "question": "Your team manages the infrastructure for a mobile app called QuickPark, which helps users find parking spots in real-time. The app's infrastructure requires some changes to improve performance. You need to share the proposed changes with your team in a way that aligns with Google's recommended best practices. What should you do?",
     "options": [
       "Use Deployment Manager templates to describe the proposed changes and store them in a Cloud Storage bucket.",
-      "Use Deployment Manager templates to describe the proposed changes and store them in Cloud Source Repositories.",
+      "Use Deployment Manager templates to describe the proposed changes and store them in Cloud Source Repositories (basically GitHub for Google).",
       "Apply the changes in a development environment, run \u201cgcloud compute instances list\u201d, and then save the output in a shared Storage bucket.",
       "Apply the changes in a development environment, run \u201cgcloud compute instances list\u201d, and then save the output in Cloud Source Repositories."
     ],
