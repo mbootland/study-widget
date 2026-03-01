@@ -801,6 +801,6 @@
       "Apply the changes in a development environment, run \u201cgcloud compute instances list\u201d, and then save the output in Cloud Source Repositories."
     ],
     "correct_idx": 1,
-    "explanation": "Using Deployment Manager templates allows you to define infrastructure as code (IaC), promoting consistency and reusability. Storing these templates in Cloud Source Repositories provides built-in version control, enabling change tracking, collaboration, and code reviews, which are essential for best practices. Storing templates in a Storage bucket lacks version control, and saving command output (C/D) does not define the infrastructure configuration structure."
+    "explanation": "Using Deployment Manager templates allows you to define infrastructure as code (IaC), promoting consistency and reusability. Storing these templates in Cloud Source Repositories (which is basically GitHub but hosted by Google) provides built-in version control, enabling change tracking, collaboration, and code reviews, which are essential for best practices. Storing templates in a Storage bucket lacks version control, and saving command output (C/D) does not define the infrastructure configuration structure."
   }
 ]
