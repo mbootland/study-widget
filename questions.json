@@ -826,5 +826,17 @@
     ],
     "correct_idx": 3,
     "explanation": "BigQuery External Tables allow you to query data directly in other services (Cloud Storage, Bigtable) without moving/ingesting it. For an ad hoc request, writing SQL to join two external tables is much faster and cheaper than writing/deploying Dataflow pipelines or spinning up Dataproc clusters."
+  },
+  {
+    "id": 117,
+    "question": "DataDive Inc. is migrating an on-prem app to GCP that requires 96 vCPUs for optimal performance. How should they create the VM?",
+    "options": [
+      "When creating the VM, use machine type n1-standard-96.",
+      "When creating the VM, specify Intel Skylake as the CPU platform.",
+      "Create the VM using Compute Engine default settings, then use gcloud to modify it to 96 vCPUs.",
+      "Start the VM using default settings, then adjust based on Rightsizing Recommendations."
+    ],
+    "correct_idx": 0,
+    "explanation": "The n1-standard-96 is a specific machine type that provides exactly 96 vCPUs. Selecting the CPU platform (Skylake) affects the architecture, not the core count. Default settings are small (e.g., n1-standard-1). Rightsizing is for unknown workloads; here the requirement is known (96 vCPUs)."
   }
 ]
