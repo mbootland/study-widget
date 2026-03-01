@@ -886,5 +886,17 @@
     ],
     "correct_idx": 2,
     "explanation": "Private Google Access (PGA) allows VMs with only internal IPs to reach Google APIs (like Cloud Storage) via Google's private network. Private Service Access is for connecting to managed services (like Cloud SQL/Memorystore) via peering. Cloud NAT provides outbound internet access, which violates the 'no internet' requirement."
+  },
+  {
+    "id": 122,
+    "question": "TechFusion Inc. acquires AppNex. You need to move AppNex's existing production project into TechFusion's Organization and ensure it's billed to TechFusion. Minimal effort?",
+    "options": [
+      "Use the 'projects.move' method to move the project to the new Organization, then change the billing account.",
+      "As Org Admin, drag and drop the project in the Resource Manager console.",
+      "Create a Private Catalog, upload resources, share with TechFusion, and redeploy.",
+      "Create Terraform templates of AppNex resources, deploy to a new project in TechFusion, and delete the old project."
+    ],
+    "correct_idx": 0,
+    "explanation": "The 'projects.move' API method (or `gcloud beta projects move`) is the standard way to migrate a project between Organizations. You must also manually update the Billing Account to the new Org's account. Drag-and-drop generally doesn't work across Organization boundaries easily without specific setup, and migrating resources (Terraform/Catalog) is huge effort compared to moving the container."
   }
 ]
