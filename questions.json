@@ -790,5 +790,17 @@
     ],
     "correct_idx": 2,
     "explanation": "BigQuery External Tables allow you to query data directly in Cloud Storage without loading it. AVRO is a row-oriented binary format with an embedded schema, which BigQuery supports natively. This means you can query the 7TB file immediately (schema-on-read) using SQL, saving the time and cost of ingesting it into native BQ storage."
+  },
+  {
+    "id": 114,
+    "question": "Your team manages the infrastructure for a mobile app called QuickPark, which helps users find parking spots in real-time. The app's infrastructure requires some changes to improve performance. You need to share the proposed changes with your team in a way that aligns with Google's recommended best practices. What should you do?",
+    "options": [
+      "Use Deployment Manager templates to describe the proposed changes and store them in a Cloud Storage bucket.",
+      "Use Deployment Manager templates to describe the proposed changes and store them in Cloud Source Repositories.",
+      "Apply the changes in a development environment, run \u201cgcloud compute instances list\u201d, and then save the output in a shared Storage bucket.",
+      "Apply the changes in a development environment, run \u201cgcloud compute instances list\u201d, and then save the output in Cloud Source Repositories."
+    ],
+    "correct_idx": 1,
+    "explanation": "Using Deployment Manager templates allows you to define infrastructure as code (IaC), promoting consistency and reusability. Storing these templates in Cloud Source Repositories provides built-in version control, enabling change tracking, collaboration, and code reviews, which are essential for best practices. Storing templates in a Storage bucket lacks version control, and saving command output (C/D) does not define the infrastructure configuration structure."
   }
 ]
