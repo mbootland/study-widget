@@ -814,5 +814,17 @@
     ],
     "correct_idx": 1,
     "explanation": "The Storage Admin role provides full control over buckets and objects, which is required to manage the entire storage lifecycle (create buckets, delete buckets, manage ACLs). Project Editor is too broad (violates least privilege). Storage Object Admin only manages objects (files), not buckets themselves. Storage Object Creator can only write, not delete or manage."
+  },
+  {
+    "id": 116,
+    "question": "DigiFitness uses Cloud Spanner (real-time state) and Cloud Bigtable (user events). Spanner backups are in Cloud Storage. A data analyst needs to join data from Spanner (via backup) and Bigtable for specific users for an ad hoc request. Efficient solution?",
+    "options": [
+      "Create a Dataflow job to copy/join data from Bigtable and Cloud Storage.",
+      "Create a Dataflow job to copy/join data from Bigtable and Cloud Spanner directly.",
+      "Create a Cloud Dataproc cluster to run a Spark job.",
+      "Create two separate BigQuery external tables (one for Cloud Storage, one for Bigtable) and join them using SQL."
+    ],
+    "correct_idx": 3,
+    "explanation": "BigQuery External Tables allow you to query data directly in other services (Cloud Storage, Bigtable) without moving/ingesting it. For an ad hoc request, writing SQL to join two external tables is much faster and cheaper than writing/deploying Dataflow pipelines or spinning up Dataproc clusters."
   }
 ]
