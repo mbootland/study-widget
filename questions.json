@@ -49,87 +49,87 @@
   },
   {
     "id": 55,
-    "question": "What is the recommended action?",
+    "question": "To deploy a food delivery app packaged as a Docker image to GKE as a workload. Steps?",
     "options": [
-      "Enable Audit Logs for all APIs and review the logs.",
-      "Review the IAM permissions for any role that allows for data access.",
-      "Run a Data Loss Prevention (DLP) job.",
-      "Use Cloud IAP to restrict all data access."
+      "Upload image to Cloud Storage -> Create Kubernetes Service referencing image",
+      "Upload image to Cloud Storage -> Create Kubernetes Deployment referencing image",
+      "Upload image to Container Registry -> Create Kubernetes Service referencing image",
+      "Upload image to Container Registry -> Create Kubernetes Deployment referencing image"
     ],
-    "correct_idx": 1,
-    "explanation": "Auditing IAM permissions (Policy Analyzer) is the proactive way to see 'who HAS access'. Audit logs only show 'who ACCESSED data'."
+    "correct_idx": 3,
+    "explanation": "Deploying to GKE requires storing the image in a registry (Container Registry/Artifact Registry), not GCS buckets. A Deployment resource manages the pods/replicas (workload). Services are for networking/load balancing, not deploying the workload itself."
   },
   {
     "id": 56,
-    "question": "To increase the number of replicas for a GKE deployment from 2 to 5 while adhering to infrastructure-as-code principles. Action?",
+    "question": "Setting up resource hierarchy. Need to ensure resources with similar access/permission settings (IAM) are managed together. Approach?",
     "options": [
-      "Run 'kubectl scale deployment [NAME] --replicas=5'.",
-      "Update the replicas value in the YAML manifest and run 'kubectl apply -f [FILE]'.",
-      "Modify the Node Pool size in the GKE Console.",
-      "Delete the pod and let the ReplicaSet recreate them."
+      "Use labels to group resources that share common IAM policies.",
+      "Use folders to group resources that share common IAM policies.",
+      "Set up a proper billing account structure to group IAM policies.",
+      "Set up a proper project naming structure to group IAM policies."
     ],
     "correct_idx": 1,
-    "explanation": "Imperative commands ('kubectl scale') change the live state but leave the config file outdated. Updating the YAML guarantees the source of truth is correct."
+    "explanation": "Folders allow grouping projects under an organization to apply common IAM policies. Labels are for cost tracking/filtering, not permission inheritance. Billing accounts manage payment, not IAM."
   },
   {
     "id": 57,
-    "question": "Which command-line flag is used with 'gcloud compute instances list' to return only the IP addresses of running instances in JSON format?",
+    "question": "Deploying Linux VMs for backend services. Need secure SSH access from local machine without exposing public IP addresses. Action?",
     "options": [
-      "--format='value(networkInterfaces[0].accessConfigs[0].natIP)'",
-      "--get-ip",
-      "--output=ip-only",
-      "--filter='status=RUNNING'"
+      "Configure Cloud Identity-Aware Proxy (IAP) for HTTPS resources.",
+      "Configure Cloud Identity-Aware Proxy (IAP) for SSH and TCP resources.",
+      "Create an SSH keypair and store the public key as a project-wide SSH Key.",
+      "Create an SSH keypair and store the private key as a project-wide SSH Key."
     ],
-    "correct_idx": 0,
-    "explanation": "The '--format' flag allows you to extract specific fields (like natIP) and format the output. The other flags are fictional or for filtering rows, not columns."
+    "correct_idx": 1,
+    "explanation": "IAP for TCP forwarding allows SSH access to instances without external IPs (via tunnel). HTTPS IAP is for web apps. Storing keys doesn't solve the network connectivity issue (private IP only)."
   },
   {
     "id": 58,
-    "question": "To evaluate an updated version of your Cloud Run application with a specific percentage of production users (Canary Deployment). Action?",
+    "question": "Three projects. Need unified view of application performance metrics (CPU, memory, disk) across all three. Action?",
     "options": [
-      "Create a new service and use an HTTP Load Balancer to split traffic.",
-      "Create a new revision and use the 'Traffic' tab to split percentages between revisions.",
-      "Deploy the new version to a separate project.",
+      "Enable API and share individual charts from each project.",
+      "Enable API and grant metrics.reader role to each project.",
+      "Enable API and use default dashboards to monitor each project in sequence.",
       "Enable API, create a Metrics Scope / Workspace under one project, and add the others to it."
     ],
-    "correct_idx": 1,
+    "correct_idx": 3,
     "explanation": "Google Cloud Monitoring now uses \"Metrics Scopes\" (formerly Workspaces) to view metrics from multiple projects in a single dashboard."
   },
   {
     "id": 59,
-    "question": "What is the most cost-effective storage class for data that will not be accessed for at least one year and is being kept for regulatory compliance?",
+    "question": "Managing GKE cluster. Service A processes high-res images (high CPU, low RAM). Other services (B) are routine/general purpose. Need cost/performance efficiency. Action?",
     "options": [
-      "Standard",
-      "Nearline",
-      "Coldline",
-      "Archive"
+      "Assign Service A pods higher priority than Service B.",
+      "Create Node Pool (Compute-Optimized) for Service A. Use General-Purpose Node Pool for Service B.",
+      "Use General-Purpose Node Pool for Service A. Create Node Pool (Compute-Optimized) for Service B.",
+      "Configure resource requests (CPU/RAM) for Service A. Keep Service B default."
     ],
-    "correct_idx": 3,
-    "explanation": "Archive storage is the cheapest for data stored for >365 days. Coldline is for >90 days."
+    "correct_idx": 1,
+    "explanation": "Use distinct Node Pools with different machine types to match workload needs. Compute-Optimized (c2) for CPU-heavy tasks; General-Purpose (e2/n1/n2) for routine services. Taints/tolerations or node affinity would ensure correct scheduling."
   },
   {
     "id": 60,
-    "question": "To connect an on-premises data center to a GCP VPC using a high-bandwidth, direct physical connection. Which service should you use?",
+    "question": "Setup secure VPN between VPC and on-premises data center. Requirements: Dynamic routing, specific IP range 10.108.0.1/22, high availability, no extra tunnels during failover. Action?",
     "options": [
-      "Cloud VPN",
-      "Partner Interconnect",
-      "Dedicated Interconnect",
-      "Carrier Peering"
+      "Use custom mode VPC network\n- Configure static routes\n- Use active/passive routing.",
+      "Use automatic mode VPC network\n- Configure static routes\n- Use active/active routing.",
+      "Use custom mode VPC network\n- Use Cloud Router (BGP)\n- Use active/passive routing.",
+      "Use automatic mode VPC network\n- Use Cloud Router (BGP)\n- Configure policy-based routing."
     ],
     "correct_idx": 2,
-    "explanation": "Dedicated Interconnect provides a direct physical link (10Gbps/100Gbps) to Google. VPN is over public internet."
+    "explanation": "Custom mode VPC required for specific IP ranges (10.108.x). Dynamic routing requires Cloud Router + BGP. Active/Passive routing (using route priorities/MED) ensures traffic flows over primary link and fails over only when needed, avoiding extra active tunnels."
   },
   {
     "id": 68,
     "question": "App works locally using Application Default Credentials (ADC). Moving to Compute Engine VM. Need Google-recommended auth with minimal changes. Action?",
     "options": [
-      "Use 'gcloud app deploy'.",
-      "Uild the image, push to Artifact Registry, and create a Deployment manifest using that image.",
-      "Upload the Dockerfile to a Cloud Storage bucket and point GKE to the bucket.",
-      "Use 'kubectl app deploy'."
+      "Assign appropriate access roles to the service account attached to the Compute Engine VM.",
+      "Create a new service account -> Configure application code to use this specific account key.",
+      "Store service account credentials in a config file -> Deploy file with app.",
+      "Store user account credentials in a config file -> Deploy file with app."
     ],
-    "correct_idx": 1,
-    "explanation": "GKE runs images, not Dockerfiles. You must build (Cloud Build), push (Artifact Registry), and then reference the image in Kubernetes manifests."
+    "correct_idx": 0,
+    "explanation": "Compute Engine instances have an attached Service Account. ADC automatically finds credentials from the metadata server. Assigning roles to this attached SA requires ZERO code changes."
   },
   {
     "id": 69,
@@ -564,126 +564,6 @@
     "explanation": "D is incorrect because using a \"select count (* )\" approach does not give an accurate cost estimation. Although \"select count (* )\" will tell you the number of rows the query processes, it does not directly translate to bytes scanned or cost. The cost in BigQuery is based on the amount of data read in bytes, which depends on the data\u2019s structure and schema, rather than the number of rows processed. Thus, estimating cost based on row count will not yield a precise or reliable result, making this option unsuitable. The correct approach (B) uses --dry_run to estimate bytes *read* (scanned), which determines cost."
   },
   {
-    "id": 55,
-    "question": "To deploy a food delivery app packaged as a Docker image to GKE as a workload. Steps?",
-    "options": [
-      "Upload image to Cloud Storage -> Create Kubernetes Service referencing image",
-      "Upload image to Cloud Storage -> Create Kubernetes Deployment referencing image",
-      "Upload image to Container Registry -> Create Kubernetes Service referencing image",
-      "Upload image to Container Registry -> Create Kubernetes Deployment referencing image"
-    ],
-    "correct_idx": 3,
-    "explanation": "Deploying to GKE requires storing the image in a registry (Container Registry/Artifact Registry), not GCS buckets. A Deployment resource manages the pods/replicas (workload). Services are for networking/load balancing, not deploying the workload itself."
-  },
-  {
-    "id": 56,
-    "question": "Setting up resource hierarchy. Need to ensure resources with similar access/permission settings (IAM) are managed together. Approach?",
-    "options": [
-      "Use labels to group resources that share common IAM policies.",
-      "Use folders to group resources that share common IAM policies.",
-      "Set up a proper billing account structure to group IAM policies.",
-      "Set up a proper project naming structure to group IAM policies."
-    ],
-    "correct_idx": 1,
-    "explanation": "Folders allow grouping projects under an organization to apply common IAM policies. Labels are for cost tracking/filtering, not permission inheritance. Billing accounts manage payment, not IAM."
-  },
-  {
-    "id": 57,
-    "question": "Deploying Linux VMs for backend services. Need secure SSH access from local machine without exposing public IP addresses. Action?",
-    "options": [
-      "Configure Cloud Identity-Aware Proxy (IAP) for HTTPS resources.",
-      "Configure Cloud Identity-Aware Proxy (IAP) for SSH and TCP resources.",
-      "Create an SSH keypair and store the public key as a project-wide SSH Key.",
-      "Create an SSH keypair and store the private key as a project-wide SSH Key."
-    ],
-    "correct_idx": 1,
-    "explanation": "IAP for TCP forwarding allows SSH access to instances without external IPs (via tunnel). HTTPS IAP is for web apps. Storing keys doesn't solve the network connectivity issue (private IP only)."
-  },
-  {
-    "id": 58,
-    "question": "Three projects. Need unified view of application performance metrics (CPU, memory, disk) across all three. Action?",
-    "options": [
-      "Enable API and share individual charts from each project.",
-      "Enable API and grant metrics.reader role to each project.",
-      "Enable API and use default dashboards to monitor each project in sequence.",
-      "Enable API, create a Metrics Scope / Workspace under one project, and add the others to it."
-    ],
-    "correct_idx": 3,
-    "explanation": "Google Cloud Monitoring now uses \"Metrics Scopes\" (formerly Workspaces) to view metrics from multiple projects in a single dashboard."
-  },
-  {
-    "id": 59,
-    "question": "Managing GKE cluster. Service A processes high-res images (high CPU, low RAM). Other services (B) are routine/general purpose. Need cost/performance efficiency. Action?",
-    "options": [
-      "Assign Service A pods higher priority than Service B.",
-      "Create Node Pool (Compute-Optimized) for Service A. Use General-Purpose Node Pool for Service B.",
-      "Use General-Purpose Node Pool for Service A. Create Node Pool (Compute-Optimized) for Service B.",
-      "Configure resource requests (CPU/RAM) for Service A. Keep Service B default."
-    ],
-    "correct_idx": 1,
-    "explanation": "Use distinct Node Pools with different machine types to match workload needs. Compute-Optimized (c2) for CPU-heavy tasks; General-Purpose (e2/n1/n2) for routine services. Taints/tolerations or node affinity would ensure correct scheduling."
-  },
-  {
-    "id": 60,
-    "question": "Setup secure VPN between VPC and on-premises data center. Requirements: Dynamic routing, specific IP range 10.108.0.1/22, high availability, no extra tunnels during failover. Action?",
-    "options": [
-      "Use custom mode VPC network\n- Configure static routes\n- Use active/passive routing.",
-      "Use automatic mode VPC network\n- Configure static routes\n- Use active/active routing.",
-      "Use custom mode VPC network\n- Use Cloud Router (BGP)\n- Use active/passive routing.",
-      "Use automatic mode VPC network\n- Use Cloud Router (BGP)\n- Configure policy-based routing."
-    ],
-    "correct_idx": 2,
-    "explanation": "Custom mode VPC required for specific IP ranges (10.108.x). Dynamic routing requires Cloud Router + BGP. Active/Passive routing (using route priorities/MED) ensures traffic flows over primary link and fails over only when needed, avoiding extra active tunnels."
-  },
-  {
-    "id": 68,
-    "question": "App works locally using Application Default Credentials (ADC). Moving to Compute Engine VM. Need Google-recommended auth with minimal changes. Action?",
-    "options": [
-      "Assign appropriate access roles to the service account attached to the Compute Engine VM.",
-      "Create a new service account -> Configure application code to use this specific account key.",
-      "Store service account credentials in a config file -> Deploy file with app.",
-      "Store user account credentials in a config file -> Deploy file with app."
-    ],
-    "correct_idx": 0,
-    "explanation": "Compute Engine instances have an attached Service Account. ADC automatically finds credentials from the metadata server. Assigning roles to this attached SA requires ZERO code changes."
-  },
-  {
-    "id": 55,
-    "question": "Data Studio dashboard visualizes sales from BigQuery. Transactions appended daily; summary table recalculated/overwritten nightly. Dashboard charts stopped displaying properly. Investigation step?",
-    "options": [
-      "Review the Error Reporting page in the Cloud Console.",
-      "Use the BigQuery interface to review the nightly job and look for errors.",
-      "Use Cloud Debugger to find out why the data was not refreshed.",
-      "In Cloud Logging, create a filter for your Data Studio report."
-    ],
-    "correct_idx": 1,
-    "explanation": "BigQuery jobs (queries/loads) log errors directly in the BQ interface (Job History). If the dashboard is broken because data isn't updating, the nightly overwrite job likely failed. Error Reporting is for app crashes; Debugger is for code snapshots; Logging is broader but BQ UI is the direct source."
-  },
-  {
-    "id": 56,
-    "question": "Configured Cloud SDK (gcloud) with proxy. Concerned proxy credentials might be logged. How to prevent logging of sensitive proxy auth?",
-    "options": [
-      "Configure username/password via \"gcloud config set proxy/username\" and \"password\".",
-      "Encode credentials (SHA256), save to text file, set as \"core/custom_ca_certs_file\".",
-      "Provide values for CLOUDSDK_PROXY_USERNAME/PASSWORD directly in gcloud CLI config file.",
-      "Set CLOUDSDK_PROXY_USERNAME and CLOUDSDK_PROXY_PASSWORD as system environment variables."
-    ],
-    "correct_idx": 3,
-    "explanation": "Environment variables (CLOUDSDK_PROXY_*) are read by the SDK process at runtime but are NOT stored in the persistent config file (where they could be logged/read). Config commands write to files."
-  },
-  {
-    "id": 57,
-    "question": "GKE cluster configuration for cost-efficiency. Some microservices tolerate downtime (fault-tolerant), others must remain available (critical). Action?",
-    "options": [
-      "Single node pool (Standard VMs). Label fault-tolerant Deployments as spot_true.",
-      "Single node pool (Spot VMs). Label critical Deployments as spot_false.",
-      "Two node pools (Spot + Standard). Deploy critical on Spot, fault-tolerant on Standard.",
-      "Two node pools (Spot + Standard). Deploy critical on Standard, fault-tolerant on Spot."
-    ],
-    "correct_idx": 3,
-    "explanation": "Use Standard VMs for critical workloads (SLA/uptime required). Use Spot VMs (cheaper, preemptible) for fault-tolerant/batch workloads. Separate Node Pools allows targeting specific workloads to specific VM types via node affinity/taints."
-  },
-  {
     "id": 105,
     "question": "Your company, EverGlow Apps, has a critical online marketplace application running on a specific Compute Engine instance. A security team member needs visibility into potential vulnerabilities and other OS metadata for this instance. What steps should you take?",
     "options": [
@@ -910,5 +790,17 @@
     ],
     "correct_idx": 2,
     "explanation": "Root domains (apex) must typically use A records (points to IP) because CNAMEs at root break other records (like MX). Subdomains (www, home) should use CNAMEs pointing to the root domain so they automatically follow the root IP if it changes. \n\n- **A Record**: Maps hostname to IPv4 address.\n- **AAAA Record**: Maps hostname to IPv6 address.\n- **CNAME**: Maps hostname to another hostname (alias).\n- **NS**: Delegates a subdomain to a different Name Server."
+  },
+  {
+    "id": 124,
+    "question": "Your startup needs accurate, real-time expense tracking across several projects with tailored metrics. Solution must be automated. What should you do?",
+    "options": [
+      "Visualize costs in Google Cloud Console Reports section.",
+      "Visualize costs in Google Cloud Console Cost breakdown section.",
+      "Export Cost table to CSV -> Looker Studio dashboard.",
+      "Configure Cloud Billing data export to BigQuery -> Looker Studio dashboard."
+    ],
+    "correct_idx": 3,
+    "explanation": "Billing Export to BigQuery streams raw billing data automatically. This allows SQL-based custom (tailored) metrics and analysis that pre-built reports or static CSV exports cannot handle. Looker Studio connects natively to BigQuery for visualization."
   }
 ]
